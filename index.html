@@ -7,6 +7,28 @@
 <title>Ладна-Звабна — естетика обличчя та тіла | Салон краси в Броварах</title>
 <meta name="description" content="Салон «Ладна-Звабна» у Броварах. Простір, де можна зупинитися, видихнути й повернутися до себе. Догляд за обличчям і тілом без тиску та обіцянок.">
 
+<!-- ⚠ ДОМЕН — ПЛЕЙСХОЛДЕР. Замінити в трьох місцях цього файлу, у sitemap.xml
+     і в robots.txt, коли домен буде відомий (питання №6 у PROGRESS.md). -->
+<link rel="canonical" href="https://ladna-zvabna.com.ua/">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:site_name" content="Ладна-Звабна">
+<meta property="og:title" content="Ладна-Звабна — естетика обличчя та тіла">
+<meta property="og:description" content="Простір, де можна зупинитися, видихнути й повернутися до себе. Салон краси у Броварах.">
+<meta property="og:url" content="https://ladna-zvabna.com.ua/">
+<meta property="og:image" content="https://ladna-zvabna.com.ua/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Знак «Ладна-Звабна» і фраза «Краса, що починається зі злагоди із собою»">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#F7F5F0">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/img/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/img/icons/icon-180.png">
+<link rel="manifest" href="site.webmanifest">
+
 <script>
 /* Клас .js вимикає статичний fallback у motion.css і віддає керування появою скрипту.
    Ставимо його ДО першої відмальовки, щоб не було спалаху вмісту.
@@ -22,12 +44,15 @@
 })();
 </script>
 
+<!-- Постер героя — це LCP-елемент. Без preload браузер знаходить його
+     аж після парсингу CSS і розбору <video>. -->
+<link rel="preload" href="assets/video/lounge-poster.jpg" as="image" fetchpriority="high">
 <link rel="preload" href="assets/fonts/cormorant-infant-300.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/onest-300.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/base.css">
-<link rel="stylesheet" href="assets/css/layout.css">
-<link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/motion.css">
+<!-- Зібраний CSS: чотири джерела в assets/css/ склеєні й стиснуті скриптом
+     build.sh. Правити треба ДЖЕРЕЛА, потім запустити `bash build.sh`.
+     Один файл замість чотирьох — на 520 мс менше блокування рендеру. -->
+<link rel="stylesheet" href="assets/css/site.min.css">
 </head>
 
 <body>
@@ -676,9 +701,48 @@
 </footer>
 
 <script src="assets/js/vendor/lenis.min.js" defer></script>
-<script src="assets/js/main.js" defer></script>
-<script src="assets/js/ui.js" defer></script>
-<script src="assets/js/media.js" defer></script>
+<!-- main.js + ui.js + media.js, зібрані build.sh. defer зберігає порядок,
+     тому Lenis завжди готовий раніше за main. -->
+<script src="assets/js/site.min.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BeautySalon",
+  "name": "Ладна-Звабна",
+  "description": "Салон естетики обличчя та тіла у Броварах. Догляд, очищення та оновлення шкіри, апаратний і мануальний масаж.",
+  "image": "https://ladna-zvabna.com.ua/og-cover.jpg",
+  "logo": "https://ladna-zvabna.com.ua/assets/img/icons/icon-512.png",
+  "url": "https://ladna-zvabna.com.ua/",
+  "telephone": "+380756860912",
+  "priceRange": "800–3500 UAH",
+  "currenciesAccepted": "UAH",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "вул. Симоненка, 30А",
+    "addressLocality": "Бровари",
+    "addressRegion": "Київська область",
+    "addressCountry": "UA"
+  },
+  "sameAs": ["https://instagram.com/ladna_zvabna"],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Догляди",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Механічна дерматонія обличчя" }, "price": "1200", "priceCurrency": "UAH" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Механічна чистка обличчя" }, "price": "1800", "priceCurrency": "UAH" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "OxyJet — обличчя, шия, декольте" }, "price": "3000", "priceCurrency": "UAH" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Мікродермабразія — обличчя, шия" }, "price": "3000", "priceCurrency": "UAH" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Мануальний масаж обличчя" }, "price": "1800", "priceCurrency": "UAH" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Starvac — тіло" }, "price": "1200", "priceCurrency": "UAH" },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Консультація косметолога" }, "price": "250", "priceCurrency": "UAH" }
+    ]
+  }
+}
+</script>
+<!-- openingHours навмисно відсутній: графік роботи ще не підтверджено.
+     Краще не вказати, ніж вказати неправильно — пошук показує ці години людям.
+     Додати після відповіді на питання №1 у PROGRESS.md. -->
 
 </body>
 </html>

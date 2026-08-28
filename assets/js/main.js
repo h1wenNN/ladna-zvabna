@@ -153,53 +153,63 @@
   var COLD = [122, 134, 120];
   var WARM = [182, 112,  92];
 
+  /* Кадр іде у ДВІ фази: спершу тільки читаємо геометрію, потім тільки пишемо.
+     Якщо їх перемішати, кожен запис змушує браузер перерахувати layout заново
+     перед наступним читанням — Lighthouse називає це forced reflow.
+     Тому всі getBoundingClientRect() зібрані вгорі, всі style.* — унизу. */
   function frame() {
     ticking = false;
-    var y = window.scrollY || window.pageYOffset;
 
-    if (thread) {
-      var max = document.documentElement.scrollHeight - window.innerHeight;
-      var p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 1;
-      thread.style.setProperty('--thread', p.toFixed(4));
+    /* ---------- ФАЗА 1: ЧИТАННЯ ---------- */
+    var y   = window.scrollY || window.pageYOffset;
+    var vh  = window.innerHeight;
+    var docH = document.documentElement.scrollHeight;
+
+    var srBottom, srHeight, prTop;
+    if (story)    { var sr = story.getBoundingClientRect(); srBottom = sr.bottom; srHeight = sr.height; }
+    if (pathLine) { prTop = pathLine.getBoundingClientRect().top; }
+
+    var parGeo = [];
+    for (var i = 0; i < parallax.length; i++) {
+      var r = parallax[i].getBoundingClientRect();
+      parGeo.push({ top: r.top, h: r.height });
     }
 
-    /* ---- Сцена «Друге народження» ----
-       Прогрес 0 — сцена щойно торкнулася низу екрана,
+    /* ---------- ФАЗА 2: ЗАПИС ---------- */
+    if (thread) {
+      var max = docH - vh;
+      thread.style.setProperty('--thread',
+        (max > 0 ? Math.min(1, Math.max(0, y / max)) : 1).toFixed(4));
+    }
+
+    /* Сцена «Друге народження»: 0 — щойно торкнулася низу екрана,
        1 — повністю пішла вгору. */
     if (story) {
-      var sr = story.getBoundingClientRect();
-      var vh = window.innerHeight;
-      var sp = clamp01(1 - sr.bottom / (sr.height + vh));
+      var sp = clamp01(1 - srBottom / (srHeight + vh));
       story.style.setProperty('--scene', sp.toFixed(3));
-
       /* Диво стається не одразу: світло тепліє між 45% і 80% сцени */
-      var warmth = smoothstep(0.45, 0.80, sp);
-      var c = [
-        Math.round(COLD[0] + (WARM[0] - COLD[0]) * warmth),
-        Math.round(COLD[1] + (WARM[1] - COLD[1]) * warmth),
-        Math.round(COLD[2] + (WARM[2] - COLD[2]) * warmth)
-      ];
-      story.style.setProperty('--scene-c', c.join(','));
+      var t = smoothstep(0.45, 0.80, sp);
+      story.style.setProperty('--scene-c',
+        Math.round(COLD[0] + (WARM[0] - COLD[0]) * t) + ',' +
+        Math.round(COLD[1] + (WARM[1] - COLD[1]) * t) + ',' +
+        Math.round(COLD[2] + (WARM[2] - COLD[2]) * t));
     }
 
-    /* ---- Лінія Херсон -> Бровари ----
-       Малюється, поки блок іде від нижньої третини екрана до середини. */
+    /* Лінія Херсон -> Бровари: малюється, поки блок іде
+       від нижньої третини екрана до середини. */
     if (pathLine) {
-      var pr = pathLine.getBoundingClientRect();
-      var vh2 = window.innerHeight;
-      var draw = clamp01((vh2 * 0.86 - pr.top) / (vh2 * 0.42));
-      pathLine.style.setProperty('--path', (draw * draw * (3 - 2 * draw)).toFixed(3));
+      var d = clamp01((vh * 0.86 - prTop) / (vh * 0.42));
+      pathLine.style.setProperty('--path', (d * d * (3 - 2 * d)).toFixed(3));
     }
 
-    for (var i = 0; i < parallax.length; i++) {
-      var el = parallax[i];
-      var r  = el.getBoundingClientRect();
-      if (r.bottom < -200 || r.top > window.innerHeight + 200) continue;
+    for (var j = 0; j < parallax.length; j++) {
+      var g = parGeo[j];
+      if (g.top + g.h < -200 || g.top > vh + 200) continue;
       /* Коефіцієнт обмежений 0.12 — вище цього рух перестає читатися
          як світло й починає читатись як атракціон (п. 4.2). */
-      var f = Math.min(0.12, parseFloat(el.dataset.par) || 0.08);
-      var mid = r.top + r.height / 2 - window.innerHeight / 2;
-      el.style.transform = 'translate3d(0,' + (-mid * f).toFixed(2) + 'px,0)';
+      var f = Math.min(0.12, parseFloat(parallax[j].dataset.par) || 0.08);
+      var mid = g.top + g.h / 2 - vh / 2;
+      parallax[j].style.transform = 'translate3d(0,' + (-mid * f).toFixed(2) + 'px,0)';
     }
   }
 
