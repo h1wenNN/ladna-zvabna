@@ -18,6 +18,26 @@
 @font-face{font-family:'Onest';src:url('../fonts/onest-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:'Onest';src:url('../fonts/onest-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
 
+/* Запасні гарнітури з підігнаними метриками.
+   Cormorant Infant на 2.9% вужчий за системний serif. Через це рядок
+   «зі злагоди із собою» в героєві перекидався на зайвий рядок, поки
+   вантажився шрифт, — і давав CLS 0.116 на мобільному.
+   size-adjust вирівнює ширину, і кількість рядків більше не змінюється. */
+@font-face{
+  font-family:'Cormorant Fallback';
+  src:local('Georgia'), local('Times New Roman'), local('Times');
+  size-adjust:97.1%;
+  font-weight:300 500;
+  font-style:normal;
+}
+@font-face{
+  font-family:'Cormorant Fallback';
+  src:local('Georgia Italic'), local('Times New Roman Italic');
+  size-adjust:97.1%;
+  font-weight:300 500;
+  font-style:italic;
+}
+
 /* --------------------------------------------------------------------------
    2. ТОКЕНИ
    -------------------------------------------------------------------------- */
@@ -59,11 +79,11 @@
   --rule:        var(--line);
 
   /* --- Гарнітури --- */
-  --font-display:'Cormorant Infant',Georgia,'Times New Roman',serif;
+  --font-display:'Cormorant Infant','Cormorant Fallback',Georgia,'Times New Roman',serif;
   --font-text:'Onest','Segoe UI',system-ui,-apple-system,sans-serif;
 
   /* --- Типографічна шкала. Модульна, коефіцієнт ≈1.333 --- */
-  --fs-h1:   clamp(2.9rem, 8vw, 8rem);
+  --fs-h1:   clamp(2.6rem, 7.6vw, 8rem);
   --fs-h2:   clamp(2.4rem, 5vw, 4.6rem);
   --fs-h3:   clamp(1.5rem, 2.6vw, 2.2rem);
   --fs-lead: clamp(1.15rem, 1.6vw, 1.4rem);

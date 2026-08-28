@@ -91,8 +91,15 @@
 <section class="hero" id="hero">
   <div class="hero__media veil" aria-hidden="true" data-par="0.06">
     <!-- SHOT: горизонтальний кадр інтер'єру загальним планом, денне світло з вікна, 16:9.
-         Етап 6 замінить це відео lounge.mp4 з підвантаженням через IntersectionObserver. -->
-    <img class="slow-zoom" src="assets/video/lounge-poster.jpg" alt="" width="720" height="600">
+
+         Відео БЕЗ src: браузер показує poster і нічого не вантажить.
+         Джерела підставляє media.js — тільки на широких екранах і тільки коли
+         сторінка вже намалювалася. Тому LCP — це постер на 24 КБ, а не кліп
+         на пів мегабайта. Без JS і на мобільному постер лишається назавжди. -->
+    <video class="slow-zoom" muted playsinline loop preload="none"
+           width="720" height="600"
+           poster="assets/video/lounge-poster.jpg"
+           data-video="assets/video/lounge" data-slow="0.7"></video>
   </div>
 
   <div class="hero__in wrap">
@@ -276,8 +283,11 @@
 
     <div class="lane-media-l">
       <div class="arch arch--tall arch--framed">
-        <!-- Етап 6: замінити на відео ritual.mp4 -->
-        <img src="assets/video/ritual-poster.jpg" alt="Свічки на срібній таці, різьблений столик" width="720" height="600" loading="lazy">
+        <video muted playsinline loop preload="none"
+               width="720" height="600"
+               poster="assets/video/ritual-poster.jpg"
+               data-video="assets/video/ritual" data-slow="0.65"
+               aria-label="Свічки на срібній таці, різьблений столик"></video>
       </div>
     </div>
 
@@ -300,22 +310,34 @@
       <div class="scatter">
         <figure class="media">
           <div class="arch arch--soft arch--framed">
-            <img src="assets/img/details/d-textile.jpg" alt="Стьобаний текстиль із позолоченою різьбою" width="640" height="640" loading="lazy">
+            <picture>
+            <source srcset="assets/img/details/d-textile.webp" type="image/webp">
+            <img src="assets/img/details/d-textile.jpg" alt="Стьобаний текстиль із позолоченою різьбою" width="640" height="640" loading="lazy" decoding="async">
+          </picture>
           </div>
         </figure>
         <figure class="media">
           <div class="arch arch--wide arch--framed">
-            <img src="assets/img/interior/cosy.jpg" alt="Кава і свічка на срібній таці біля різьбленого столика" width="720" height="748" loading="lazy">
+            <picture>
+            <source srcset="assets/img/interior/cosy.webp" type="image/webp">
+            <img src="assets/img/interior/cosy.jpg" alt="Кава і свічка на срібній таці біля різьбленого столика" width="720" height="748" loading="lazy" decoding="async">
+          </picture>
           </div>
         </figure>
         <figure class="media">
           <div class="arch arch--soft arch--framed">
-            <img src="assets/img/details/d-candles.jpg" alt="Дві свічки на срібній таці" width="640" height="640" loading="lazy">
+            <picture>
+            <source srcset="assets/img/details/d-candles.webp" type="image/webp">
+            <img src="assets/img/details/d-candles.jpg" alt="Дві свічки на срібній таці" width="640" height="640" loading="lazy" decoding="async">
+          </picture>
           </div>
         </figure>
         <figure class="media">
           <div class="arch arch--wide arch--framed">
-            <img src="assets/img/details/d-ficus.jpg" alt="Фікус біля вікна, м'яке денне світло" width="640" height="640" loading="lazy">
+            <picture>
+            <source srcset="assets/img/details/d-ficus.webp" type="image/webp">
+            <img src="assets/img/details/d-ficus.jpg" alt="Фікус біля вікна, м'яке денне світло" width="640" height="640" loading="lazy" decoding="async">
+          </picture>
           </div>
         </figure>
       </div>
@@ -617,7 +639,10 @@
     <div class="lane-media-r">
       <div class="arch arch--tall arch--framed">
         <!-- SHOT: фасад або вітальня салону, вертикально. Поки — вікно з м'яким світлом. -->
-        <img src="assets/img/details/d-window.jpg" alt="Вікно салону, м'яке денне світло" width="640" height="640" loading="lazy">
+        <picture>
+            <source srcset="assets/img/details/d-window.webp" type="image/webp">
+            <img src="assets/img/details/d-window.jpg" alt="Вікно салону, м'яке денне світло" width="640" height="640" loading="lazy" decoding="async">
+          </picture>
       </div>
     </div>
 
@@ -653,6 +678,7 @@
 <script src="assets/js/vendor/lenis.min.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 <script src="assets/js/ui.js" defer></script>
+<script src="assets/js/media.js" defer></script>
 
 </body>
 </html>

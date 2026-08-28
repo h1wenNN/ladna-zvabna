@@ -99,10 +99,14 @@
 
 .arch > img,
 .arch > video,
+.arch > picture,
 .arch > picture > img{
   width:100%; height:100%;
   object-fit:cover;
 }
+/* <video> без джерела показує лише poster — саме те, що треба
+   на мобільному, без JS і при економії трафіку. */
+.arch > video{background:var(--sand)}
 
 /* Мідний обідок арки. Не рамка — світловий контур */
 .arch--framed::after{
