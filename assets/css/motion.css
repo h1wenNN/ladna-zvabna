@@ -134,9 +134,9 @@
   content:'';
   position:absolute; inset:0;
   background:linear-gradient(180deg,
-    rgba(var(--rgb-milk),.42) 0%,
-    rgba(var(--rgb-milk),.62) 55%,
-    rgba(var(--rgb-milk),.88) 100%);
+    rgba(var(--rgb-milk),.30) 0%,
+    rgba(var(--rgb-milk),.48) 45%,
+    rgba(var(--rgb-milk),.97) 100%);
   pointer-events:none;
 }
 

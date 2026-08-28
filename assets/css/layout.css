@@ -49,7 +49,12 @@
 .section{
   position:relative;
   padding-block:var(--sp-section);
-  isolation:isolate;               /* щоб шари світла не витікали назовні */
+  isolation:isolate;   /* створює стековий контекст: .glow із z-index:-1 лягає
+                          над тлом секції, але під контентом */
+  overflow:clip;       /* ОБРІЗАЄ .glow (inset:-25%). isolation цього не робить —
+                          без цього рядка плями розсувають сторінку вбік.
+                          clip, а не hidden: не створює контейнер прокрутки
+                          і не ламає position:sticky у предків */
 }
 .section--tight  {padding-block:var(--sp-breath)}
 .section--tall   {padding-block:calc(var(--sp-section) * 1.5)}

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="uk" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Ладна-Звабна — естетика обличчя та тіла | Салон краси в Броварах</title>
+<meta name="description" content="Салон «Ладна-Звабна» у Броварах. Простір, де можна зупинитися, видихнути й повернутися до себе. Догляд за обличчям і тілом без тиску та обіцянок.">
+
+<!-- Клас .js навмисно НЕ ставиться на Етапі 2: логіка появи з'явиться на Етапі 3.
+     Поки html без .js, правило html:not(.js) у motion.css показує все одразу. -->
+
+<link rel="preload" href="assets/fonts/cormorant-infant-300.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/onest-300.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+</head>
+
+<body>
+
+<!-- ===== ЗЕРНО ===== -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ===== 5.0 ПРЕЛОАДЕР =====
+     Без JS не показується взагалі (html:not(.js) .loader{display:none}).
+     Логіку — малювання лінії, sessionStorage, розчинення — додає Етап 3. -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__mark mark mark--divider draw"></div>
+  <div class="loader__word mark mark--word"></div>
+</div>
+
+<a class="skip" href="#main">Перейти до змісту</a>
+
+<!-- ===== ШАПКА ===== -->
+<header class="hdr">
+  <div class="hdr__in wrap">
+    <a class="hdr__logo" href="#main" aria-label="Ладна-Звабна, на початок">
+      <span class="mark mark--word hdr__word" aria-hidden="true"></span>
+    </a>
+    <nav class="hdr__nav" aria-label="Основна навігація">
+      <a href="#story">Історія</a>
+      <a href="#space">Простір</a>
+      <a href="#care">Догляди</a>
+      <a href="#price">Ціни</a>
+    </nav>
+    <a class="hdr__act" href="https://instagram.com/ladna_zvabna" rel="noopener">Написати</a>
+  </div>
+</header>
+
+<main id="main">
+
+<span class="thread" aria-hidden="true"></span>
+
+<!-- ==================================================================
+     5.1 ГЕРОЙ
+     ================================================================== -->
+<section class="hero" id="hero">
+  <div class="hero__media veil" aria-hidden="true">
+    <!-- SHOT: горизонтальний кадр інтер'єру загальним планом, денне світло з вікна, 16:9.
+         Етап 6 замінить це відео lounge.mp4 з підвантаженням через IntersectionObserver. -->
+    <img class="slow-zoom" src="assets/video/lounge-poster.jpg" alt="" width="720" height="600">
+  </div>
+
+  <div class="hero__in wrap">
+    <p class="mini reveal">естетика обличчя та тіла&nbsp;· Бровари</p>
+
+    <h1 class="hero__title">
+      <span class="words">Краса,<br>що&nbsp;починається<br><em>зі&nbsp;злагоди із&nbsp;собою</em></span>
+    </h1>
+
+    <p class="lead reveal">
+      Салон «Ладна-Звабна»&nbsp;— простір, де можна зупинитися,
+      видихнути й&nbsp;повернутися до&nbsp;себе.
+    </p>
+
+    <a class="act reveal" href="#pause">Про наш простір <span class="arrow" aria-hidden="true">↓</span></a>
+  </div>
+</section>
+
+<!-- ==================================================================
+     5.2 ПАУЗА — «Видих»
+     Секція існує рівно для того, щоб дати паузу перед історією.
+     Не видаляти «бо порожня» — це і є прийом.
+     ================================================================== -->
+<section class="section section--pause" id="pause">
+  <div class="glow" style="--gx:38%;--gy:42%;--ga:.13" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="pause__line words">Тут можна нічого не доводити.</p>
+  </div>
+</section>
+
+<!-- ==================================================================
+     5.3 ГЛАВА: ДРУГЕ НАРОДЖЕННЯ
+     Найважливіша сцена сайту. Єдина темна секція.
+     Сім бітів — Етап 4 навісить на них scrub-timeline.
+     Без JS це просто послідовність абзаців, і вона має зворушувати.
+     ================================================================== -->
+<section class="story on-dark" id="story" aria-labelledby="story-h">
+  <div class="wrap">
+
+    <div class="story__beat" data-beat="1">
+      <p class="mini">з&nbsp;Херсона до&nbsp;Броварів</p>
+      <p class="story__intro measure--wide">
+        Історія у&nbsp;Броварах почалася не&nbsp;з&nbsp;ремонту, не&nbsp;з&nbsp;нових меблів
+        і&nbsp;не&nbsp;з&nbsp;вибору красивої вивіски.
+      </p>
+    </div>
+
+    <div class="story__beat story__beat--hold" data-beat="2">
+      <h2 class="story__h" id="story-h">Вона почалася<br>з&nbsp;порятунку</h2>
+    </div>
+
+    <div class="story__beat" data-beat="3">
+      <p class="measure">
+        Професійні апарати, меблі та&nbsp;деталі інтер’єру вивозили з&nbsp;Херсона&nbsp;—
+        з&nbsp;міста, яке щодня живе під&nbsp;обстрілами.
+      </p>
+    </div>
+
+    <div class="story__beat story__beat--path" data-beat="4">
+      <div class="path" aria-hidden="true">
+        <span class="path__dot path__dot--from"></span>
+        <span class="path__line"></span>
+        <span class="path__dot path__dot--to"></span>
+      </div>
+      <p class="path__labels" aria-hidden="true">
+        <span>Херсон</span><span>Бровари</span>
+      </p>
+    </div>
+
+    <div class="story__beat" data-beat="5">
+      <p class="measure">
+        Усе це опинялося під&nbsp;загрозою, і&nbsp;часом здавалося, що врятувати салон
+        уже неможливо. Але сталося майже диво: найважливіше вдалося вивезти.
+      </p>
+    </div>
+
+    <div class="story__beat" data-beat="6">
+      <p class="measure">
+        Разом з&nbsp;обладнанням і&nbsp;меблями ми&nbsp;перевезли значно більше.
+        Ми&nbsp;привезли пам’ять, досвід, турботу, тепло людських рук
+        і&nbsp;ту&nbsp;особливу атмосферу, яка вже жила у&nbsp;стінах салону.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section story__out" data-beat="7">
+  <div class="glow" style="--gx:52%;--gy:30%;--ga:.14" aria-hidden="true"></div>
+  <div class="wrap grid">
+    <div class="lane-inset">
+      <p class="story__final">
+        У&nbsp;Броварах з’явилася не&nbsp;копія минулого,<br>
+        а&nbsp;його <em>живе продовження</em>.
+      </p>
+      <p class="mini story__date">лютий 2026</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     5.4 ЛАДНА / ЗВАБНА
+     ================================================================== -->
+<section class="section section--soft meaning" id="meaning" aria-labelledby="meaning-h">
+  <div class="glow" style="--gx:20%;--gy:66%;--ga:.12" aria-hidden="true"></div>
+  <div class="glow glow--second" style="--gx:84%;--gy:24%" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <h2 class="sr-only" id="meaning-h">Що означає «Ладна-Звабна»</h2>
+
+    <dl class="pair">
+      <div class="pair__col pair__col--l">
+        <dt class="pair__word">Ладна</dt>
+        <dd class="pair__def">та, яка живе<br>у&nbsp;злагоді із&nbsp;собою</dd>
+      </div>
+      <div class="pair__col pair__col--r">
+        <dt class="pair__word">Звабна</dt>
+        <dd class="pair__def">тому що її&nbsp;внутрішня гармонія<br>стає помітною назовні</dd>
+      </div>
+    </dl>
+
+    <div class="verse">
+      <p>Вона не&nbsp;поспішає доводити світові свою цінність.</p>
+      <p>Не&nbsp;намагається відповідати чужим уявленням про&nbsp;красу.</p>
+      <p>Не&nbsp;порівнює себе з&nbsp;іншими.</p>
+      <p>Не&nbsp;веде нескінченної боротьби зі&nbsp;своїм тілом.</p>
+    </div>
+
+    <p class="verse__turn reveal">Вона чує себе.</p>
+  </div>
+</section>
+
+<!-- ==================================================================
+     5.5 ПРИТЧА
+     Майже без графіки. Вузька колонка, як сторінка книжки.
+     Ніяких фото жінок — читач уявляє її сам.
+     ================================================================== -->
+<section class="section parable" id="parable" aria-labelledby="parable-h">
+  <div class="wrap grid">
+    <div class="lane-center">
+      <h2 class="sr-only" id="parable-h">Притча</h2>
+
+      <p class="measure dropcap">Є&nbsp;одна історія-притча про&nbsp;мільярдера, якого запитали,
+        які жінки здаються йому найкрасивішими. У&nbsp;відповідь він пригадав жінку,
+        яку одного разу випадково побачив у&nbsp;ресторані.</p>
+
+      <p class="measure">Вона не&nbsp;відповідала жодному очевидному канону краси.
+        Не&nbsp;намагалася виглядати ефектно чи&nbsp;привертати до&nbsp;себе увагу.
+        Просто неквапливо йшла залом, думала про&nbsp;щось своє
+        й&nbsp;ледь помітно усміхалася.</p>
+
+      <p class="measure">Було видно: цій жінці добре із&nbsp;собою.</p>
+
+      <p class="measure">Чоловік подумав, що тільки він помітив її&nbsp;особливу красу.
+        Але, озирнувшись, побачив, що за&nbsp;нею проводжали поглядом усі присутні.</p>
+
+      <blockquote class="parable__end">
+        <p>Її&nbsp;краса була не&nbsp;в&nbsp;параметрах, не&nbsp;в&nbsp;одязі
+           й&nbsp;не&nbsp;в&nbsp;намаганні комусь сподобатися.</p>
+        <p><em>Вона була в&nbsp;її&nbsp;стані.</em></p>
+      </blockquote>
+
+      <p class="mini parable__sign">Саме такою ми&nbsp;бачимо жінку «Ладна-Звабна»</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     5.6 ПРОСТІР
+     ================================================================== -->
+<section class="section space" id="space" aria-labelledby="space-h">
+  <div class="wrap grid">
+
+    <div class="lane-media-l">
+      <div class="arch arch--tall arch--framed">
+        <!-- Етап 6: замінити на відео ritual.mp4 -->
+        <img src="assets/video/ritual-poster.jpg" alt="Свічки на срібній таці, різьблений столик" width="720" height="600" loading="lazy">
+      </div>
+    </div>
+
+    <div class="lane-right space__text">
+      <p class="mini">простір</p>
+      <h2 id="space-h">Тут краса<br>не&nbsp;кричить&nbsp;— <em>вона дихає</em></h2>
+      <p class="measure">
+        З&nbsp;Херсона до&nbsp;Броварів ми&nbsp;привезли не&nbsp;лише апарати й&nbsp;меблі.
+        Ми&nbsp;привезли ідею простору, у&nbsp;якому не&nbsp;треба ставати іншою&nbsp;—
+        можна просто повернутися до&nbsp;себе.
+      </p>
+      <ul class="facts">
+        <li>тепле світло</li>
+        <li>натуральні матеріали</li>
+        <li>тиша</li>
+      </ul>
+    </div>
+
+    <div class="lane-full space__scatter">
+      <div class="scatter">
+        <figure class="media">
+          <div class="arch arch--soft arch--framed">
+            <img src="assets/img/details/d-textile.jpg" alt="Стьобаний текстиль із позолоченою різьбою" width="640" height="640" loading="lazy">
+          </div>
+        </figure>
+        <figure class="media">
+          <div class="arch arch--wide arch--framed">
+            <img src="assets/img/interior/cosy.jpg" alt="Кава і свічка на срібній таці біля різьбленого столика" width="720" height="748" loading="lazy">
+          </div>
+        </figure>
+        <figure class="media">
+          <div class="arch arch--soft arch--framed">
+            <img src="assets/img/details/d-candles.jpg" alt="Дві свічки на срібній таці" width="640" height="640" loading="lazy">
+          </div>
+        </figure>
+        <figure class="media">
+          <div class="arch arch--wide arch--framed">
+            <img src="assets/img/details/d-ficus.jpg" alt="Фікус біля вікна, м'яке денне світло" width="640" height="640" loading="lazy">
+          </div>
+        </figure>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================================================================
+     5.7 КОНСУЛЬТАЦІЯ
+     Без JS працює як нативний ексклюзивний акордеон (<details name>).
+     Етап 5 замінить його на плавну інтерактивну версію.
+     ================================================================== -->
+<section class="section section--soft consult" id="consult" aria-labelledby="consult-h">
+  <div class="glow" style="--gx:70%;--gy:38%;--ga:.11" aria-hidden="true"></div>
+  <div class="wrap grid">
+    <div class="lane-left">
+      <p class="mini">коротка розмова</p>
+      <h2 id="consult-h">Про що хочеться подбати?</h2>
+      <p class="lead">
+        Оберіть те, що ближче зараз. Це не&nbsp;тест і&nbsp;не&nbsp;діагноз&nbsp;—
+        просто спосіб почати розмову.
+      </p>
+    </div>
+
+    <div class="lane-inset quiz">
+
+      <details class="quiz__item" name="care">
+        <summary>Хочу, щоб шкіра відпочила</summary>
+        <div class="quiz__body">
+          <p>Тоді почали&nbsp;б із&nbsp;кисневого догляду або мануального масажу обличчя&nbsp;—
+             найтихішого, що в&nbsp;нас є.</p>
+          <ul class="quiz__list">
+            <li>OxyJet&nbsp;— обличчя, шия, декольте</li>
+            <li>Мануальний масаж обличчя</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="quiz__item" name="care">
+        <summary>Хочу відчути тіло легшим</summary>
+        <div class="quiz__body">
+          <p>Тоді почали&nbsp;б із&nbsp;роботи з&nbsp;тілом&nbsp;— вона добре відновлює
+             відчуття легкості й&nbsp;тонусу.</p>
+          <ul class="quiz__list">
+            <li>Starvac&nbsp;— тіло</li>
+            <li>Механічна дерматонія тіла</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="quiz__item" name="care">
+        <summary>Хочу глибоке очищення</summary>
+        <div class="quiz__body">
+          <p>Тоді почали&nbsp;б із&nbsp;чистки або дерматонії&nbsp;— залежно від&nbsp;того,
+             скільки часу ви&nbsp;готові приділити собі.</p>
+          <ul class="quiz__list">
+            <li>Механічна чистка обличчя</li>
+            <li>Механічна дерматонія обличчя</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="quiz__item" name="care">
+        <summary>Хочу підтримати пружність</summary>
+        <div class="quiz__body">
+          <p>Тоді почали&nbsp;б з&nbsp;оновлення верхнього шару шкіри&nbsp;—
+             воно вирівнює рельєф і&nbsp;повертає світло на&nbsp;обличчя.</p>
+          <ul class="quiz__list">
+            <li>Мікродермабразія&nbsp;— обличчя, шия</li>
+            <li>Аквадермагенез-гідрошліфовка</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="quiz__item" name="care" open>
+        <summary>Ще не&nbsp;знаю&nbsp;— підкажіть</summary>
+        <div class="quiz__body">
+          <p>Це теж відповідь, і&nbsp;найчастіша. Приходьте на&nbsp;консультацію:
+             подивимось вашу шкіру, поговоримо і&nbsp;складемо план разом.</p>
+          <p class="quiz__note">Консультація&nbsp;— 10–15&nbsp;хвилин, 250&nbsp;грн.</p>
+        </div>
+      </details>
+
+      <p class="quiz__after">
+        Точний план складемо на&nbsp;консультації&nbsp;— після того, як подивимось вашу шкіру.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     5.8 ПРОЦЕДУРИ
+     ================================================================== -->
+<section class="section care" id="care" aria-labelledby="care-h">
+  <div class="wrap grid">
+    <div class="lane-right care__head">
+      <p class="mini">догляди</p>
+      <h2 id="care-h">Те, що ми&nbsp;вміємо<br>робити повільно</h2>
+      <p class="measure">Кожен догляд&nbsp;— частина курсу, а&nbsp;не&nbsp;окрема послуга.
+        Один сеанс дає відпочинок, курс&nbsp;— зміну.</p>
+    </div>
+
+    <div class="lane-full care__groups">
+
+      <div class="care__group">
+        <h3 class="care__gh">Догляд та&nbsp;очищення <span class="care__gm">обличчя</span></h3>
+        <ul class="care__list">
+          <li class="care__row">
+            <span class="care__name">Механічна дерматонія обличчя</span>
+            <span class="care__desc">М’яке апаратне очищення, після якого шкіра дихає вільніше.</span>
+            <span class="care__time">60 хв</span>
+          </li>
+          <li class="care__row">
+            <span class="care__name">Механічна дерматонія + ритуал ESSE</span>
+            <span class="care__desc">Те саме очищення, доповнене живильним ритуалом.</span>
+            <span class="care__time">90 хв</span>
+          </li>
+          <li class="care__row">
+            <span class="care__name">Механічна чистка обличчя</span>
+            <span class="care__desc">Ручна робота косметолога: неквапливо й&nbsp;дбайливо.</span>
+            <span class="care__time">60 хв</span>
+          </li>
+          <li class="care__row">
+            <span class="care__name">Механічна чистка для чутливої шкіри</span>
+            <span class="care__desc">Довший і&nbsp;делікатніший формат, коли шкірі потрібно більше уваги.</span>
+            <span class="care__time">90 хв</span>
+          </li>
+          <li class="care__row">
+            <span class="care__name">OxyJet&nbsp;— обличчя, шия, декольте</span>
+            <span class="care__desc">Кисневий догляд: відчуття свіжості лишається на&nbsp;кілька днів.</span>
+            <span class="care__time">120 хв</span>
+          </li>
+          <li class="care__row">
+            <span class="care__name">OxyJet локально</span>
+            <span class="care__desc">Короткий кисневий догляд для однієї зони.</span>
+            <span class="care__time">40 хв</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="care__group">
+        <h3 class="care__gh">Оновлення та&nbsp;масаж <span class="care__gm">обличчя&nbsp;· тіло</span></h3>
+        <ul class="care__list">
+          <li class="care__row">
+            <span class="care__name">Мікродермабразія&nbsp;— обличчя, шия</span>
+            <span class="care__desc">Оновлення верхнього шару: рельєф рівніший, світло на&nbsp;обличчі м’якше.</span>
+            <span class="care__time">40 хв</span>
+          </li>
+          <li class="care__row">
+            <span class="care__name">Мікродермабразія + декольте</span>
+            <span class="care__desc">Те саме, з&nbsp;декольте&nbsp;— зоною, про&nbsp;яку часто забувають.</span>
+            <span class="care__time">50 хв</span>
+          </li>
+          <li class="care__row">
+            <span class="care__name">Аквадермагенез-гідрошліфовка</span>
+            <span class="care__desc">Очищення водою, без відчуття стягнутості.</span>
+            <span class="care__time">40 хв</span>
+          </li>
+          <li class="care__row">
+            <span class="care__name">Мануальний масаж обличчя</span>
+            <span class="care__desc">Руки майстра, повільний темп. Найтихіша процедура в&nbsp;переліку.</span>
+            <span class="care__time">60 хв</span>
+          </li>
+          <li class="care__row">
+            <span class="care__name">Starvac&nbsp;— тіло</span>
+            <span class="care__desc">Вакуумний масаж: покращує кровообіг, лишає відчуття легкості.</span>
+            <span class="care__time">40 або 90 хв</span>
+          </li>
+          <li class="care__row">
+            <span class="care__name">Механічна дерматонія тіла</span>
+            <span class="care__desc">Апаратна робота з&nbsp;тілом&nbsp;— тонус без навантаження.</span>
+            <span class="care__time">60 або 90 хв</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     5.9 ДО / ПІСЛЯ
+     Клієнтка попросила залишити. Подача навмисно без тиску:
+     не «до і після», а спостереження за станом шкіри.
+     Фото поки ілюстративні — дисклеймер обов'язковий.
+     ================================================================== -->
+<section class="section section--soft compare" id="compare" aria-labelledby="compare-h">
+  <div class="wrap grid">
+    <div class="lane-center compare__head">
+      <p class="mini">за час курсу</p>
+      <h2 id="compare-h">Шкіра, що відпочила</h2>
+      <p class="measure">Це не&nbsp;про&nbsp;те, щоб стати іншою. Це про&nbsp;те,
+        як виглядає шкіра, коли про&nbsp;неї послідовно дбають.</p>
+    </div>
+
+    <div class="lane-inset compare__pair">
+      <figure class="compare__side">
+        <!-- SHOT: реальне фото на початку курсу, 1:1, рівне світло, той самий ракурс -->
+        <div class="arch arch--soft ph"><span class="ph__note">кадр очікується</span></div>
+        <figcaption>на початку курсу</figcaption>
+      </figure>
+      <figure class="compare__side">
+        <!-- SHOT: те саме обличчя за кілька сеансів, 1:1, ТЕ САМЕ світло і ракурс -->
+        <div class="arch arch--soft ph"><span class="ph__note">кадр очікується</span></div>
+        <figcaption>за кілька сеансів</figcaption>
+      </figure>
+    </div>
+
+    <p class="lane-center compare__note">
+      Зображення ілюструють стан шкіри й&nbsp;наведені для прикладу.
+      Результат індивідуальний і&nbsp;залежить від&nbsp;багатьох речей&nbsp;—
+      сну, води, віку, здоров’я та&nbsp;регулярності догляду.
+    </p>
+  </div>
+</section>
+
+<!-- ==================================================================
+     5.10 ЦІНИ
+     ================================================================== -->
+<section class="section price" id="price" aria-labelledby="price-h">
+  <div class="wrap grid">
+    <div class="lane-left">
+      <p class="mini">вартість</p>
+      <h2 id="price-h">Обличчя та&nbsp;тіло</h2>
+      <p class="measure">Точну вартість і&nbsp;формат курсу підберемо на&nbsp;консультації&nbsp;—
+        залежно від&nbsp;вашої мети та&nbsp;стану шкіри.</p>
+    </div>
+
+    <div class="lane-inset price__cols">
+
+      <div class="price__group">
+        <h3 class="price__gh">Догляд та&nbsp;очищення</h3>
+        <div class="price-list">
+          <div class="price-row"><span class="price-row__name">Механічна дерматонія обличчя<span class="price-row__meta">60 хв</span></span><span class="price-row__cost">1200 грн</span></div>
+          <div class="price-row"><span class="price-row__name">Механічна дерматонія + ритуал ESSE<span class="price-row__meta">90 хв</span></span><span class="price-row__cost">2000 грн</span></div>
+          <div class="price-row"><span class="price-row__name">Механічна чистка обличчя<span class="price-row__meta">60 хв</span></span><span class="price-row__cost">1800 грн</span></div>
+          <div class="price-row"><span class="price-row__name">Механічна чистка для чутливої шкіри<span class="price-row__meta">90 хв</span></span><span class="price-row__cost">2300 грн</span></div>
+          <div class="price-row"><span class="price-row__name">OxyJet&nbsp;— обличчя, шия, декольте<span class="price-row__meta">120 хв</span></span><span class="price-row__cost">3000 грн</span></div>
+          <div class="price-row"><span class="price-row__name">OxyJet локально<span class="price-row__meta">40 хв</span></span><span class="price-row__cost">900 грн</span></div>
+        </div>
+      </div>
+
+      <div class="price__group">
+        <h3 class="price__gh">Оновлення та&nbsp;масаж</h3>
+        <div class="price-list">
+          <div class="price-row"><span class="price-row__name">Мікродермабразія&nbsp;— обличчя, шия<span class="price-row__meta">40 хв</span></span><span class="price-row__cost">3000 грн</span></div>
+          <div class="price-row"><span class="price-row__name">Мікродермабразія + декольте<span class="price-row__meta">50 хв</span></span><span class="price-row__cost">3500 грн</span></div>
+          <div class="price-row"><span class="price-row__name">Аквадермагенез-гідрошліфовка<span class="price-row__meta">обличчя, шия, декольте&nbsp;· 40 хв</span></span><span class="price-row__cost">1800 грн</span></div>
+          <div class="price-row"><span class="price-row__name">Мануальний масаж обличчя<span class="price-row__meta">60 хв&nbsp;· з&nbsp;ритуалом ESSE&nbsp;— 2600 грн</span></span><span class="price-row__cost">1800 грн</span></div>
+          <div class="price-row"><span class="price-row__name">Starvac&nbsp;— тіло<span class="price-row__meta">40 хв / 90 хв</span></span><span class="price-row__cost">1200&nbsp;· 1800 грн</span></div>
+          <div class="price-row"><span class="price-row__name">Механічна дерматонія тіла<span class="price-row__meta">60 хв / 90 хв</span></span><span class="price-row__cost">1200&nbsp;· 1800 грн</span></div>
+        </div>
+      </div>
+
+      <p class="price__foot">
+        Консультація косметолога&nbsp;— 250&nbsp;грн, 10–15&nbsp;хвилин.
+        <span>Найкращий результат дає курс, а&nbsp;не&nbsp;поодинокий сеанс.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     5.11 ЗАПИС
+     Тільки Direct і телефон. Ніякої форми, ніякого бекенду.
+     ================================================================== -->
+<section class="section book" id="book" aria-labelledby="book-h">
+  <div class="glow" style="--gx:26%;--gy:50%;--ga:.14" aria-hidden="true"></div>
+  <div class="wrap grid">
+
+    <div class="lane-left book__text">
+      <p class="mini">запис</p>
+      <h2 id="book-h">Напишіть нам</h2>
+      <p class="lead">
+        Підберемо догляд, зручний час і&nbsp;складемо ваш курс.
+        Без поспіху й&nbsp;без зайвих питань.
+      </p>
+
+      <div class="book__acts">
+        <a class="act" href="https://instagram.com/ladna_zvabna" rel="noopener">
+          Написати в&nbsp;Instagram <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="act act--quiet" href="tel:+380756860912">+380&nbsp;75&nbsp;686&nbsp;09&nbsp;12</a>
+      </div>
+
+      <dl class="book__info">
+        <div><dt>Адреса</dt><dd>
+          <a class="link link--grow" href="https://maps.google.com/?q=Бровари,+вулиця+Симоненка,+30А" rel="noopener">
+            Бровари, вул.&nbsp;Симоненка,&nbsp;30А</a></dd></div>
+        <div><dt>Графік</dt><dd>[УТОЧНИТИ: дні та&nbsp;години роботи]</dd></div>
+        <div><dt>Instagram</dt><dd>
+          <a class="link link--grow" href="https://instagram.com/ladna_zvabna" rel="noopener">@ladna_zvabna</a></dd></div>
+      </dl>
+    </div>
+
+    <div class="lane-media-r">
+      <div class="arch arch--tall arch--framed">
+        <!-- SHOT: фасад або вітальня салону, вертикально. Поки — вікно з м'яким світлом. -->
+        <img src="assets/img/details/d-window.jpg" alt="Вікно салону, м'яке денне світло" width="640" height="640" loading="lazy">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ==================================================================
+     5.12 ФУТЕР
+     ================================================================== -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="mark mark--divider foot__rule" aria-hidden="true"></div>
+
+    <div class="foot__grid">
+      <div class="foot__brand">
+        <span class="mark mark--word foot__word" role="img" aria-label="Ладна-Звабна"></span>
+        <p class="mini">естетика обличчя та&nbsp;тіла</p>
+      </div>
+
+      <address class="foot__contacts">
+        <a class="link link--grow" href="tel:+380756860912">+380&nbsp;75&nbsp;686&nbsp;09&nbsp;12</a>
+        <a class="link link--grow" href="https://instagram.com/ladna_zvabna" rel="noopener">@ladna_zvabna</a>
+        <span>Бровари, вул.&nbsp;Симоненка,&nbsp;30А</span>
+      </address>
+
+      <p class="foot__copy">© 2026 «Ладна-Звабна»</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
