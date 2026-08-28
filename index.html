@@ -7,8 +7,20 @@
 <title>Ладна-Звабна — естетика обличчя та тіла | Салон краси в Броварах</title>
 <meta name="description" content="Салон «Ладна-Звабна» у Броварах. Простір, де можна зупинитися, видихнути й повернутися до себе. Догляд за обличчям і тілом без тиску та обіцянок.">
 
-<!-- Клас .js навмисно НЕ ставиться на Етапі 2: логіка появи з'явиться на Етапі 3.
-     Поки html без .js, правило html:not(.js) у motion.css показує все одразу. -->
+<script>
+/* Клас .js вимикає статичний fallback у motion.css і віддає керування появою скрипту.
+   Ставимо його ДО першої відмальовки, щоб не було спалаху вмісту.
+
+   Запобіжник: якщо main.js не завантажиться, не виконається або впаде —
+   через 3 секунди клас знімається і сторінка повертається до статичної,
+   повністю читабельної версії. Без цього збій одного файлу лишив би
+   людину перед порожнім екраном. */
+(function(){
+  var d = document.documentElement;
+  d.className = 'js';
+  window.__lzFallback = setTimeout(function(){ d.className = ''; }, 3000);
+})();
+</script>
 
 <link rel="preload" href="assets/fonts/cormorant-infant-300.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/onest-300.woff2" as="font" type="font/woff2" crossorigin>
@@ -57,7 +69,7 @@
      5.1 ГЕРОЙ
      ================================================================== -->
 <section class="hero" id="hero">
-  <div class="hero__media veil" aria-hidden="true">
+  <div class="hero__media veil" aria-hidden="true" data-par="0.06">
     <!-- SHOT: горизонтальний кадр інтер'єру загальним планом, денне світло з вікна, 16:9.
          Етап 6 замінить це відео lounge.mp4 з підвантаженням через IntersectionObserver. -->
     <img class="slow-zoom" src="assets/video/lounge-poster.jpg" alt="" width="720" height="600">
@@ -606,6 +618,9 @@
     </div>
   </div>
 </footer>
+
+<script src="assets/js/vendor/lenis.min.js" defer></script>
+<script src="assets/js/main.js" defer></script>
 
 </body>
 </html>
