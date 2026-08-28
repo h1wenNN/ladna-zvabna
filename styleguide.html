@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="uk" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Стайлгайд · Ладна-Звабна</title>
+<meta name="robots" content="noindex">
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js')</script>
+<link rel="preload" href="assets/fonts/cormorant-infant-300.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/onest-300.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/motion.css">
+<style>
+/* Лише службові стилі самого стайлгайда. У продакшн не йдуть. */
+.sg-head{padding:var(--sp-16) 0 var(--sp-12); border-bottom:1px solid var(--rule)}
+.sg-sec{padding-block:var(--sp-24); border-bottom:1px solid var(--rule)}
+.sg-title{font-family:var(--font-text); font-size:var(--fs-mini); font-weight:500;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:var(--sp-8)}
+.sg-note{font-size:var(--fs-small); color:var(--fg-dim); margin-top:var(--sp-3); max-width:52ch}
+.sw-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:var(--sp-4)}
+.sw{border:1px solid var(--rule)}
+.sw__chip{height:96px}
+.sw__body{padding:var(--sp-3); font-size:var(--fs-mini); line-height:1.7}
+.sw__name{font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--fg)}
+.sw__hex{color:var(--fg-dim); font-variant-numeric:tabular-nums}
+.sw__cr{display:block; color:var(--fg-dim); font-variant-numeric:tabular-nums}
+.sw__ok{color:#4C6B45; font-weight:500}
+.sw__no{color:#8E3B2E; font-weight:500}
+.sg-row{display:grid; grid-template-columns:110px 1fr; gap:var(--sp-6); align-items:baseline;
+  padding-block:var(--sp-4); border-top:1px solid var(--rule)}
+.sg-key{font-size:var(--fs-mini); letter-spacing:.12em; text-transform:uppercase; color:var(--fg-dim)}
+.sg-arches{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:var(--sp-8); align-items:start}
+.sg-arches figcaption{margin-top:var(--sp-3); font-size:var(--fs-mini); letter-spacing:.1em;
+  text-transform:uppercase; color:var(--fg-dim)}
+.sg-dark{padding:var(--sp-16) var(--sp-12); margin-top:var(--sp-8)}
+.sg-motion{position:relative; min-height:340px; background:var(--cream); overflow:hidden;
+  isolation:isolate;   /* інакше .glow із z-index:-1 малюється ПОЗАДУ тла і зникає */
+  display:grid; place-items:center; text-align:center; padding:var(--sp-12)}
+@media (max-width:768px){
+  .sg-row{grid-template-columns:1fr; gap:var(--sp-3)}
+  .sg-dark{padding:var(--sp-12) var(--sp-6)}
+  .sg-motion{padding:var(--sp-8) var(--sp-4)}
+}
+.sg-flag{display:inline-block; font-size:var(--fs-mini); letter-spacing:.1em; text-transform:uppercase;
+  padding:.35em .8em; border:1px solid var(--rule); color:var(--fg-dim)}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<a class="skip" href="#main">Перейти до змісту</a>
+
+<main id="main" class="wrap">
+
+  <header class="sg-head">
+    <p class="mini">Ладна-Звабна · дизайн-система</p>
+    <h1 style="margin-top:.3em">Стайлгайд</h1>
+    <p class="lead" style="margin-top:var(--sp-6)">
+      Етап&nbsp;1. Токени, типографіка, форма й рух — до того, як зверстано хоч одну секцію.
+      Усе, що з’явиться на сайті, збирається звідси.
+    </p>
+    <div class="mark mark--divider rule-mark" style="margin-top:var(--sp-8)" aria-hidden="true"></div>
+  </header>
+
+  <!-- ========== ПАЛІТРА ========== -->
+  <section class="sg-sec">
+    <p class="sg-title">01 · Палітра</p>
+    <p class="measure--wide" style="margin-bottom:var(--sp-8)">
+      Пропорція: 70&nbsp;% молочний і крем · 18&nbsp;% пісочний і фактури · 8&nbsp;% оливковий
+      і шалфей · 4&nbsp;% мідь. Мідь&nbsp;— дефіцитний ресурс: більше двох мідних елементів
+      на екрані одночасно&nbsp;— помилка.
+    </p>
+
+    <div class="sw-grid">
+      <div class="sw"><div class="sw__chip" style="background:#F7F5F0"></div>
+        <div class="sw__body"><span class="sw__name">milk</span> <span class="sw__hex">#F7F5F0</span>
+        <span class="sw__cr">основне тло</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#E6E2D6"></div>
+        <div class="sw__body"><span class="sw__name">cream</span> <span class="sw__hex">#E6E2D6</span>
+        <span class="sw__cr">вторинне тло</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#DCD3C3"></div>
+        <div class="sw__body"><span class="sw__name">sand</span> <span class="sw__hex">#DCD3C3</span>
+        <span class="sw__cr">фактури, розділювачі</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#A9B48A"></div>
+        <div class="sw__body"><span class="sw__name">sage</span> <span class="sw__hex">#A9B48A</span>
+        <span class="sw__cr">м’який акцент</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#7F8F76"></div>
+        <div class="sw__body"><span class="sw__name">olive</span> <span class="sw__hex">#7F8F76</span>
+        <span class="sw__cr">глибокий акцент</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#3E4438"></div>
+        <div class="sw__body"><span class="sw__name">olive-deep</span> <span class="sw__hex">#3E4438</span>
+        <span class="sw__cr">тло темних сцен</span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#B6705C"></div>
+        <div class="sw__body"><span class="sw__name">copper</span> <span class="sw__hex">#B6705C</span>
+        <span class="sw__cr">3.53:1 — <span class="sw__ok">лінії, обідки</span></span>
+        <span class="sw__cr"><span class="sw__no">не для тексту</span></span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#935442"></div>
+        <div class="sw__body"><span class="sw__name">copper-text</span> <span class="sw__hex">#935442</span>
+        <span class="sw__cr">5.37:1 молочний <span class="sw__ok">AA</span></span>
+        <span class="sw__cr">4.52:1 кремовий <span class="sw__ok">AA</span></span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#4A4538"></div>
+        <div class="sw__body"><span class="sw__name">ink</span> <span class="sw__hex">#4A4538</span>
+        <span class="sw__cr">8.76:1 <span class="sw__ok">AAA</span></span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#6A6455"></div>
+        <div class="sw__body"><span class="sw__name">ink-dim</span> <span class="sw__hex">#6A6455</span>
+        <span class="sw__cr">5.40:1 молочний <span class="sw__ok">AA</span></span>
+        <span class="sw__cr">4.55:1 кремовий <span class="sw__ok">AA</span></span></div></div>
+      <div class="sw"><div class="sw__chip" style="background:#A89F8B"></div>
+        <div class="sw__body"><span class="sw__name">ink-faint</span> <span class="sw__hex">#A89F8B</span>
+        <span class="sw__cr">2.41:1 <span class="sw__no">лише декор</span></span></div></div>
+    </div>
+
+    <p class="sg-note">
+      Мідь розділено за роллю навмисно. <strong>copper</strong> дає 3.53:1&nbsp;— цього досить
+      для ліній і обідків (норма нетекстових елементів 3:1), але не для тексту.
+      Увесь акцентний текст іде на <strong>copper-text</strong>.
+      <strong>ink-faint</strong> лишається в системі лише для декоративних міток.
+    </p>
+  </section>
+
+  <!-- ========== ТИПОГРАФІКА ========== -->
+  <section class="sg-sec">
+    <p class="sg-title">02 · Типографіка</p>
+
+    <div class="sg-row"><span class="sg-key">h1 · 300</span>
+      <h1>Краса, що починається зі злагоди&nbsp;із&nbsp;собою</h1></div>
+    <div class="sg-row"><span class="sg-key">h2 · 300</span>
+      <h2>Друге народження</h2></div>
+    <div class="sg-row"><span class="sg-key">h3 · 400</span>
+      <h3>Догляд та очищення обличчя</h3></div>
+    <div class="sg-row"><span class="sg-key">say · курсив</span>
+      <p class="say">Вона чує себе.</p></div>
+    <div class="sg-row"><span class="sg-key">lead</span>
+      <p class="lead">Простір, у якому можна зупинитися, видихнути й повернутися до себе.</p></div>
+    <div class="sg-row"><span class="sg-key">body · 34ch</span>
+      <p class="measure">Ми привезли не лише апарати й меблі. Ми привезли ідею простору,
+        у&nbsp;якому краса не кричить&nbsp;— вона дихає. Не вимагає&nbsp;— розкривається.</p></div>
+    <div class="sg-row"><span class="sg-key">mini</span>
+      <p class="mini">естетика обличчя та тіла · Бровари</p></div>
+    <div class="sg-row"><span class="sg-key">буквиця</span>
+      <p class="measure dropcap">Є одна історія-притча про мільярдера, якого запитали,
+        які жінки здаються йому найкрасивішими.</p></div>
+
+    <p class="sg-note" style="margin-top:var(--sp-12)">
+      Перевірка українського набору: <strong>ґ Ґ є Є і І ї Ї</strong> ·
+      апостроф <strong>здоров’я, м’який, п’ять</strong> · лапки <strong>«Ладна-Звабна»</strong> ·
+      довге тире <strong>слово&nbsp;— слово</strong> · цифри <span class="tnum">1200 · 2300 · 3500 грн</span>.
+      Символ ₴ у шрифтах відсутній&nbsp;— ціни пишемо словом «грн».
+    </p>
+  </section>
+
+  <!-- ========== АРКА ========== -->
+  <section class="sg-sec">
+    <p class="sg-title">03 · Арка — фірмова форма</p>
+    <p class="measure--wide" style="margin-bottom:var(--sp-12)">
+      Одна форма, що повторюється мотивом по всьому сайту: ніші й дзеркала з інтер’єру.
+      Вертикальний радіус залежить від пропорції, тому кожен варіант має фіксований
+      <code>aspect-ratio</code>&nbsp;— інакше арка сплющується.
+    </p>
+
+    <div class="sg-arches">
+      <figure><div class="arch arch--framed"><img src="assets/img/interior/cosy.jpg" alt="Кава і свічка на срібній таці" width="720" height="748"></div>
+        <figcaption>arch · 3/4</figcaption></figure>
+      <figure><div class="arch arch--tall arch--framed"><img src="assets/img/details/d-textile.jpg" alt="Стьобаний текстиль із позолотою" width="640" height="640"></div>
+        <figcaption>arch--tall · 2/3</figcaption></figure>
+      <figure><div class="arch arch--soft arch--framed"><img src="assets/img/details/d-candles.jpg" alt="Свічки на різьбленій таці" width="640" height="640"></div>
+        <figcaption>arch--soft · 1/1</figcaption></figure>
+      <figure><div class="arch arch--wide arch--framed"><img src="assets/img/details/d-terrazzo.jpg" alt="Підлога тераццо" width="640" height="640"></div>
+        <figcaption>arch--wide · 16/10</figcaption></figure>
+      <figure><div class="arch arch--tall ph"><span class="ph__note">кадр очікується</span></div>
+        <figcaption>плейсхолдер</figcaption></figure>
+    </div>
+
+    <p class="sg-note">
+      Плейсхолдер&nbsp;— завершений елемент, а не порожня діра: тепла градієнтна пляма
+      з мідним обідком. Показаний людині без пояснень, він не має читатися
+      як «тут щось зламалось».
+    </p>
+  </section>
+
+  <!-- ========== ДІЇ ========== -->
+  <section class="sg-sec">
+    <p class="sg-title">04 · Дії та лінки</p>
+    <div class="flow-col" style="gap:var(--sp-8); align-items:flex-start">
+      <a href="#main" class="act">Про наш простір <span class="arrow">↓</span></a>
+      <a href="#main" class="act act--quiet">Переглянути догляди <span class="arrow">→</span></a>
+      <p>Текст із лінком усередині: <a href="#main" class="link link--grow">написати в Direct</a>,
+         і другий&nbsp;— <a href="#main" class="link">постійне підкреслення</a>.</p>
+      <p class="sg-flag">Tab-ом сюди&nbsp;— видно мідне кільце фокуса</p>
+    </div>
+    <p class="sg-note">
+      Основна дія&nbsp;— не кнопка-пігулка, а текст із мідною лінією. Кнопки з
+      <code>border-radius:9999px</code> у системі немає навмисно.
+    </p>
+  </section>
+
+  <!-- ========== ПРАЙС ========== -->
+  <section class="sg-sec">
+    <p class="sg-title">05 · Прайс — меню, а не таблиця</p>
+    <div class="price-list lane-left" style="max-width:640px">
+      <div class="price-row">
+        <span class="price-row__name">Механічна дерматонія обличчя
+          <span class="price-row__meta">60 хв</span></span>
+        <span class="price-row__cost tnum">1200 грн</span></div>
+      <div class="price-row">
+        <span class="price-row__name">Механічна дерматонія + ритуал ESSE
+          <span class="price-row__meta">90 хв</span></span>
+        <span class="price-row__cost tnum">2000 грн</span></div>
+      <div class="price-row">
+        <span class="price-row__name">Мікродермабразія — обличчя, шия
+          <span class="price-row__meta">40 хв</span></span>
+        <span class="price-row__cost tnum">3000 грн</span></div>
+    </div>
+    <p class="sg-note">При наведенні решта рядків приглушується&nbsp;— як коли світло
+      падає тільки на одне. На тач-пристроях ефект вимкнено.</p>
+  </section>
+
+  <!-- ========== ТЕМНА СЦЕНА ========== -->
+  <section class="sg-sec">
+    <p class="sg-title">06 · Темна сцена</p>
+    <p class="measure--wide">Не окрема тема, а перевизначення ролей. Використовується
+      лише на одній-двох секціях: історія й притча.</p>
+    <div class="on-dark sg-dark">
+      <p class="mini">з Херсона до Броварів</p>
+      <h2 style="margin-top:var(--sp-4)">Вона почалася<br>з&nbsp;порятунку</h2>
+      <p class="measure" style="margin-top:var(--sp-6)">Професійні апарати, меблі та деталі
+        інтер’єру вивозили з&nbsp;Херсона&nbsp;— з&nbsp;міста, яке щодня живе під обстрілами.</p>
+      <p class="say" style="margin-top:var(--sp-8)">Не копія минулого&nbsp;— його живе продовження.</p>
+      <a href="#main" class="act" style="margin-top:var(--sp-8)">Читати далі <span class="arrow">↓</span></a>
+    </div>
+    <p class="sg-note">Контраст на темному: текст 7.91:1 · приглушений 4.69:1 · акцент 4.52:1.</p>
+  </section>
+
+  <!-- ========== РУХ ========== -->
+  <section class="sg-sec">
+    <p class="sg-title">07 · Дихання й світло</p>
+    <div class="sg-motion">
+      <div class="glow" style="--gx:24%;--gy:30%;--ga:.30" aria-hidden="true"></div>
+      <div class="glow glow--second" style="--gx:78%;--gy:70%;--ga:.26" aria-hidden="true"></div>
+      <div>
+        <h2 class="words" id="demoWords">Тут можна нічого не доводити</h2>
+        <p class="lead" style="margin:var(--sp-6) auto 0">Дві плями світла рухаються
+          назустріч одна одній циклом 18&nbsp;і 24&nbsp;секунди. Ритм вдиху-видиху.</p>
+      </div>
+    </div>
+
+    <div class="sg-row" style="margin-top:var(--sp-12)">
+      <span class="sg-key">reveal</span>
+      <div class="stagger" style="display:flex; gap:var(--sp-4); flex-wrap:wrap">
+        <span class="reveal sg-flag" data-r>проявлення</span>
+        <span class="reveal sg-flag" data-r>+110 мс</span>
+        <span class="reveal sg-flag" data-r>+220 мс</span>
+        <span class="reveal sg-flag" data-r>+330 мс</span>
+      </div>
+    </div>
+
+    <p class="sg-note">
+      Поява: <code>opacity</code> + <code>blur(8px)→0</code> + <code>scale(1.015)→1</code>,
+      1200&nbsp;мс, зсув максимум <strong>14&nbsp;px</strong>.
+      Ніякого <code>translateY(40px)</code>, ніякого по-літерного тексту, ніякого
+      <code>bounce</code>. Список заборонених прийомів&nbsp;— MASTER_PROMPT п.&nbsp;4.4.
+    </p>
+  </section>
+
+  <!-- ========== ЛОГОТИП ========== -->
+  <section class="sg-sec">
+    <p class="sg-title">08 · Логотип</p>
+    <div class="flow-row" style="gap:var(--sp-16); align-items:flex-end">
+      <div style="width:150px; color:var(--copper-text)">
+        <div class="mark mark--figure" role="img" aria-label="Силует жінки з косою та вінком"></div>
+        <p class="mini" style="margin-top:var(--sp-4)">figure · 10.6 КБ gzip</p>
+      </div>
+      <div style="width:150px; color:var(--olive)">
+        <div class="mark mark--figure" role="img" aria-label="Той самий знак, оливковий"></div>
+        <p class="mini" style="margin-top:var(--sp-4)">той самий файл, інший колір</p>
+      </div>
+      <div style="width:240px; color:var(--ink)">
+        <div class="mark mark--word" role="img" aria-label="Ладна-Звабна"></div>
+        <p class="mini" style="margin-top:var(--sp-4)">word · 2.1 КБ gzip</p>
+      </div>
+      <div style="width:240px; color:var(--accent-line)">
+        <div class="mark mark--divider" aria-hidden="true"></div>
+        <p class="mini" style="margin-top:var(--sp-4)">divider · 2.8 КБ gzip</p>
+      </div>
+    </div>
+    <p class="sg-note">
+      Знаки малюються CSS-маскою, а не <code>&lt;img&gt;</code>: зовнішній SVG через
+      <code>&lt;img&gt;</code> не успадковує <code>currentColor</code> і завжди виходить чорним.
+      Маска дає і колір із CSS, і кешування одного файлу&nbsp;— два блоки вище
+      використовують той самий <code>figure.svg</code>.
+      У шапці й футері знак інлайниться прямо в HTML&nbsp;— там потрібна семантика.
+      Логотип ніде не крутиться й не пружинить: його лінії можна лише
+      <em>малювати</em> маскою, повільно.
+    </p>
+  </section>
+
+  <footer style="padding-block:var(--sp-16); color:var(--fg-dim); font-size:var(--fs-small)">
+    Стайлгайд Етапу&nbsp;1 · у продакшн не йде · <code>styleguide.html</code>
+  </footer>
+
+</main>
+
+<script>
+/* Демонстрація reveal і розбиття по словах. На сайті це робитиме GSAP (Етап 3). */
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var h = document.getElementById('demoWords');
+  if (h) {
+    h.innerHTML = h.textContent.trim().split(/\s+/)
+      .map(function(w,i){ return '<span class="w" style="--wd:'+(i*110)+'ms">'+w+'</span>'; })
+      .join(' ');
+  }
+  if (reduce) {
+    document.querySelectorAll('.reveal,.words').forEach(function(n){ n.classList.add('is-in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal,.words').forEach(function(n){ io.observe(n); });
+})();
+</script>
+</body>
+</html>

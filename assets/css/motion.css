@@ -1,0 +1,205 @@
+/* ==========================================================================
+   ЛАДНА-ЗВАБНА · motion.css
+   Доктрина: «ДИХАННЯ Й СВІТЛО»
+
+   Сайт не анімований — сайт дихає. Нічого не вилітає, не пружинить,
+   не стрибає. Усе або проявляється як фотоплівка, або дуже повільно
+   рухається, як світло, що переповзає кімнатою протягом дня.
+
+   Числа з MASTER_PROMPT п. 4.2 — вимога, не орієнтир.
+   Заборонені прийоми — п. 4.4. Перечитати перед правками.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. ЗЕРНО
+   Прибирає «цифровість» пласких заливок. Має бути помітним лише якщо шукати.
+   -------------------------------------------------------------------------- */
+.grain{
+  position:fixed; inset:0;
+  z-index:9998;
+  pointer-events:none;
+  opacity:var(--grain-opacity);
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+
+/* --------------------------------------------------------------------------
+   2. ПРОЯВЛЕННЯ — базова поява будь-якого блоку
+   opacity + blur + мікромасштаб. Зсув максимум 14px.
+   НЕ translateY(40px) — це найпоширеніша ознака шаблонної анімації.
+   -------------------------------------------------------------------------- */
+.reveal{
+  opacity:0;
+  filter:blur(8px);
+  transform:translate3d(0, var(--shift), 0) scale(1.015);
+  transition:
+    opacity   var(--d-reveal) var(--e-out),
+    filter    var(--d-reveal) var(--e-out),
+    transform var(--d-reveal) var(--e-out);
+  transition-delay:var(--delay, 0ms);
+  will-change:opacity, filter, transform;
+}
+.reveal.is-in{
+  opacity:1;
+  filter:blur(0);
+  transform:translate3d(0,0,0) scale(1);
+}
+/* Після появи знімаємо will-change — інакше шар лишається в пам'яті GPU */
+.reveal.is-done{will-change:auto}
+
+/* Варіанти напряму. Амплітуда та сама — змінюється лише вісь. */
+.reveal--from-left {transform:translate3d(calc(var(--shift) * -1), 0, 0) scale(1.015)}
+.reveal--from-right{transform:translate3d(var(--shift), 0, 0) scale(1.015)}
+.reveal--still     {transform:scale(1.015)}   /* без зсуву взагалі */
+
+/* Сходинки затримок для груп. Крок 110мс. */
+.stagger > *:nth-child(1){--delay:0ms}
+.stagger > *:nth-child(2){--delay:110ms}
+.stagger > *:nth-child(3){--delay:220ms}
+.stagger > *:nth-child(4){--delay:330ms}
+.stagger > *:nth-child(5){--delay:440ms}
+.stagger > *:nth-child(6){--delay:550ms}
+.stagger > *:nth-child(7){--delay:660ms}
+.stagger > *:nth-child(8){--delay:770ms}
+
+/* --------------------------------------------------------------------------
+   3. ТЕКСТ, ЩО ДИХАЄ
+   Розбиття по СЛОВАХ, не по літерах. По-літерна анімація — кліше.
+   Заборонено: overflow:hidden на рядку + translateY(100%) на слові.
+   -------------------------------------------------------------------------- */
+.words{display:inline}
+.words .w{
+  display:inline-block;
+  opacity:0;
+  filter:blur(6px);
+  transform:translate3d(0,8px,0);
+  transition:
+    opacity   var(--d-slow) var(--e-out),
+    filter    var(--d-slow) var(--e-out),
+    transform var(--d-slow) var(--e-out);
+  transition-delay:var(--wd, 0ms);
+}
+.words.is-in .w{opacity:1; filter:blur(0); transform:none}
+
+/* --------------------------------------------------------------------------
+   4. СВІТЛО, ЩО ПЕРЕПОВЗАЄ
+   Величезна розмита пляма, що повільно рухається по своїй траєкторії.
+   У кожній секції своя позиція, свій відтінок, свій цикл 16–20 с.
+   -------------------------------------------------------------------------- */
+.glow{
+  position:absolute;
+  inset:-25%;
+  z-index:-1;
+  pointer-events:none;
+  filter:blur(80px);
+  opacity:.9;
+  background:radial-gradient(
+    ellipse 58% 46% at var(--gx, 30%) var(--gy, 34%),
+    rgba(var(--gc, var(--rgb-copper)), var(--ga, .11)),
+    transparent 68%);
+  animation:drift var(--breath) var(--e-breath) infinite alternate;
+  animation-delay:var(--gd, 0s);
+}
+/* Друга пляма іншого кольору, протилежна фаза — світло стає об'ємним */
+.glow--second{
+  --gc:var(--rgb-olive);
+  --ga:.10;
+  animation-name:drift-b;
+  animation-duration:calc(var(--breath) * 1.35);
+}
+
+@keyframes drift{
+  from{transform:translate3d(-3%, -2%, 0) scale(1)}
+  to  {transform:translate3d( 4%,  3%, 0) scale(1.14)}
+}
+@keyframes drift-b{
+  from{transform:translate3d( 3%,  2%, 0) scale(1.1)}
+  to  {transform:translate3d(-4%, -3%, 0) scale(.96)}
+}
+
+/* --------------------------------------------------------------------------
+   5. ФОНОВЕ ВІДЕО
+   Дуже повільний зум: 25–40 с на повний прохід. Швидкість відтворення
+   задає JS (playbackRate ≈ .7) — у файлі вона рідна.
+   -------------------------------------------------------------------------- */
+.slow-zoom{animation:slow-zoom 34s var(--e-breath) infinite alternate}
+@keyframes slow-zoom{
+  from{transform:scale(1)}
+  to  {transform:scale(1.06)}
+}
+
+/* Тепла завіса поверх відео, щоб текст читався, а кадр не кричав */
+.veil::after{
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(180deg,
+    rgba(var(--rgb-milk),.42) 0%,
+    rgba(var(--rgb-milk),.62) 55%,
+    rgba(var(--rgb-milk),.88) 100%);
+  pointer-events:none;
+}
+
+/* --------------------------------------------------------------------------
+   6. АРКА, ЩО ВІДКРИВАЄТЬСЯ
+   Маска піднімається знизу вгору, наче штора. 1400мс.
+   -------------------------------------------------------------------------- */
+.arch-open{
+  clip-path:inset(80% 0 0 0);
+  transition:clip-path 1400ms var(--e-out);
+  transition-delay:var(--delay, 0ms);
+}
+.arch-open.is-in{clip-path:inset(0 0 0 0)}
+
+/* --------------------------------------------------------------------------
+   7. ЛІНІЯ, ЩО МАЛЮЄТЬСЯ
+   Трасований логотип дає ЗАЛИВКИ, а не обведення, тому stroke-dasharray
+   тут не працює. Замість нього — маска, що відкриває фігуру зліва направо.
+   Візуально результат ідентичний. (Рішення записане в PROGRESS.md.)
+   -------------------------------------------------------------------------- */
+.draw{
+  clip-path:inset(0 100% 0 0);
+  transition:clip-path 1800ms var(--e-out);
+  transition-delay:var(--delay, 0ms);
+}
+.draw.is-in{clip-path:inset(0 0 0 0)}
+
+/* --------------------------------------------------------------------------
+   8. ПРЕЛОАДЕР
+   До 1.8 с, один раз за сесію. Не «злітає вгору» — розчиняється світлом.
+   Ніяких відсотків, ніякої смужки прогресу.
+   -------------------------------------------------------------------------- */
+.loader{
+  position:fixed; inset:0; z-index:9999;
+  display:grid; place-items:center; gap:var(--sp-6);
+  background:var(--milk);
+  transition:opacity 900ms var(--e-out), filter 900ms var(--e-out), visibility 0s 900ms;
+}
+.loader.is-gone{opacity:0; filter:blur(14px); visibility:hidden}
+
+/* --------------------------------------------------------------------------
+   9. ДОСТУПНІСТЬ
+   Сайт має бути повністю читабельним і красивим без жодної анімації.
+   Це умова приймання, не побажання.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+  .reveal,.words .w{opacity:1 !important; filter:none !important; transform:none !important}
+  .arch-open,.draw{clip-path:none !important}
+  .glow{animation:none !important}
+  .slow-zoom{animation:none !important}
+  .loader{display:none !important}
+}
+
+/* Без JS клас .is-in ніхто не поставить — тому показуємо все одразу.
+   <html> отримує клас js першим інлайновим скриптом у <head>. */
+html:not(.js) .reveal,
+html:not(.js) .words .w{opacity:1; filter:none; transform:none}
+html:not(.js) .arch-open,
+html:not(.js) .draw{clip-path:none}
+html:not(.js) .loader{display:none}

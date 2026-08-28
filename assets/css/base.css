@@ -1,0 +1,331 @@
+/* ==========================================================================
+   ЛАДНА-ЗВАБНА · base.css
+   Шрифти · Токени · Скидання · Типографіка
+   Джерело рішень: MASTER_PROMPT.md, розділи 3 і 4
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. ШРИФТИ
+   Локальні woff2, сабсет під українську. Ліцензія SIL OFL 1.1 (див. ASSETS.md).
+   -------------------------------------------------------------------------- */
+@font-face{font-family:'Cormorant Infant';src:url('../fonts/cormorant-infant-300.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'Cormorant Infant';src:url('../fonts/cormorant-infant-300-italic.woff2') format('woff2');font-weight:300;font-style:italic;font-display:swap}
+@font-face{font-family:'Cormorant Infant';src:url('../fonts/cormorant-infant-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Cormorant Infant';src:url('../fonts/cormorant-infant-400-italic.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Cormorant Infant';src:url('../fonts/cormorant-infant-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Cormorant Infant';src:url('../fonts/cormorant-infant-500-italic.woff2') format('woff2');font-weight:500;font-style:italic;font-display:swap}
+@font-face{font-family:'Onest';src:url('../fonts/onest-300.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'Onest';src:url('../fonts/onest-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Onest';src:url('../fonts/onest-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+
+/* --------------------------------------------------------------------------
+   2. ТОКЕНИ
+   -------------------------------------------------------------------------- */
+:root{
+
+  /* --- Палітра. Закрита: нові кольори тільки як прозорі шари наявних --- */
+  --milk:        #F7F5F0;   /* молочний — основне тло */
+  --cream:       #E6E2D6;   /* теплий крем — вторинне тло */
+  --sand:        #DCD3C3;   /* пісочний — фактури, розділювачі */
+  --sage:        #A9B48A;   /* шалфей — м'який акцент */
+  --olive:       #7F8F76;   /* оливковий — глибокий акцент */
+  --olive-deep:  #3E4438;   /* глибока олива — тло темних сцен */
+  /* Мідь розділена за роллю — це не косметика, а вимога контрасту.
+     #B6705C дає лише 3.53:1 на молочному й 2.97:1 на кремовому: для ліній
+     цього досить (норма нетекстових елементів — 3:1), для тексту ні. */
+  --copper:      #B6705C;   /* ДЕКОР: лінії, обідки, плями світла. НЕ для тексту */
+  --copper-text: #935442;   /* ТЕКСТ: 5.37:1 на молочному, 4.52:1 на кремовому */
+  --copper-deep: #9C5A48;   /* натиснутий стан, ::selection */
+  --ink:         #4A4538;   /* основний текст. 8.76:1 на молочному */
+  --ink-dim:     #6A6455;   /* приглушений текст. 5.40:1 молочний, 4.55:1 кремовий */
+  --ink-faint:   #A89F8B;   /* ⚠ ДЕКОРАТИВНИЙ. 2.41:1 — НЕ для змістовного тексту */
+  --line:        rgba(74,69,56,.14);
+
+  /* --- Кортежі RGB для прозорих шарів світла --- */
+  --rgb-copper: 182,112,92;
+  --rgb-olive:  127,143,118;
+  --rgb-sage:   169,180,138;
+  --rgb-sand:   220,211,195;
+  --rgb-ink:    74,69,56;
+  --rgb-milk:   247,245,240;
+
+  /* --- Ролі. Перевизначаються на темних секціях --- */
+  --bg:      var(--milk);
+  --bg-soft: var(--cream);
+  --fg:      var(--ink);
+  --fg-dim:  var(--ink-dim);
+  --accent:      var(--copper-text);  /* акцентний ТЕКСТ */
+  --accent-line: var(--copper);       /* акцентні ЛІНІЇ та обідки */
+  --rule:        var(--line);
+
+  /* --- Гарнітури --- */
+  --font-display:'Cormorant Infant',Georgia,'Times New Roman',serif;
+  --font-text:'Onest','Segoe UI',system-ui,-apple-system,sans-serif;
+
+  /* --- Типографічна шкала. Модульна, коефіцієнт ≈1.333 --- */
+  --fs-h1:   clamp(2.9rem, 8vw, 8rem);
+  --fs-h2:   clamp(2.4rem, 5vw, 4.6rem);
+  --fs-h3:   clamp(1.5rem, 2.6vw, 2.2rem);
+  --fs-lead: clamp(1.15rem, 1.6vw, 1.4rem);
+  --fs-body: clamp(1rem, 1.15vw, 1.15rem);
+  --fs-small:clamp(.875rem, 1vw, .95rem);
+  --fs-mini: .78rem;
+
+  /* --- Простір --- */
+  --sp-2:.5rem;  --sp-3:.75rem; --sp-4:1rem;   --sp-6:1.5rem;
+  --sp-8:2rem;   --sp-12:3rem;  --sp-16:4rem;  --sp-24:6rem;
+  --sp-section: clamp(120px, 18vh, 260px);   /* між секціями */
+  --sp-breath:  clamp(56px, 9vh, 120px);     /* всередині секції */
+  --gutter:     clamp(16px, 2vw, 32px);
+  --pad-x:      clamp(20px, 6vw, 120px);
+  --maxw:       1440px;
+  --measure:    34ch;                        /* ширина абзацу */
+
+  /* --- Рух. Числа з MASTER_PROMPT п. 4.2 — вимога, не орієнтир --- */
+  --e-out:    cubic-bezier(.16, 1, .3, 1);   /* основний */
+  --e-breath: cubic-bezier(.37, 0, .17, 1);  /* вдих: світло, масштаби */
+  --d-fast:   900ms;
+  --d-reveal: 1200ms;
+  --d-slow:   1600ms;
+  --stagger:  110ms;
+  --shift:    14px;    /* МАКСИМАЛЬНИЙ зсув при появі. Не 40, не 60 */
+  --breath:   18s;     /* цикл дихання фонового світла */
+
+  /* --- Тіні: теплі. Чорна тінь на теплому тлі виглядає брудно --- */
+  --shadow-soft: 0 40px 80px -30px rgba(90,78,58,.22);
+  --shadow-lift: 0 60px 120px -40px rgba(90,78,58,.28);
+
+  /* --- Арка: фірмова форма --- */
+  --arch-foot: 8px;
+
+  /* --- Зерно --- */
+  --grain-opacity: .032;
+}
+
+/* Темна сцена — перевизначення ролей, не окрема тема.
+   Використовується лише на 1–2 секціях (історія, притча). */
+.on-dark{
+  --bg:      var(--olive-deep);
+  --bg-soft: #454C3F;
+  --fg:      #E8E4D8;
+  --fg-dim:  #AFB3A2;
+  --accent:      #D9A18E;             /* мідь, освітлена під темне тло: 4.52:1 */
+  --accent-line: #C98873;
+  --rule:        rgba(232,228,216,.16);
+  color: var(--fg);
+  background: var(--bg);
+}
+
+/* --------------------------------------------------------------------------
+   3. СКИДАННЯ
+   -------------------------------------------------------------------------- */
+*,*::before,*::after{box-sizing:border-box}
+*{margin:0}
+html{
+  -webkit-text-size-adjust:100%;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--fg);
+  font-family:var(--font-text);
+  font-size:var(--fs-body);
+  font-weight:300;
+  line-height:1.65;
+  overflow-x:hidden;
+}
+img,picture,video,canvas,svg{display:block;max-width:100%}
+img,video{height:auto}
+input,button,textarea,select{font:inherit;color:inherit}
+button{background:none;border:0;padding:0;cursor:pointer}
+ul,ol{list-style:none;padding:0}
+a{color:inherit;text-decoration:none}
+svg{fill:currentColor}
+
+/* --------------------------------------------------------------------------
+   4. ТИПОГРАФІКА
+   -------------------------------------------------------------------------- */
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  font-weight:300;
+  text-wrap:balance;
+  hyphens:none;              /* автоперенос в українській — негарний */
+}
+h1{font-size:var(--fs-h1); line-height:.95;  letter-spacing:-.02em}
+h2{font-size:var(--fs-h2); line-height:1.05; letter-spacing:-.015em}
+h3{font-size:var(--fs-h3); line-height:1.2;  font-weight:400; letter-spacing:-.01em}
+
+p{text-wrap:pretty; hyphens:none}
+p + p{margin-top:var(--sp-4)}
+
+em,i{font-style:italic}
+strong,b{font-weight:500}
+
+/* Абзац у комфортній мірі рядка: 62–68 символів */
+.measure{max-width:var(--measure)}
+.measure--wide{max-width:46ch}
+.measure--tight{max-width:26ch}
+
+/* Ведучий абзац — після заголовка */
+.lead{
+  font-size:var(--fs-lead);
+  line-height:1.55;
+  color:var(--fg-dim);
+  max-width:38ch;
+}
+
+/* Мітка секції. Єдине місце, де дозволено UPPERCASE і широкий трекінг */
+.mini{
+  font-size:var(--fs-mini);
+  font-weight:400;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--fg-dim);
+  line-height:1.4;
+}
+
+/* Виносний рядок — акцентна фраза серед тексту */
+.say{
+  font-family:var(--font-display);
+  font-size:clamp(1.6rem,3.2vw,2.8rem);
+  font-style:italic;
+  font-weight:300;
+  line-height:1.25;
+  color:var(--accent);
+  max-width:22ch;
+}
+
+/* Буквиця — для притчі */
+.dropcap::first-letter{
+  font-family:var(--font-display);
+  font-size:4.2em;
+  line-height:.78;
+  font-weight:300;
+  color:var(--accent);
+  float:left;
+  padding:.06em .14em 0 0;
+}
+
+/* Оптичне вирівнювання: лапки й тире виносяться за край текстового блоку */
+.hang-quote{margin-left:-.42em}
+.hang-dash{margin-left:-.55em}
+
+/* Цифри: табличні для прайсу, старостильні для тексту */
+.tnum{font-variant-numeric:tabular-nums}
+.onum{font-variant-numeric:oldstyle-nums}
+
+/* --------------------------------------------------------------------------
+   5. ЛІНКИ ТА ДІЇ
+   Основна дія — не кнопка-пігулка, а текст із мідною лінією, що росте.
+   -------------------------------------------------------------------------- */
+.link{
+  position:relative;
+  display:inline-block;
+  padding-bottom:.22em;
+  color:var(--fg);
+  transition:color var(--d-fast) var(--e-out);
+}
+.link::after{
+  content:'';
+  position:absolute; left:0; bottom:0;
+  width:100%; height:1px;
+  background:linear-gradient(90deg,#C98873,var(--accent-line) 45%,var(--copper-deep));
+  transform:scaleX(var(--u,1));
+  transform-origin:left;
+  transition:transform var(--d-fast) var(--e-out);
+}
+.link:hover{color:var(--accent)}
+.link--grow{--u:0}
+.link--grow:hover{--u:1}
+
+/* Головна дія секції */
+.act{
+  display:inline-flex; align-items:baseline; gap:.7em;
+  font-size:var(--fs-lead);
+  font-family:var(--font-display);
+  font-weight:400;
+  color:var(--accent);
+  padding-bottom:.3em;
+  border-bottom:1px solid rgba(var(--rgb-copper),.35);
+  transition:border-color var(--d-fast) var(--e-out), gap var(--d-fast) var(--e-out);
+}
+.act:hover{border-color:var(--copper); gap:1.1em}
+.act .arrow{font-size:.8em; transition:transform var(--d-fast) var(--e-out)}
+.act:hover .arrow{transform:translateX(3px)}
+
+/* Другорядна дія */
+.act--quiet{
+  font-family:var(--font-text);
+  font-size:var(--fs-body);
+  color:var(--fg-dim);
+  border-color:var(--rule);
+}
+.act--quiet:hover{color:var(--fg); border-color:var(--fg-dim)}
+
+/* --------------------------------------------------------------------------
+   6. ФОКУС І ВИДІЛЕННЯ
+   -------------------------------------------------------------------------- */
+:focus{outline:none}
+:focus-visible{
+  outline:2px solid var(--copper);
+  outline-offset:4px;
+  border-radius:2px;
+}
+::selection{background:var(--copper-deep); color:var(--milk)}
+
+/* Пропустити навігацію — для клавіатури й скрінрідерів */
+.skip{
+  position:absolute; left:var(--pad-x); top:-100px; z-index:9999;
+  background:var(--milk); color:var(--ink);
+  padding:.8em 1.4em; border:1px solid var(--copper);
+  transition:top 200ms var(--e-out);
+}
+.skip:focus{top:16px}
+
+/* Візуально приховано, але доступно скрінрідеру */
+.sr-only{
+  position:absolute; width:1px; height:1px;
+  padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+/* --------------------------------------------------------------------------
+   7. РОЗДІЛЮВАЧІ
+   -------------------------------------------------------------------------- */
+.rule{height:1px; background:var(--rule); border:0}
+
+/* --------------------------------------------------------------------------
+   8. ЗНАКИ ЛОГОТИПА
+   Зовнішній SVG через <img> НЕ успадковує currentColor — тільки інлайновий.
+   Тому декоративні знаки малюємо маскою: файл кешується, колір задає CSS.
+   Змістовні знаки (шапка, футер) інлайняться в HTML — там потрібна семантика.
+   -------------------------------------------------------------------------- */
+.mark{
+  display:block;
+  background-color:currentColor;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-position:center;  mask-position:center;
+  -webkit-mask-size:contain;     mask-size:contain;
+}
+.mark--divider{
+  -webkit-mask-image:url('../svg/divider.svg'); mask-image:url('../svg/divider.svg');
+  aspect-ratio:550 / 100;
+}
+.mark--word{
+  -webkit-mask-image:url('../svg/word.svg'); mask-image:url('../svg/word.svg');
+  aspect-ratio:540 / 232;
+}
+.mark--figure{
+  -webkit-mask-image:url('../svg/figure.svg'); mask-image:url('../svg/figure.svg');
+  aspect-ratio:227 / 507;
+}
+
+/* Розділювач секцій */
+.rule-mark{
+  width:clamp(180px,26vw,360px);
+  color:var(--accent-line);
+  opacity:.85;
+}
