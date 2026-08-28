@@ -560,3 +560,169 @@
 @media (max-width:768px){
   .foot__grid{grid-template-columns:1fr; gap:var(--sp-8); align-items:start}
 }
+
+/* ==========================================================================
+   ЕТАП 5 · ІНТЕРАКТИВНІ КОМПОНЕНТИ
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   КВІЗ — плавне розкриття
+   Висоту веде ui.js; тут лише те, що можна описати стилями.
+   -------------------------------------------------------------------------- */
+.quiz__body{will-change:height}
+
+/* --------------------------------------------------------------------------
+   ПОВЗУНОК «ДО / ПІСЛЯ»
+   Розмітку будує ui.js. Без нього лишаються два кадри поруч.
+   -------------------------------------------------------------------------- */
+.compare__pair--live{
+  display:block;
+  max-width:560px;
+  margin-inline:auto;
+}
+.cmp{
+  --split:50%;
+  position:relative;
+  aspect-ratio:1 / 1;
+  touch-action:none;
+  cursor:ew-resize;
+}
+.cmp__layer{position:absolute; inset:0}
+.cmp__layer .arch{width:100%; height:100%; aspect-ratio:auto}
+/* Верхній шар обрізається по межі — не opacity, щоб обидва кадри
+   лишалися однаково яскравими й порівняння було чесним. */
+.cmp__layer--before{clip-path:inset(0 calc(100% - var(--split)) 0 0)}
+
+/* М'який мідний роздільник. Не різка біла лінія зі стрілками —
+   це порівняння, а не інструмент вимірювання. */
+.cmp__handle{
+  position:absolute; top:0; bottom:0;
+  left:var(--split);
+  width:1px;
+  margin-left:-.5px;
+  background:linear-gradient(180deg,
+    rgba(var(--rgb-copper),0), rgba(var(--rgb-copper),.85) 18%,
+    rgba(var(--rgb-copper),.85) 82%, rgba(var(--rgb-copper),0));
+  pointer-events:none;
+}
+.cmp__handle::after{
+  content:'';
+  position:absolute; top:50%; left:50%;
+  width:34px; height:34px;
+  transform:translate(-50%,-50%);
+  border:1px solid rgba(var(--rgb-copper),.55);
+  border-radius:50%;
+  background:rgba(var(--rgb-milk),.55);
+}
+
+/* Нативний range: поведінка вся його, вигляду не лишаємо.
+   Не display:none — інакше зникне з фокуса й зі скрінрідера. */
+.cmp__range{
+  position:absolute; left:0; bottom:0;
+  width:100%; height:100%;
+  margin:0; padding:0;
+  background:transparent;
+  opacity:0;
+  cursor:ew-resize;
+}
+/* Фокус НЕ показуємо на самому range: браузер намалював би свій синій
+   повзунок поверх кадрів. Кільце малюємо навколо сцени — клас ставить ui.js. */
+.cmp.is-focused{
+  outline:2px solid var(--copper);
+  outline-offset:6px;
+  border-radius:4px;
+}
+.cmp__labels{
+  display:flex; justify-content:space-between; gap:var(--sp-6);
+  margin-top:var(--sp-8);
+  font-size:var(--fs-mini);
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--fg-dim);
+}
+.cmp__labels span{max-width:46%}
+.cmp__labels span:last-child{text-align:right}
+
+/* Плейсхолдери свідомо різного відтінку — щоб межа читалася
+   ще до того, як приїдуть реальні кадри. */
+.ph--cool{background:
+  radial-gradient(120% 90% at 34% 26%, rgba(var(--rgb-sage),.26), transparent 62%),
+  radial-gradient(100% 80% at 74% 80%, rgba(var(--rgb-olive),.20), transparent 60%),
+  var(--sand)}
+.ph--warm{background:
+  radial-gradient(120% 90% at 30% 20%, rgba(var(--rgb-copper),.24), transparent 62%),
+  radial-gradient(100% 80% at 78% 84%, rgba(var(--rgb-sand),.5), transparent 60%),
+  #E9DED0}
+
+/* --------------------------------------------------------------------------
+   МОБІЛЬНЕ МЕНЮ
+   -------------------------------------------------------------------------- */
+.hdr__menu{
+  display:none;
+  font-size:var(--fs-small);
+  color:var(--fg-dim);
+  padding:.4em 0 .4em .6em;
+  transition:color var(--d-fast) var(--e-out);
+}
+.hdr__menu:hover{color:var(--accent)}
+
+.menu{
+  position:fixed; inset:0;
+  z-index:70;
+  background:var(--milk);
+  padding:calc(var(--sp-24) + 40px) var(--pad-x) var(--sp-16);
+  display:flex; flex-direction:column; justify-content:space-between;
+  opacity:0;
+  transition:opacity 420ms var(--e-out);
+  overflow-y:auto;
+}
+.menu.is-open{opacity:1}
+.menu[hidden]{display:none}
+.menu__nav{display:flex; flex-direction:column; gap:var(--sp-4)}
+.menu__nav a{
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem, 8vw, 2.6rem);
+  font-weight:300;
+  line-height:1.15;
+  padding-block:.12em;
+}
+.menu__foot{
+  display:flex; flex-direction:column; gap:var(--sp-2);
+  margin-top:var(--sp-16);
+  font-size:var(--fs-small);
+  color:var(--fg-dim);
+}
+
+@media (max-width:768px){
+  .hdr__menu{display:block}
+  .hdr__act{display:none}   /* дію дублює липка панель унизу */
+}
+
+/* --------------------------------------------------------------------------
+   ЛИПКА ПАНЕЛЬ
+   -------------------------------------------------------------------------- */
+.callbar{
+  position:fixed; left:0; right:0; bottom:0;
+  z-index:55;
+  display:none;
+  gap:1px;
+  background:var(--rule);
+  border-top:1px solid var(--rule);
+  transform:translateY(101%);
+  transition:transform 620ms var(--e-out);
+}
+.callbar.is-up{transform:translateY(0)}
+.callbar__a{
+  flex:1;
+  padding:1.05em .8em;
+  text-align:center;
+  font-size:var(--fs-small);
+  background:var(--milk);
+  color:var(--accent);
+}
+.callbar__a--quiet{color:var(--fg-dim)}
+
+@media (max-width:768px){
+  .callbar{display:flex}
+  /* щоб панель не перекривала останні рядки футера */
+  .foot{padding-bottom:calc(var(--sp-12) + 3.6em)}
+}

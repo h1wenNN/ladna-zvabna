@@ -58,6 +58,26 @@
       <a href="#price">Ціни</a>
     </nav>
     <a class="hdr__act" href="https://instagram.com/ladna_zvabna" rel="noopener">Написати</a>
+
+    <!-- Кнопку створює JS: без нього меню не потрібне, бо посилання
+         й так є у футері, а сторінка гортається як звичайна. -->
+  </div>
+
+  <div class="menu" id="menu" hidden>
+    <nav class="menu__nav" aria-label="Розділи сайту">
+      <a href="#story">Історія</a>
+      <a href="#meaning">Ладна-Звабна</a>
+      <a href="#space">Простір</a>
+      <a href="#consult">Консультація</a>
+      <a href="#care">Догляди</a>
+      <a href="#price">Ціни</a>
+      <a href="#book">Запис</a>
+    </nav>
+    <div class="menu__foot">
+      <a class="link link--grow" href="tel:+380756860912">+380&nbsp;75&nbsp;686&nbsp;09&nbsp;12</a>
+      <a class="link link--grow" href="https://instagram.com/ladna_zvabna" rel="noopener">@ladna_zvabna</a>
+      <span>Бровари, вул.&nbsp;Симоненка,&nbsp;30А</span>
+    </div>
   </div>
 </header>
 
@@ -492,15 +512,17 @@
         як виглядає шкіра, коли про&nbsp;неї послідовно дбають.</p>
     </div>
 
-    <div class="lane-inset compare__pair">
-      <figure class="compare__side">
+    <!-- Без JS це два кадри поруч — чесно й читабельно.
+         JS складає їх у накладену пару з повзунком (див. ui.js). -->
+    <div class="lane-inset compare__pair" data-compare>
+      <figure class="compare__side" data-side="before">
         <!-- SHOT: реальне фото на початку курсу, 1:1, рівне світло, той самий ракурс -->
-        <div class="arch arch--soft ph"><span class="ph__note">кадр очікується</span></div>
+        <div class="arch arch--soft ph ph--cool"><span class="ph__note">кадр очікується</span></div>
         <figcaption>на початку курсу</figcaption>
       </figure>
-      <figure class="compare__side">
+      <figure class="compare__side" data-side="after">
         <!-- SHOT: те саме обличчя за кілька сеансів, 1:1, ТЕ САМЕ світло і ракурс -->
-        <div class="arch arch--soft ph"><span class="ph__note">кадр очікується</span></div>
+        <div class="arch arch--soft ph ph--warm"><span class="ph__note">кадр очікується</span></div>
         <figcaption>за кілька сеансів</figcaption>
       </figure>
     </div>
@@ -630,6 +652,7 @@
 
 <script src="assets/js/vendor/lenis.min.js" defer></script>
 <script src="assets/js/main.js" defer></script>
+<script src="assets/js/ui.js" defer></script>
 
 </body>
 </html>
