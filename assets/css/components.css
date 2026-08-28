@@ -13,6 +13,15 @@
      Делікатнішу поведінку (прозора над героєм, проявляється після скролу)
      додасть Етап 5 разом із мобільним меню. */
   background:var(--milk);
+  transition:transform 700ms var(--e-out), opacity 700ms var(--e-out);
+}
+/* Над сценою «Друге народження» шапка йде геть. Молочна смуга, що проїжджає
+   поверх темної сцени, розрізає найважливіший момент сайту навпіл.
+   Три екрани без навігації — це не втрата, це і є задумана пауза. */
+.hdr--away{
+  transform:translateY(-100%);
+  opacity:0;
+  pointer-events:none;
 }
 .hdr__in{
   display:flex; align-items:center; gap:var(--sp-8);
@@ -103,18 +112,81 @@
    -------------------------------------------------------------------------- */
 .story{
   position:relative;
-  padding-block:calc(var(--sp-section) * 1.2);
-  overflow:hidden;
+  padding-block:calc(var(--sp-section) * 1.4);
+  overflow:clip;
+  isolation:isolate;
+
+  /* Прогрес сцени 0…1 і колір її світла. Обидва оновлює main.js за скролом.
+     Значення нижче — це стан БЕЗ JS: сцена вже «прогріта», світло мідне.
+     Тому статична версія виглядає завершеною, а не недоробленою. */
+  --scene:1;
+  --scene-c:182,112,92;
 }
+
+/* Розтушовані межі замість анімації кольору тла.
+   Майстер-промпт хотів перехід тла через scrub, але тоді світлий текст
+   проходить крізь напівсвітлі проміжні стани і стає нечитабельним при
+   швидкому скролі. Градієнт дає те саме занурення з гарантованим контрастом.
+   Обидві смуги лежать усередині padding — тексту в них не буває. */
+.story::before,
+.story::after{
+  content:'';
+  position:absolute; left:0; right:0;
+  height:clamp(140px, 20vh, 280px);
+  pointer-events:none;
+  z-index:3;
+}
+.story::before{
+  top:0;
+  background:linear-gradient(180deg,
+    var(--milk) 0%, rgba(247,245,240,.72) 34%, rgba(247,245,240,0) 100%);
+}
+.story::after{
+  bottom:0;
+  background:linear-gradient(0deg,
+    var(--milk) 0%, rgba(247,245,240,.72) 34%, rgba(247,245,240,0) 100%);
+}
+
+/* Світло сцени. Дві плями: перша веде колір від холодного до мідного,
+   друга лишається прохолодною і не дає першій стати рекламною. */
+.story__light{
+  position:absolute; inset:-20%;
+  z-index:-1;
+  pointer-events:none;
+  filter:blur(90px);
+  background:
+    radial-gradient(ellipse 52% 40% at 28% calc(18% + var(--scene) * 46%),
+      rgba(var(--scene-c), .40), transparent 68%),
+    radial-gradient(ellipse 46% 34% at 78% calc(76% - var(--scene) * 40%),
+      rgba(140,152,136,.20), transparent 64%);
+}
+
 .story__beat + .story__beat{margin-top:clamp(64px, 12vh, 160px)}
 .story .measure{font-size:var(--fs-lead); line-height:1.55; max-width:38ch}
+
+/* Кадр завмирає. Нативний sticky: скрол лишається нативним,
+   жодного перехоплення — скрол-джекінг заборонений (п. 4.4). */
+.story__hold{
+  min-height:140vh;
+  margin-top:clamp(64px, 12vh, 160px);
+}
+.story__beat--hold{
+  position:sticky;
+  top:26vh;
+  text-align:center;
+  padding-block:clamp(24px, 6vh, 80px);
+  margin-top:0 !important;
+}
+@media (max-width:768px){
+  .story__hold{min-height:92vh}
+  .story__beat--hold{top:22vh}
+}
 
 .story__intro{
   font-size:var(--fs-lead);
   line-height:1.5;
   margin-top:var(--sp-4);
 }
-.story__beat--hold{text-align:center; padding-block:clamp(24px, 6vh, 80px)}
 .story__h{
   font-size:clamp(2.6rem, 7vw, 6rem);
   line-height:1;
@@ -132,13 +204,17 @@
   background:linear-gradient(90deg,
     rgba(201,136,115,.25), rgba(201,136,115,.85) 50%, rgba(201,136,115,.25));
   transform-origin:left;
+  transform:scaleX(var(--path, 1));   /* без JS лінія вже намальована */
+}
+.path__dot--to{
+  opacity:calc(var(--path, 1) * var(--path, 1));  /* кінцева точка з'являється в кінці */
 }
 .path__dot{
   width:7px; height:7px; border-radius:50%;
   background:var(--accent-line);
   flex:0 0 auto;
 }
-.path__dot--from{opacity:.5}
+.path__dot--from{opacity:.55}
 .path__labels{
   display:flex; justify-content:space-between;
   max-width:760px; margin:var(--sp-3) auto 0;

@@ -110,6 +110,11 @@
      Без JS це просто послідовність абзаців, і вона має зворушувати.
      ================================================================== -->
 <section class="story on-dark" id="story" aria-labelledby="story-h">
+  <!-- Світло сцени. Колір інтерполюється за прогресом скролу: холодний
+       сіро-зелений на початку -> мідний на «диві». Текст не чіпаємо взагалі,
+       тому контраст лишається передбачуваним у кожному кадрі. -->
+  <div class="story__light" aria-hidden="true"></div>
+
   <div class="wrap">
 
     <div class="story__beat" data-beat="1">
@@ -120,8 +125,12 @@
       </p>
     </div>
 
-    <div class="story__beat story__beat--hold" data-beat="2">
-      <h2 class="story__h" id="story-h">Вона почалася<br>з&nbsp;порятунку</h2>
+    <!-- Кадр завмирає: заголовок прилипає на 140vh нативним position:sticky.
+         Без JS і без бібліотек — і без ризику перехопити скрол. -->
+    <div class="story__hold">
+      <div class="story__beat story__beat--hold" data-beat="2">
+        <h2 class="story__h" id="story-h">Вона почалася<br>з&nbsp;порятунку</h2>
+      </div>
     </div>
 
     <div class="story__beat" data-beat="3">

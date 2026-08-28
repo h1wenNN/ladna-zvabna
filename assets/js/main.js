@@ -134,7 +134,24 @@
      ==================================================================== */
   var thread   = document.querySelector('.thread');
   var parallax = Array.prototype.slice.call(document.querySelectorAll('[data-par]'));
+  var story    = document.querySelector('.story');
+  var pathLine = document.querySelector('.story__beat--path');
   var ticking  = false;
+
+  /* Плавна сходинка: 0 до порога, 1 після, і м'яко між ними.
+     Потрібна, щоб перехід світла стався в конкретному місці сцени,
+     а не розмазався рівномірно по всій її довжині. */
+  function smoothstep(a, b, x) {
+    var t = Math.min(1, Math.max(0, (x - a) / (b - a)));
+    return t * t * (3 - 2 * t);
+  }
+  function clamp01(x) { return Math.min(1, Math.max(0, x)); }
+
+  /* Колір світла сцени: холодний сіро-зелений -> мідний.
+     Це шар ПІД текстом; сам текст не чіпаємо ніде, тому контраст
+     лишається передбачуваним у кожному кадрі. */
+  var COLD = [122, 134, 120];
+  var WARM = [182, 112,  92];
 
   function frame() {
     ticking = false;
@@ -144,6 +161,34 @@
       var max = document.documentElement.scrollHeight - window.innerHeight;
       var p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 1;
       thread.style.setProperty('--thread', p.toFixed(4));
+    }
+
+    /* ---- Сцена «Друге народження» ----
+       Прогрес 0 — сцена щойно торкнулася низу екрана,
+       1 — повністю пішла вгору. */
+    if (story) {
+      var sr = story.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var sp = clamp01(1 - sr.bottom / (sr.height + vh));
+      story.style.setProperty('--scene', sp.toFixed(3));
+
+      /* Диво стається не одразу: світло тепліє між 45% і 80% сцени */
+      var warmth = smoothstep(0.45, 0.80, sp);
+      var c = [
+        Math.round(COLD[0] + (WARM[0] - COLD[0]) * warmth),
+        Math.round(COLD[1] + (WARM[1] - COLD[1]) * warmth),
+        Math.round(COLD[2] + (WARM[2] - COLD[2]) * warmth)
+      ];
+      story.style.setProperty('--scene-c', c.join(','));
+    }
+
+    /* ---- Лінія Херсон -> Бровари ----
+       Малюється, поки блок іде від нижньої третини екрана до середини. */
+    if (pathLine) {
+      var pr = pathLine.getBoundingClientRect();
+      var vh2 = window.innerHeight;
+      var draw = clamp01((vh2 * 0.86 - pr.top) / (vh2 * 0.42));
+      pathLine.style.setProperty('--path', (draw * draw * (3 - 2 * draw)).toFixed(3));
     }
 
     for (var i = 0; i < parallax.length; i++) {
@@ -162,14 +207,27 @@
     if (!ticking) { ticking = true; requestAnimationFrame(frame); }
   }
 
-  if (thread || parallax.length) {
+  if (thread || parallax.length || story || pathLine) {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     frame();
   }
 
   /* ====================================================================
-     5. ФОНОВЕ ВІДЕО
+     5. ШАПКА НАД ТЕМНОЮ СЦЕНОЮ
+     Ховається, поки сцена історії займає верх екрана. Окремий спостерігач,
+     а не перевірка в rAF-циклі: стан змінюється двічі за всю сторінку,
+     рахувати його 60 разів на секунду немає сенсу.
+     ==================================================================== */
+  var hdr = document.querySelector('.hdr');
+  if (hdr && story) {
+    new IntersectionObserver(function (entries) {
+      hdr.classList.toggle('hdr--away', entries[0].isIntersecting);
+    }, { rootMargin: '-1px 0px -85% 0px', threshold: 0 }).observe(story);
+  }
+
+  /* ====================================================================
+     6. ФОНОВЕ ВІДЕО
      Швидкість задається тут, а не у файлі: менша вага, більша плавність.
      ==================================================================== */
   var vids = document.querySelectorAll('video[data-slow]');
@@ -178,7 +236,7 @@
   }
 
   /* ====================================================================
-     6. ПРЕЛОАДЕР
+     7. ПРЕЛОАДЕР
      До 1.8 с, один раз за сесію. Лінія логотипа малюється, слово
      проявляється, шар РОЗЧИНЯЄТЬСЯ світлом — не злітає вгору.
      Ніяких відсотків, ніякої смужки прогресу (п. 4.4).
@@ -217,7 +275,7 @@
   }
 
   /* ====================================================================
-     7. ЩО ПІШЛО НЕ ТАК
+     8. ЩО ПІШЛО НЕ ТАК
      Якщо помилка станеться вже після старту — краще показати статичну
      сторінку, ніж лишити людину перед порожнім екраном.
      ==================================================================== */
