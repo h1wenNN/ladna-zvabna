@@ -61,36 +61,78 @@
 /* --------------------------------------------------------------------------
    5.1 ГЕРОЙ
    -------------------------------------------------------------------------- */
-/* Джерело — кадр 720px завширшки, розтягнутий на всю ширину екрана.
-   Мікророзмиття прибирає артефакти апскейлу й перетворює фото на те, чим
-   воно тут і має бути: атмосферну пляму світла, а не різкий знімок.
-   ПРИБРАТИ, коли приїде реальний фотосет (див. PROGRESS.md). */
-.hero__media img,
-.hero__media video{filter:blur(1.6px)}
 .hero{
   position:relative;
-  min-height:clamp(560px, 88vh, 940px);
-  display:flex; align-items:flex-end;
-  padding-block:var(--sp-24) var(--sp-section);
-  overflow:hidden;
+  min-height:clamp(620px, 92vh, 1000px);
+  display:flex; align-items:center;
+  padding-block:clamp(48px, 8vh, 120px) var(--sp-section);
+  overflow:clip;
   isolation:isolate;
 }
-.hero__media{position:absolute; inset:0; z-index:-1}
-.hero__media img,
-.hero__media video{width:100%; height:100%; object-fit:cover; object-position:center 32%}
+.hero__in{width:100%; align-items:center; row-gap:clamp(40px, 7vh, 80px)}
 
-.hero__in{position:relative; width:100%}
-.hero__title{margin-block:var(--sp-6) var(--sp-8); max-width:16ch}
-.hero__title em{
-  font-style:italic;
-  color:var(--accent);
-  display:inline-block;
+.hero__text{grid-column:1 / span 6}
+.hero__title{
+  margin-block:var(--sp-6) var(--sp-8);
+  /* Щільніше й крупніше за решту сайту: це єдиний екран, у якого є
+     дві секунди, щоб зачепити. */
+  font-size:clamp(3rem, 6.4vw, 7rem);
+  line-height:.92;
+  letter-spacing:-.028em;
 }
-.hero .lead{margin-bottom:var(--sp-12)}
+.hero__title em{font-style:italic; color:var(--accent); display:inline-block}
+.hero .lead{margin-bottom:var(--sp-12); max-width:34ch}
+.hero__acts{display:flex; flex-wrap:wrap; gap:var(--sp-8); align-items:baseline}
 
-@media (max-width:768px){
-  .hero{min-height:82vh; padding-block:var(--sp-16) var(--sp-16)}
-  .hero__title{max-width:none}
+/* Кадр праворуч, притиснутий до поля і зміщений униз — сітка не має
+   читатися як дві рівні половини. Ширина обмежена так, щоб АРКА ЦІЛКОМ
+   вміщалася в екран: 3/4 від 420px це 560px плюс підпис. */
+.hero__frame{
+  grid-column:8 / span 5;
+  position:relative;
+  width:min(420px, 100%);
+  margin-left:auto;
+  margin-top:clamp(0px, 5vh, 56px);
+}
+.hero__frame .arch{box-shadow:var(--shadow-lift)}
+.hero__cap{
+  display:flex; align-items:center; gap:var(--sp-3);
+  margin-top:var(--sp-6);
+  font-size:var(--fs-mini);
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--fg-dim);
+}
+.hero__cap-line{
+  width:clamp(28px, 4vw, 56px); height:1px;
+  background:var(--accent-line);
+  flex:0 0 auto;
+}
+
+@media (max-width:1024px){
+  .hero{min-height:auto; padding-block:var(--sp-16) var(--sp-section)}
+  .hero__text{grid-column:1 / -1}
+  .hero__frame{grid-column:1 / -1; margin-top:0; width:min(440px, 100%)}
+  .hero__title{font-size:clamp(3rem, 9vw, 5rem)}
+}
+/* На телефоні кадр іде ПЕРШИМ. Під текстом він не влазив у екран —
+   від нього лишалася смужка, і перше враження було без обличчя.
+   Зверху широка арка займає чверть екрана, а заголовок і дія
+   лишаються поруч із нею, не йдучи за згин. */
+@media (max-width:640px){
+  .hero{padding-block:var(--sp-8) var(--sp-16)}
+  .hero__in{row-gap:var(--sp-8)}
+  .hero__frame{order:-1; width:100%; margin-top:0}
+  .hero__frame .arch{
+    aspect-ratio:16 / 10;
+    border-radius:30% 30% var(--arch-foot) var(--arch-foot) / 26% 26% 1% 1%;
+  }
+  .hero__cap{margin-top:var(--sp-4)}
+  /* Мітка й підпис під кадром обидва кажуть «Бровари». На вузькому екрані
+     мітка до того ж ламається на два рядки — лишаємо щось одне. */
+  .hero__text > .mini{display:none}
+  .hero__title{margin-block:0 var(--sp-6); font-size:clamp(2.7rem, 10.5vw, 4rem)}
+  .hero .lead{margin-bottom:var(--sp-8)}
+  .hero__acts{gap:var(--sp-6)}
 }
 
 /* --------------------------------------------------------------------------
@@ -247,17 +289,28 @@
   align-items:start;
 }
 .pair__col--l{justify-self:start; text-align:left}
-.pair__col--r{justify-self:end; text-align:right; margin-top:clamp(40px, 10vh, 120px)}
+.pair__col--r{justify-self:end; text-align:right; margin-top:clamp(56px, 22vh, 240px)}
+/* Ці два слова — центральна ідея бренду, і вони мають працювати
+   як плакат, а не як підзаголовок. Кегль майже вдвічі більший за h1
+   решти сайту: саме він тримає секцію, у якій більше нічого немає. */
 .pair__word{
   font-family:var(--font-display);
   font-weight:300;
-  font-size:clamp(2.6rem, 8vw, 6.4rem);
-  line-height:1;
-  letter-spacing:-.02em;
+  font-size:clamp(3.4rem, 13vw, 11rem);
+  line-height:.86;
+  letter-spacing:-.035em;
   color:var(--accent);
 }
+.pair__word::after{
+  content:'';
+  display:block;
+  width:clamp(60px, 8vw, 130px); height:1px;
+  margin-top:clamp(16px, 2vh, 28px);
+  background:var(--accent-line);
+}
+.pair__col--r .pair__word::after{margin-left:auto}
 .pair__def{
-  margin-top:var(--sp-4);
+  margin-top:var(--sp-6);
   font-size:var(--fs-body);
   color:var(--fg-dim);
   line-height:1.5;
@@ -288,16 +341,39 @@
 /* --------------------------------------------------------------------------
    5.5 ПРИТЧА
    -------------------------------------------------------------------------- */
-.parable{background:var(--bg-soft)}
+/* Друга — і остання — темна сцена сайту. Притчу читають повільно,
+   і темрява дає їй камерність сторінки, освітленої свічкою.
+   Разом із історією це дві опори, між якими сайт світлий. */
+.parable{
+  position:relative;
+  overflow:clip;
+  isolation:isolate;
+  padding-block:calc(var(--sp-section) * 1.25);
+}
+.parable::before,
+.parable::after{
+  content:'';
+  position:absolute; left:0; right:0;
+  height:clamp(120px, 16vh, 220px);
+  pointer-events:none; z-index:3;
+}
+.parable::before{top:0;    background:linear-gradient(180deg, #E6E2D6, rgba(230,226,214,0))}
+.parable::after {bottom:0; background:linear-gradient(0deg,   var(--milk), rgba(247,245,240,0))}
+.parable__light{
+  position:absolute; inset:-20%; z-index:-1; pointer-events:none;
+  filter:blur(100px);
+  background:radial-gradient(ellipse 44% 34% at 50% 42%, rgba(var(--rgb-copper),.30), transparent 68%);
+}
 .parable .measure + .measure{margin-top:var(--sp-6)}
 
+.parable .measure{font-size:var(--fs-lead); line-height:1.6}
 .parable__end{
   margin-top:clamp(48px, 8vh, 96px);
   padding-top:var(--sp-8);
   border-top:1px solid var(--rule);
   font-family:var(--font-display);
-  font-size:clamp(1.3rem, 2.6vw, 2rem);
-  line-height:1.35;
+  font-size:clamp(1.5rem, 3vw, 2.4rem);
+  line-height:1.3;
 }
 .parable__end em{font-style:italic; color:var(--accent)}
 .parable__end p + p{margin-top:var(--sp-4)}
@@ -307,6 +383,7 @@
    5.6 ПРОСТІР
    -------------------------------------------------------------------------- */
 .space__text{align-self:center}
+.space .lane-media-l{align-self:center}
 .space__text h2{margin-block:var(--sp-4) var(--sp-6)}
 .space__text h2 em{font-style:italic; color:var(--accent)}
 .space__scatter{margin-top:clamp(56px, 10vh, 140px)}
@@ -329,7 +406,13 @@
    5.7 КОНСУЛЬТАЦІЯ
    Нативний ексклюзивний акордеон на <details name>. Без жодного JS.
    -------------------------------------------------------------------------- */
-.consult h2{margin-block:var(--sp-4) var(--sp-6)}
+/* Питання — це і є вся секція. Хай воно й тримає екран:
+   без нього тут лишається сірий список і більше нічого. */
+.consult h2{
+  margin-block:var(--sp-4) var(--sp-6);
+  font-size:clamp(2.6rem, 6vw, 5.2rem);
+  line-height:.98;
+}
 .quiz{margin-top:clamp(48px, 8vh, 110px); max-width:760px}
 
 .quiz__item{border-top:1px solid var(--rule)}
@@ -407,12 +490,25 @@
 .care__head{text-align:right}
 .care__head .measure{margin-left:auto}
 @media (max-width:1024px){ .care__head{text-align:left} .care__head .measure{margin-left:0} }
-.care__groups{
-  margin-top:clamp(56px, 10vh, 140px);
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:clamp(40px, 6vw, 96px);
+/* Кадр у порожній лівій колонці. Без нього секція — найдовший
+   суцільний текст на сайті, і око не має за що зачепитися. */
+.care__aside{grid-column:1 / span 5; align-self:start; margin-top:clamp(16px, 3vh, 48px)}
+.care__aside .arch{box-shadow:var(--shadow-soft)}
+.care__aside figcaption{
+  margin-top:var(--sp-4);
+  font-size:var(--fs-mini);
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--fg-dim);
 }
+.care__groups{
+  grid-column:7 / -1;
+  margin-top:clamp(16px, 3vh, 48px);
+  display:grid;
+  grid-template-columns:1fr;
+  gap:clamp(48px, 7vh, 90px);
+}
+@media (max-width:1024px){ .care__groups{grid-column:1 / -1; margin-top:var(--sp-12)} }
+@media (max-width:1024px){ .care__aside{grid-column:1 / -1; max-width:340px} }
 .care__gh{
   display:flex; flex-wrap:wrap; align-items:baseline; gap:.7em;
   padding-bottom:var(--sp-4);
@@ -462,11 +558,12 @@
 /* --------------------------------------------------------------------------
    5.9 ДО / ПІСЛЯ
    -------------------------------------------------------------------------- */
+.compare{padding-block:clamp(90px, 13vh, 170px)}
 .compare h2{margin-block:var(--sp-4) var(--sp-6)}
 .compare__head{text-align:center}
 .compare__head .measure{margin-inline:auto}
 .compare__pair{
-  margin-top:clamp(48px, 8vh, 110px);
+  margin-top:clamp(40px, 6vh, 80px);
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:clamp(20px, 4vw, 64px);
@@ -488,11 +585,24 @@
    5.10 ЦІНИ
    -------------------------------------------------------------------------- */
 .price h2{margin-block:var(--sp-4) var(--sp-6)}
-.price__cols{margin-top:clamp(48px, 8vh, 110px)}
-.price__group + .price__group{margin-top:clamp(48px, 7vh, 96px)}
+/* Дві групи поруч, а не одна під одною. Вертикально це була
+   найдовша суцільна текстова стіна на сайті — майже два екрани
+   без жодного місця, де око могло б перепочити. */
+.price__cols{
+  margin-top:clamp(48px, 8vh, 110px);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(40px, 5vw, 88px);
+  align-items:start;
+}
+.price__foot{grid-column:1 / -1}
+@media (max-width:900px){
+  .price__cols{grid-template-columns:1fr; gap:clamp(48px, 7vh, 88px)}
+}
 .price__gh{
   font-size:var(--fs-h3);
   padding-bottom:var(--sp-4);
+  border-bottom:1px solid var(--rule);
 }
 .price__foot{
   margin-top:var(--sp-12);
@@ -505,6 +615,7 @@
 /* --------------------------------------------------------------------------
    5.11 ЗАПИС
    -------------------------------------------------------------------------- */
+.book{padding-bottom:clamp(80px, 10vh, 140px)}
 .book__text{align-self:center}
 .book__text h2{margin-block:var(--sp-4) var(--sp-6)}
 .book__acts{
@@ -537,11 +648,24 @@
 /* --------------------------------------------------------------------------
    5.12 ФУТЕР
    -------------------------------------------------------------------------- */
-.foot{padding-block:var(--sp-16) var(--sp-12)}
+/* Темний футер закриває сайт так само, як темна сцена його тримає
+   посередині. Світлий губився і читався як обрив. */
+.foot{
+  padding-block:clamp(80px, 12vh, 150px) var(--sp-16);
+  position:relative;
+  overflow:clip;
+}
+.foot::before{
+  content:'';
+  position:absolute; top:0; left:0; right:0;
+  height:clamp(100px, 14vh, 180px);
+  background:linear-gradient(180deg, var(--milk), rgba(247,245,240,0));
+  pointer-events:none;
+}
 .foot__rule{
   width:clamp(160px, 22vw, 300px);
   color:var(--accent-line);
-  opacity:.7;
+  opacity:.85;
   margin-bottom:var(--sp-16);
 }
 .foot__grid{
@@ -550,7 +674,7 @@
   gap:var(--sp-12);
   align-items:end;
 }
-.foot__word{width:150px; color:var(--ink); margin-bottom:var(--sp-3)}
+.foot__word{width:170px; color:var(--fg); margin-bottom:var(--sp-4)}
 .foot__contacts{
   display:flex; flex-direction:column; gap:var(--sp-2);
   font-style:normal;
@@ -579,7 +703,7 @@
    -------------------------------------------------------------------------- */
 .compare__pair--live{
   display:block;
-  max-width:560px;
+  max-width:min(600px, 100%);
   margin-inline:auto;
 }
 .cmp{

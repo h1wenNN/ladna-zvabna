@@ -110,22 +110,36 @@
      3. ПРОЯВЛЕННЯ
      Стани описані в motion.css. Тут лише вмикач.
      ==================================================================== */
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      var el = e.target;
-      el.classList.add('is-in');
-      io.unobserve(el);
-      /* Знімаємо will-change після появи — інакше шар лишається в пам'яті GPU */
-      el.addEventListener('transitionend', function done() {
-        el.classList.add('is-done');
-        el.removeEventListener('transitionend', done);
-      });
+  function turnOn(e, obs) {
+    if (!e.isIntersecting) return;
+    var el = e.target;
+    el.classList.add('is-in');
+    obs.unobserve(el);
+    /* Знімаємо will-change після появи — інакше шар лишається в пам'яті GPU */
+    el.addEventListener('transitionend', function done() {
+      el.classList.add('is-done');
+      el.removeEventListener('transitionend', done);
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+  }
 
-  var watched = document.querySelectorAll('.reveal, .words, .arch-open');
-  for (var k = 0; k < watched.length; k++) { io.observe(watched[k]); }
+  /* Текст і блоки: чекаємо, поки в кадр увійде помітна частина. */
+  var ioText = new IntersectionObserver(function (en) { en.forEach(function (e) { turnOn(e, ioText); }); },
+    { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+
+  /* Арки й лінії, що «малюються», — ОКРЕМИЙ спостерігач із порогом 0.
+
+     Причина не косметична. clip-path зменшує площу, яку IntersectionObserver
+     враховує: у стартовому стані `inset(80% 0 0 0)` від елемента лишається
+     20%, і навіть повністю видима арка дає ratio ≈0.13 — нижче за поріг 0.15.
+     Тобто з одним спостерігачем арка не відкривалася НІКОЛИ.
+     Знайдено на героєві: кадр показував лише нижню смужку. */
+  var ioClip = new IntersectionObserver(function (en) { en.forEach(function (e) { turnOn(e, ioClip); }); },
+    { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+
+  var wText = document.querySelectorAll('.reveal, .words');
+  for (var k = 0; k < wText.length; k++) { ioText.observe(wText[k]); }
+  var wClip = document.querySelectorAll('.arch-open, .draw');
+  for (var q = 0; q < wClip.length; q++) { ioClip.observe(wClip[q]); }
 
   /* ====================================================================
      4. НАСКРІЗНА НИТКА ТА ПАРАЛАКС
