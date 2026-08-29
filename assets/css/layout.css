@@ -57,9 +57,10 @@
                           і не ламає position:sticky у предків */
 }
 .section--tight  {padding-block:var(--sp-breath)}
-.section--tall   {padding-block:calc(var(--sp-section) * 1.5)}
-.section--pause  {padding-block:var(--sp-section); min-height:64vh; display:grid; place-items:center}
+.section--tall   {padding-block:calc(var(--sp-section) * 1.35)}
+.section--pause  {padding-block:var(--sp-breath); min-height:42vh; display:grid; place-items:center}
 .section--soft   {background:var(--bg-soft)}
+.section--coda   {padding-block:var(--sp-breath)}
 
 /* Внутрішні відбивки */
 .stack > * + *{margin-top:var(--sp-6)}
@@ -153,20 +154,23 @@
 }
 
 /* Розсип деталей: три різні розміри, навмисно нерівний */
+/* Один ряд, а не два: у два ряди розсип займав цілий екран,
+   і нижня пара кадрів усе одно читалася як повтор верхньої. */
 .scatter{
   display:grid;
-  grid-template-columns:repeat(6,1fr);
+  grid-template-columns:repeat(10,1fr);
   gap:var(--gutter);
   align-items:end;
 }
-.scatter > :nth-child(1){grid-column:span 2}
-.scatter > :nth-child(2){grid-column:span 3; margin-top:var(--sp-12)}
-.scatter > :nth-child(3){grid-column:span 2; margin-top:calc(var(--sp-8) * -1)}
-.scatter > :nth-child(4){grid-column:span 3}
+.scatter > :nth-child(1){grid-column:span 3}
+.scatter > :nth-child(2){grid-column:span 3; margin-top:var(--sp-8)}
+.scatter > :nth-child(3){grid-column:span 4; margin-top:calc(var(--sp-6) * -1)}
+
 
 @media (max-width:768px){
   .scatter{grid-template-columns:repeat(2,1fr)}
   .scatter > *{grid-column:span 1 !important; margin-top:0 !important}
+  .scatter > :nth-child(3){grid-column:span 2 !important}
 }
 
 /* --------------------------------------------------------------------------
@@ -196,31 +200,7 @@
 @media (max-width:768px){.thread{display:none}}
 
 /* --------------------------------------------------------------------------
-   7. ПРАЙС — «меню в тихому ресторані», а не таблиця
-   -------------------------------------------------------------------------- */
-.price-list{border-top:1px solid var(--rule)}
-.price-row{
-  display:grid;
-  grid-template-columns:1fr auto;
-  align-items:baseline;
-  gap:var(--sp-6);
-  padding-block:var(--sp-4);
-  border-bottom:1px solid var(--rule);
-  transition:opacity var(--d-fast) var(--e-out);
-}
-.price-row__name{font-size:var(--fs-body)}
-.price-row__meta{display:block; font-size:var(--fs-small); color:var(--fg-dim); margin-top:.15em}
-.price-row__cost{font-weight:300; white-space:nowrap; font-variant-numeric:tabular-nums}
-
-/* При наведенні на рядок решта ледь приглушується —
-   як коли світло падає тільки на одне. Тільки для миші. */
-@media (hover:hover) and (pointer:fine){
-  .price-list:hover .price-row{opacity:.45}
-  .price-list .price-row:hover{opacity:1}
-}
-
-/* --------------------------------------------------------------------------
-   8. СЛУЖБОВЕ
+   7. СЛУЖБОВЕ
    -------------------------------------------------------------------------- */
 .flow-row{display:flex; flex-wrap:wrap; gap:var(--sp-6); align-items:center}
 .flow-col{display:flex; flex-direction:column; gap:var(--sp-4)}

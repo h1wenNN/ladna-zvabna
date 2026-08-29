@@ -49,7 +49,7 @@
 <link rel="preload" as="image" type="image/webp" fetchpriority="high"
       href="assets/img/interior/hero.webp"
       imagesrcset="assets/img/interior/hero-520.webp 520w, assets/img/interior/hero.webp 720w"
-      imagesizes="(max-width: 1024px) 92vw, 420px">
+      imagesizes="(max-width: 1024px) 100vw, 46vw">
 <link rel="preload" href="assets/fonts/cormorant-infant-300.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/onest-300.woff2" as="font" type="font/woff2" crossorigin>
 <!-- Зібраний CSS: чотири джерела в assets/css/ склеєні й стиснуті скриптом
@@ -88,8 +88,7 @@
     <nav class="hdr__nav" aria-label="Основна навігація">
       <a href="#story">Історія</a>
       <a href="#space">Простір</a>
-      <a href="#care">Догляди</a>
-      <a href="#price">Ціни</a>
+      <a href="#care">Догляди й&nbsp;ціни</a>
     </nav>
     <a class="hdr__act" href="https://instagram.com/ladna_zvabna" rel="noopener">Написати</a>
 
@@ -103,8 +102,7 @@
       <a href="#meaning">Ладна-Звабна</a>
       <a href="#space">Простір</a>
       <a href="#consult">Консультація</a>
-      <a href="#care">Догляди</a>
-      <a href="#price">Ціни</a>
+      <a href="#care">Догляди й&nbsp;ціни</a>
       <a href="#book">Запис</a>
     </nav>
     <div class="menu__foot">
@@ -157,7 +155,7 @@
         <picture>
           <source type="image/webp"
                   srcset="assets/img/interior/hero-520.webp 520w, assets/img/interior/hero.webp 720w"
-                  sizes="(max-width: 1024px) 92vw, 420px">
+                  sizes="(max-width: 1024px) 100vw, 46vw">
           <img src="assets/img/interior/hero.jpg"
                alt="Кава й запалена свічка на срібній таці, різьблений столик у салоні"
                width="720" height="748" fetchpriority="high" decoding="async">
@@ -249,7 +247,7 @@
   </div>
 </section>
 
-<section class="section story__out" data-beat="7">
+<section class="section section--coda story__out" data-beat="7">
   <div class="glow" style="--gx:52%;--gy:30%;--ga:.14" aria-hidden="true"></div>
   <div class="wrap grid">
     <div class="lane-inset">
@@ -366,24 +364,16 @@
         <figure class="media">
           <div class="arch arch--soft arch--framed">
             <picture>
-            <source srcset="assets/img/details/d-ficus.webp" type="image/webp">
-            <img src="assets/img/details/d-ficus.jpg" alt="Зелень біля вікна, м’яке денне світло" width="640" height="640" loading="lazy" decoding="async">
-          </picture>
-          </div>
-        </figure>
-        <figure class="media">
-          <div class="arch arch--wide arch--framed">
-            <picture>
             <source srcset="assets/img/details/d-terrazzo.webp" type="image/webp">
-            <img src="assets/img/details/d-terrazzo.jpg" alt="Квіткове крісло на підлозі з тераццо" width="640" height="640" loading="lazy" decoding="async">
+            <img src="assets/img/details/d-terrazzo.jpg" alt="Квіткова оббивка крісла й підлога з тераццо" width="560" height="560" loading="lazy" decoding="async">
           </picture>
           </div>
         </figure>
         <figure class="media">
-          <div class="arch arch--soft arch--framed">
+          <div class="arch arch--framed">
             <picture>
-            <source srcset="assets/img/details/d-glass.webp" type="image/webp">
-            <img src="assets/img/details/d-glass.jpg" alt="Біла шафа зі склом, флакони на полицях" width="640" height="640" loading="lazy" decoding="async">
+            <source srcset="assets/img/details/d-portrait.webp" type="image/webp">
+            <img src="assets/img/details/d-portrait.jpg" alt="Картина в позолоченій рамі на стіні салону" width="540" height="720" loading="lazy" decoding="async">
           </picture>
           </div>
         </figure>
@@ -391,7 +381,7 @@
           <div class="arch arch--wide arch--framed">
             <picture>
             <source srcset="assets/img/details/d-carved.webp" type="image/webp">
-            <img src="assets/img/details/d-carved.jpg" alt="Різьблений орнамент на білому комоді" width="640" height="640" loading="lazy" decoding="async">
+            <img src="assets/img/details/d-carved.jpg" alt="Різьблений орнамент на білому комоді" width="640" height="400" loading="lazy" decoding="async">
           </picture>
           </div>
         </figure>
@@ -490,7 +480,7 @@
 <section class="section care" id="care" aria-labelledby="care-h">
   <div class="wrap grid">
     <div class="lane-right care__head">
-      <p class="mini">догляди</p>
+      <p class="mini">догляди й&nbsp;ціни</p>
       <h2 id="care-h">Те, що ми&nbsp;вміємо<br>робити повільно</h2>
       <p class="measure">Кожен догляд&nbsp;— частина курсу, а&nbsp;не&nbsp;окрема послуга.
         Один сеанс дає відпочинок, курс&nbsp;— зміну.</p>
@@ -506,40 +496,40 @@
       <figcaption>засоби, з якими працюємо</figcaption>
     </figure>
 
-    <div class="care__groups">
+    <div class="care__groups" id="price">
 
       <div class="care__group">
         <h3 class="care__gh">Догляд та&nbsp;очищення <span class="care__gm">обличчя</span></h3>
         <ul class="care__list">
           <li class="care__row">
             <span class="care__name">Механічна дерматонія обличчя</span>
-            <span class="care__desc">М’яке апаратне очищення, після якого шкіра дихає вільніше.</span>
-            <span class="care__time">60 хв</span>
+            <span class="care__cost">1200&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">60 хв</span>М’яке апаратне очищення, після якого шкіра дихає вільніше.</span>
           </li>
           <li class="care__row">
             <span class="care__name">Механічна дерматонія + ритуал ESSE</span>
-            <span class="care__desc">Те саме очищення, доповнене живильним ритуалом.</span>
-            <span class="care__time">90 хв</span>
+            <span class="care__cost">2000&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">90 хв</span>Те саме очищення, доповнене живильним ритуалом.</span>
           </li>
           <li class="care__row">
             <span class="care__name">Механічна чистка обличчя</span>
-            <span class="care__desc">Ручна робота косметолога: неквапливо й&nbsp;дбайливо.</span>
-            <span class="care__time">60 хв</span>
+            <span class="care__cost">1800&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">60 хв</span>Ручна робота косметолога: неквапливо й&nbsp;дбайливо.</span>
           </li>
           <li class="care__row">
             <span class="care__name">Механічна чистка для чутливої шкіри</span>
-            <span class="care__desc">Довший і&nbsp;делікатніший формат, коли шкірі потрібно більше уваги.</span>
-            <span class="care__time">90 хв</span>
+            <span class="care__cost">2300&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">90 хв</span>Довший і&nbsp;делікатніший формат, коли шкірі потрібно більше уваги.</span>
           </li>
           <li class="care__row">
             <span class="care__name">OxyJet&nbsp;— обличчя, шия, декольте</span>
-            <span class="care__desc">Кисневий догляд: відчуття свіжості лишається на&nbsp;кілька днів.</span>
-            <span class="care__time">120 хв</span>
+            <span class="care__cost">3000&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">120 хв</span>Кисневий догляд: відчуття свіжості лишається на&nbsp;кілька днів.</span>
           </li>
           <li class="care__row">
             <span class="care__name">OxyJet локально</span>
-            <span class="care__desc">Короткий кисневий догляд для однієї зони.</span>
-            <span class="care__time">40 хв</span>
+            <span class="care__cost">900&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">40 хв</span>Короткий кисневий догляд для однієї зони.</span>
           </li>
         </ul>
       </div>
@@ -549,36 +539,42 @@
         <ul class="care__list">
           <li class="care__row">
             <span class="care__name">Мікродермабразія&nbsp;— обличчя, шия</span>
-            <span class="care__desc">Оновлення верхнього шару: рельєф рівніший, світло на&nbsp;обличчі м’якше.</span>
-            <span class="care__time">40 хв</span>
+            <span class="care__cost">3000&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">40 хв</span>Оновлення верхнього шару: рельєф рівніший, світло на&nbsp;обличчі м’якше.</span>
           </li>
           <li class="care__row">
             <span class="care__name">Мікродермабразія + декольте</span>
-            <span class="care__desc">Те саме, з&nbsp;декольте&nbsp;— зоною, про&nbsp;яку часто забувають.</span>
-            <span class="care__time">50 хв</span>
+            <span class="care__cost">3500&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">50 хв</span>Те саме, з&nbsp;декольте&nbsp;— зоною, про&nbsp;яку часто забувають.</span>
           </li>
           <li class="care__row">
             <span class="care__name">Аквадермагенез-гідрошліфовка</span>
-            <span class="care__desc">Очищення водою, без відчуття стягнутості.</span>
-            <span class="care__time">40 хв</span>
+            <span class="care__cost">1800&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">40 хв</span>Очищення водою&nbsp;— обличчя, шия, декольте, без відчуття стягнутості.</span>
           </li>
           <li class="care__row">
             <span class="care__name">Мануальний масаж обличчя</span>
-            <span class="care__desc">Руки майстра, повільний темп. Найтихіша процедура в&nbsp;переліку.</span>
-            <span class="care__time">60 хв</span>
+            <span class="care__cost">1800&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">60 хв</span>Руки майстра, повільний темп. Найтихіша процедура в&nbsp;переліку. З&nbsp;ритуалом ESSE&nbsp;— 2600&nbsp;грн.</span>
           </li>
           <li class="care__row">
             <span class="care__name">Starvac&nbsp;— тіло</span>
-            <span class="care__desc">Вакуумний масаж: покращує кровообіг, лишає відчуття легкості.</span>
-            <span class="care__time">40 або 90 хв</span>
+            <span class="care__cost">1200&nbsp;· 1800&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">40 / 90 хв</span>Вакуумний масаж: покращує кровообіг, лишає відчуття легкості.</span>
           </li>
           <li class="care__row">
             <span class="care__name">Механічна дерматонія тіла</span>
-            <span class="care__desc">Апаратна робота з&nbsp;тілом&nbsp;— тонус без навантаження.</span>
-            <span class="care__time">60 або 90 хв</span>
+            <span class="care__cost">1200&nbsp;· 1800&nbsp;грн</span>
+            <span class="care__desc"><span class="care__time">60 / 90 хв</span>Апаратна робота з&nbsp;тілом&nbsp;— тонус без навантаження.</span>
           </li>
         </ul>
       </div>
+
+      <p class="care__foot">
+        Консультація косметолога&nbsp;— 250&nbsp;грн, 10–15&nbsp;хвилин.
+        <span>Точну вартість і&nbsp;формат курсу підберемо на&nbsp;ній&nbsp;— залежно
+          від&nbsp;вашої мети та&nbsp;стану шкіри.</span>
+      </p>
 
     </div>
   </div>
@@ -619,52 +615,6 @@
       Результат індивідуальний і&nbsp;залежить від&nbsp;багатьох речей&nbsp;—
       сну, води, віку, здоров’я та&nbsp;регулярності догляду.
     </p>
-  </div>
-</section>
-
-<!-- ==================================================================
-     5.10 ЦІНИ
-     ================================================================== -->
-<section class="section price" id="price" aria-labelledby="price-h">
-  <div class="wrap grid">
-    <div class="lane-left">
-      <p class="mini">вартість</p>
-      <h2 id="price-h">Обличчя та&nbsp;тіло</h2>
-      <p class="measure">Точну вартість і&nbsp;формат курсу підберемо на&nbsp;консультації&nbsp;—
-        залежно від&nbsp;вашої мети та&nbsp;стану шкіри.</p>
-    </div>
-
-    <div class="lane-inset price__cols">
-
-      <div class="price__group">
-        <h3 class="price__gh">Догляд та&nbsp;очищення</h3>
-        <div class="price-list">
-          <div class="price-row"><span class="price-row__name">Механічна дерматонія обличчя<span class="price-row__meta">60 хв</span></span><span class="price-row__cost">1200 грн</span></div>
-          <div class="price-row"><span class="price-row__name">Механічна дерматонія + ритуал ESSE<span class="price-row__meta">90 хв</span></span><span class="price-row__cost">2000 грн</span></div>
-          <div class="price-row"><span class="price-row__name">Механічна чистка обличчя<span class="price-row__meta">60 хв</span></span><span class="price-row__cost">1800 грн</span></div>
-          <div class="price-row"><span class="price-row__name">Механічна чистка для чутливої шкіри<span class="price-row__meta">90 хв</span></span><span class="price-row__cost">2300 грн</span></div>
-          <div class="price-row"><span class="price-row__name">OxyJet&nbsp;— обличчя, шия, декольте<span class="price-row__meta">120 хв</span></span><span class="price-row__cost">3000 грн</span></div>
-          <div class="price-row"><span class="price-row__name">OxyJet локально<span class="price-row__meta">40 хв</span></span><span class="price-row__cost">900 грн</span></div>
-        </div>
-      </div>
-
-      <div class="price__group">
-        <h3 class="price__gh">Оновлення та&nbsp;масаж</h3>
-        <div class="price-list">
-          <div class="price-row"><span class="price-row__name">Мікродермабразія&nbsp;— обличчя, шия<span class="price-row__meta">40 хв</span></span><span class="price-row__cost">3000 грн</span></div>
-          <div class="price-row"><span class="price-row__name">Мікродермабразія + декольте<span class="price-row__meta">50 хв</span></span><span class="price-row__cost">3500 грн</span></div>
-          <div class="price-row"><span class="price-row__name">Аквадермагенез-гідрошліфовка<span class="price-row__meta">обличчя, шия, декольте&nbsp;· 40 хв</span></span><span class="price-row__cost">1800 грн</span></div>
-          <div class="price-row"><span class="price-row__name">Мануальний масаж обличчя<span class="price-row__meta">60 хв&nbsp;· з&nbsp;ритуалом ESSE&nbsp;— 2600 грн</span></span><span class="price-row__cost">1800 грн</span></div>
-          <div class="price-row"><span class="price-row__name">Starvac&nbsp;— тіло<span class="price-row__meta">40 хв / 90 хв</span></span><span class="price-row__cost">1200&nbsp;· 1800 грн</span></div>
-          <div class="price-row"><span class="price-row__name">Механічна дерматонія тіла<span class="price-row__meta">60 хв / 90 хв</span></span><span class="price-row__cost">1200&nbsp;· 1800 грн</span></div>
-        </div>
-      </div>
-
-      <p class="price__foot">
-        Консультація косметолога&nbsp;— 250&nbsp;грн, 10–15&nbsp;хвилин.
-        <span>Найкращий результат дає курс, а&nbsp;не&nbsp;поодинокий сеанс.</span>
-      </p>
-    </div>
   </div>
 </section>
 

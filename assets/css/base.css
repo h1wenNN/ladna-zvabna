@@ -94,8 +94,8 @@
   /* --- Простір --- */
   --sp-2:.5rem;  --sp-3:.75rem; --sp-4:1rem;   --sp-6:1.5rem;
   --sp-8:2rem;   --sp-12:3rem;  --sp-16:4rem;  --sp-24:6rem;
-  --sp-section: clamp(120px, 18vh, 260px);   /* між секціями */
-  --sp-breath:  clamp(56px, 9vh, 120px);     /* всередині секції */
+  --sp-section: clamp(72px, 10vh, 146px);   /* між секціями */
+  --sp-breath:  clamp(44px, 6.5vh, 88px);     /* всередині секції */
   --gutter:     clamp(16px, 2vw, 32px);
   --pad-x:      clamp(20px, 6vw, 120px);
   --maxw:       1440px;
