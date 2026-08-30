@@ -1,8 +1,8 @@
 /* Чи справді палець потрапить у лінк: перевіряємо реальні зони натискання
    через elementFromPoint і шукаємо зони, що перекривають одна одну. */
-const { chromium } = require('/home/claude/lz/node_modules/playwright');
+const { launch } = require('./_browser');
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launch();
   let bad = 0;
   for (const w of [320, 375, 414, 768, 834]) {
     const p = await b.newPage({ viewport: { width: w, height: 900 }, hasTouch: true, isMobile: true });

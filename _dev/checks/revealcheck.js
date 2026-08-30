@@ -1,6 +1,6 @@
 /* Перевірка: чи лишається щось невидимим при різких переходах.
    Швидкий скрол, стрибок за якорем, Ctrl+End, відновлення позиції. */
-const { chromium } = require('/home/claude/lz/node_modules/playwright');
+const { launch } = require('./_browser');
 const URL = 'http://localhost:8899/index.html';
 const CASES = [
   ['стрибок одразу в самий низ',    async p => p.evaluate(() => scrollTo(0, document.body.scrollHeight))],
@@ -18,7 +18,7 @@ const CASES = [
     })],
 ];
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launch();
   let bad = 0;
   for (const w of [375, 768, 1440]) {
     for (const [label, act] of CASES) {

@@ -1,7 +1,7 @@
-const { chromium } = require('/home/claude/lz/node_modules/playwright');
+const { launch } = require('./_browser');
 const URL = 'http://localhost:8901/index.html';
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launch();
   const out = [];
   const say = (...a) => { const s = a.join(' '); console.log(s); out.push(s); };
 

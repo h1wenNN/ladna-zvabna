@@ -1,8 +1,8 @@
 /* Типографіка в РЕНДЕРІ, а не в коді: шукаємо рядки, на яких лишилося
    одне коротке слово (висяча частка), і слова, розрізані переносом. */
-const { chromium } = require('/home/claude/lz/node_modules/playwright');
+const { launch } = require('./_browser');
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launch();
   let bad = 0;
   for (const w of [320, 360, 375, 414, 768, 1024, 1280, 1440, 1920]) {
     const p = await b.newPage({ viewport: { width: w, height: 900 } });

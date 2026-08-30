@@ -1,9 +1,9 @@
 /* Загальна перевірка коректності: розмітка, посилання, доступність,
    фокус, стани без JS і з reduced-motion. */
-const { chromium } = require('/home/claude/lz/node_modules/playwright');
+const { launch } = require('./_browser');
 const URL = 'http://localhost:8899/index.html';
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launch();
   const bad = [];
   const say = (ok, t) => console.log((ok ? '✓ ' : '✗ ') + t);
 

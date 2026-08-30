@@ -1,8 +1,8 @@
 /* Розтушовані смуги на краях темних сцен — це білі градієнти ПОВЕРХ
    вмісту. Перевіряємо, що вони не накривають жодного рядка тексту. */
-const { chromium } = require('/home/claude/lz/node_modules/playwright');
+const { launch } = require('./_browser');
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launch();
   let bad = 0;
   for (const [w,h] of [[375,500],[375,667],[390,844],[740,360],[1024,500],[1280,600],[1440,900],[1920,1080]]) {
     const p = await b.newPage({ viewport: { width: w, height: h } });

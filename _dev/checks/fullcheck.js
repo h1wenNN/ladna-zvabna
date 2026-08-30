@@ -1,7 +1,7 @@
-const { chromium } = require('/home/claude/lz/node_modules/playwright');
+const { launch } = require('./_browser');
 const fs = require('fs');
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launch();
   const p = await b.newPage({ viewport:{width:1440,height:900} });
   await p.goto('http://localhost:8901/index.html', { waitUntil:'networkidle' });
   await p.evaluate(()=>{try{sessionStorage.setItem('lz-entered','1')}catch(e){}});

@@ -1,8 +1,8 @@
 /* Поведінка мобільного меню: відкрити, закрити, фокус-трап, Esc,
    перехід за пунктом, повторне відкриття одразу після закриття. */
-const { chromium } = require('/home/claude/lz/node_modules/playwright');
+const { launch } = require('./_browser');
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launch();
   const bad = [];
   const say = (ok, t) => { console.log((ok?'✓ ':'✗ ')+t); if (!ok) bad.push(t); };
   const open = async p => { await p.click('.hdr__menu'); await p.waitForTimeout(700); };

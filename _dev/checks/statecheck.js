@@ -2,7 +2,7 @@
    відкрите меню, розкриті пункти квізу, повзунок «до/після» в крайніх
    положеннях, фокус із клавіатури, липка панель над футером,
    а також короткі екрани (телефон у горизонталі) і збільшення шрифту. */
-const { chromium } = require('/home/claude/lz/node_modules/playwright');
+const { launch } = require('./_browser');
 const URL = 'http://localhost:8899/index.html';
 
 const VIEWS = [
@@ -26,7 +26,7 @@ const STATES = [
 ];
 
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launch();
   let total = 0;
   for (const [w, h, vname] of VIEWS) {
     for (const [sname, act] of STATES) {

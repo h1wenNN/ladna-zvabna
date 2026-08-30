@@ -9,13 +9,13 @@
    overflow:hidden/clip. Інакше згорнутий акордеон і декоративні плями
    дають десятки хибних спрацювань.
    ========================================================================== */
-const { chromium } = require('/home/claude/lz/node_modules/playwright');
+const { launch } = require('./_browser');
 const URL = process.argv[2] || 'http://localhost:8899/index.html';
 const WIDTHS = process.env.W ? process.env.W.split(',').map(Number)
   : [320, 360, 375, 414, 480, 600, 768, 834, 1024, 1180, 1280, 1366, 1440, 1600, 1920, 2560];
 
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await launch();
   let total = 0;
 
   for (const w of WIDTHS) {

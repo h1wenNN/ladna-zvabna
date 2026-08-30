@@ -1,8 +1,7 @@
 /* Відео, повзунок «до/після», плавний скрол. */
-const { chromium } = require('/home/claude/lz/node_modules/playwright');
+const { launch } = require('./_browser');
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium',
-    args: ['--autoplay-policy=no-user-gesture-required'] });
+  const b = await launch({args: ['--autoplay-policy=no-user-gesture-required'] });
   const bad = []; const say=(ok,t)=>{console.log((ok?'✓ ':'✗ ')+t); if(!ok)bad.push(t);};
 
   // ---- відео ----
