@@ -50,6 +50,7 @@
   .hdr__nav{display:none}          /* Етап 5 дасть мобільне меню */
   .hdr__in{justify-content:space-between; gap:var(--sp-4)}
   .hdr__word{width:104px}
+  :root{--hdr-h:77px}
 }
 
 /* --------------------------------------------------------------------------
@@ -63,7 +64,7 @@
    -------------------------------------------------------------------------- */
 .hero{
   position:relative;
-  min-height:calc(100svh - 90px);      /* 90px — висота шапки */
+  min-height:calc(100svh - var(--hdr-h));
   display:flex; align-items:center;
   padding-block:clamp(32px, 5vh, 72px);
   overflow:clip;
@@ -200,7 +201,11 @@
 .story::after{
   content:'';
   position:absolute; left:0; right:0;
-  height:clamp(110px, 15vh, 200px);
+  /* Висота смуги ДОРІВНЮЄ полю секції. Це не косметика: смуга — білий
+     градієнт поверх вмісту (z-index:3), і якщо вона вища за padding,
+     вона накриває перші й останні рядки тексту. На низькому екрані
+     фіксовані 110px саме це й робили. */
+  height:calc(var(--sp-section) * 1.2);
   pointer-events:none;
   z-index:3;
 }
@@ -378,7 +383,7 @@
 .parable::after{
   content:'';
   position:absolute; left:0; right:0;
-  height:clamp(100px, 13vh, 170px);
+  height:calc(var(--sp-section) * 1.1);   /* так само дорівнює полю секції */
   pointer-events:none; z-index:3;
 }
 .parable::before{top:0;    background:linear-gradient(180deg, #E6E2D6, rgba(230,226,214,0))}
@@ -721,6 +726,13 @@
    Висоту веде ui.js; тут лише те, що можна описати стилями.
    -------------------------------------------------------------------------- */
 .quiz__body{will-change:height}
+/* Страховка на закритий стан: інлайнові стилі анімації не мають лишати
+   від закритого пункту навіть смужку в кілька пікселів. */
+.quiz__item:not([open]) .quiz__body{
+  height:0 !important;
+  padding-bottom:0 !important;
+  opacity:0 !important;
+}
 
 /* --------------------------------------------------------------------------
    ПОВЗУНОК «ДО / ПІСЛЯ»
@@ -796,15 +808,17 @@
 .cmp__labels span:last-child{text-align:right}
 
 /* Плейсхолдери свідомо різного відтінку — щоб межа читалася
-   ще до того, як приїдуть реальні кадри. */
+   ще до того, як приїдуть реальні кадри. Основа світла: на піску
+   підпис «фото після зйомки» давав 3,5:1 замість потрібних 4,5:1,
+   а це єдиний текст, який пояснює порожню фігуру. */
 .ph--cool{background:
-  radial-gradient(120% 90% at 34% 26%, rgba(var(--rgb-sage),.26), transparent 62%),
-  radial-gradient(100% 80% at 74% 80%, rgba(var(--rgb-olive),.20), transparent 60%),
-  var(--sand)}
+  radial-gradient(120% 90% at 34% 26%, rgba(var(--rgb-sage),.20), transparent 62%),
+  radial-gradient(100% 80% at 74% 80%, rgba(var(--rgb-olive),.14), transparent 60%),
+  #F2EFE7}
 .ph--warm{background:
-  radial-gradient(120% 90% at 30% 20%, rgba(var(--rgb-copper),.24), transparent 62%),
-  radial-gradient(100% 80% at 78% 84%, rgba(var(--rgb-sand),.5), transparent 60%),
-  #E9DED0}
+  radial-gradient(120% 90% at 30% 20%, rgba(var(--rgb-copper),.17), transparent 62%),
+  radial-gradient(100% 80% at 78% 84%, rgba(var(--rgb-sand),.30), transparent 60%),
+  #F7F2E9}
 
 /* --------------------------------------------------------------------------
    МОБІЛЬНЕ МЕНЮ
@@ -818,31 +832,51 @@
 }
 .hdr__menu:hover{color:var(--accent)}
 
+/* Меню має вміщатися в екран БЕЗ прокрутки — сім пунктів і три рядки
+   контактів. Тому і відступи, і кегль прив'язані до висоти вікна:
+   у горизонталі телефона (360px заввишки) фіксовані 136px згори
+   й кегль 2.6rem давали 782px вмісту на 360px екрана. */
 .menu{
   position:fixed; inset:0;
   z-index:70;
   background:var(--milk);
-  padding:calc(var(--sp-24) + 40px) var(--pad-x) var(--sp-16);
+  padding:calc(clamp(72px, 15vh, 136px) + env(safe-area-inset-top, 0px))
+          calc(var(--pad-x) + env(safe-area-inset-right, 0px))
+          calc(clamp(20px, 5vh, 64px) + env(safe-area-inset-bottom, 0px))
+          calc(var(--pad-x) + env(safe-area-inset-left, 0px));
   display:flex; flex-direction:column; justify-content:space-between;
+  gap:clamp(16px, 4vh, 48px);
   opacity:0;
   transition:opacity 420ms var(--e-out);
   overflow-y:auto;
+  overscroll-behavior:contain;
 }
 .menu.is-open{opacity:1}
+/* Поки меню відкрите, ряд шапки лежить ПОВЕРХ полотна меню і не їде геть:
+   у ньому єдина кнопка закриття.
+   Підняти z-index самої .hdr не можна: полотно .menu лежить УСЕРЕДИНІ неї,
+   тобто в її ж стековому контексті, і завжди малюється над її вмістом.
+   Тому піднімаємо саме внутрішній ряд — сусіда полотна. */
+html.menu-open .hdr{transform:none; opacity:1}
+html.menu-open .hdr__in{position:relative; z-index:90}
 .menu[hidden]{display:none}
-.menu__nav{display:flex; flex-direction:column; gap:var(--sp-4)}
+.menu__nav{display:flex; flex-direction:column; gap:clamp(2px, 1.2vh, 16px)}
 .menu__nav a{
   font-family:var(--font-display);
-  font-size:clamp(1.8rem, 8vw, 2.6rem);
+  font-size:clamp(1.4rem, min(8vw, 4.4vh), 2.6rem);
   font-weight:300;
   line-height:1.15;
   padding-block:.12em;
 }
 .menu__foot{
   display:flex; flex-direction:column; gap:var(--sp-2);
-  margin-top:var(--sp-16);
+  margin-top:0;
   font-size:var(--fs-small);
   color:var(--fg-dim);
+}
+/* У дуже низькому вікні контакти стають рядком, а не стовпчиком */
+@media (max-height:420px){
+  .menu__foot{flex-direction:row; flex-wrap:wrap; gap:var(--sp-2) var(--sp-6)}
 }
 
 @media (max-width:768px){
@@ -853,6 +887,10 @@
 /* --------------------------------------------------------------------------
    ЛИПКА ПАНЕЛЬ
    -------------------------------------------------------------------------- */
+/* Безпечні зони. Метатег viewport лишається без viewport-fit=cover —
+   тобто браузер сам тримає вміст поза «чубчиком», і env() тут дорівнює
+   нулю. Відступи стоять як страховка: якщо колись знадобиться вміст
+   під самі краї екрана, нижні кнопки не поїдуть під системну смугу. */
 .callbar{
   position:fixed; left:0; right:0; bottom:0;
   z-index:55;
@@ -860,6 +898,9 @@
   gap:1px;
   background:var(--rule);
   border-top:1px solid var(--rule);
+  padding-bottom:env(safe-area-inset-bottom, 0px);
+  padding-left:env(safe-area-inset-left, 0px);
+  padding-right:env(safe-area-inset-right, 0px);
   transform:translateY(101%);
   transition:transform 620ms var(--e-out);
 }
@@ -877,5 +918,8 @@
 @media (max-width:768px){
   .callbar{display:flex}
   /* щоб панель не перекривала останні рядки футера */
-  .foot{padding-bottom:calc(var(--sp-12) + 3.6em)}
+  .foot{padding-bottom:calc(var(--sp-12) + 3.6em + env(safe-area-inset-bottom, 0px))}
 }
+/* Поки меню відкрите, панель ховається: вона однаково під полотном,
+   але її поява під час переходу смикає розкладку. */
+html.menu-open .callbar{transform:translateY(101%)}

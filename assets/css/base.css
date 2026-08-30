@@ -99,6 +99,8 @@
   --gutter:     clamp(16px, 2vw, 32px);
   --pad-x:      clamp(20px, 6vw, 120px);
   --maxw:       1440px;
+  --hdr-h:      90px;          /* висота липкої шапки — потрібна і героєві,
+                                  і відступу для якорів */
   --measure:    34ch;                        /* ширина абзацу */
 
   /* --- Рух. Числа з MASTER_PROMPT п. 4.2 — вимога, не орієнтир --- */
@@ -300,6 +302,29 @@ strong,b{font-weight:500}
   border-color:var(--rule);
 }
 .act--quiet:hover{color:var(--fg); border-color:var(--fg-dim)}
+
+/* Зона дотику. Текстовий лінк заввишки 26–30px — це 26–30px і для пальця.
+   Збільшуємо не padding (він зсунув би підкреслення від літер), а невидиму
+   область натискання: псевдоелемент поза потоком, вигляд не змінюється.
+   Тільки для вузьких екранів — на миші така область не потрібна. */
+@media (max-width:834px){
+  .link, .act, .hdr__nav a, .hdr__act, .hdr__menu, .menu__nav a, .foot a{
+    position:relative;
+  }
+  .link::before, .act::before, .hdr__nav a::before, .hdr__act::before,
+  .hdr__menu::before, .menu__nav a::before, .foot a::before{
+    content:'';
+    position:absolute;
+    left:0; right:0;
+    top:50%; height:max(100%, 44px);
+    transform:translateY(-50%);
+  }
+}
+
+/* Відступ для якорів. Шапка липка: без цього перехід за будь-яким
+   посиланням меню ставив секцію під шапку, і її верхні 77–90px
+   (у прайсі — заголовок першої групи) лишалися перекритими. */
+[id]{scroll-margin-top:calc(var(--hdr-h) + var(--sp-6))}
 
 /* --------------------------------------------------------------------------
    6. ФОКУС І ВИДІЛЕННЯ

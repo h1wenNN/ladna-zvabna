@@ -48,6 +48,14 @@
 /* Після появи знімаємо will-change — інакше шар лишається в пам'яті GPU */
 .reveal.is-done{will-change:auto}
 
+/* Блок, повз який уже проскочили (швидкий скрол, перехід за якорем,
+   відновлення позиції браузером). Анімувати те, що людина проминула,
+   безглуздо — показуємо миттєво. */
+.reveal.is-skip,
+.words.is-skip .w,
+.arch-open.is-skip,
+.draw.is-skip{transition:none !important; transition-delay:0s !important}
+
 /* Варіанти напряму. Амплітуда та сама — змінюється лише вісь. */
 .reveal--from-left {transform:translate3d(calc(var(--shift) * -1), 0, 0) scale(1.015)}
 .reveal--from-right{transform:translate3d(var(--shift), 0, 0) scale(1.015)}
@@ -203,3 +211,93 @@ html:not(.js) .words .w{opacity:1; filter:none; transform:none}
 html:not(.js) .arch-open,
 html:not(.js) .draw{clip-path:none}
 html:not(.js) .loader{display:none}
+
+/* --------------------------------------------------------------------------
+   ДРУК
+   На папір іде документ, а не сайт: назви доглядів, ціни, адреса, контакти.
+   Кадри прибрані свідомо — вони підвантажуються ліниво, і людина, яка
+   натиснула «Друк» не догортавши сторінку, отримала б аркуші з порожніми
+   рамками. Текст же на місці завжди.
+   -------------------------------------------------------------------------- */
+@media print{
+  *,*::before,*::after{
+    animation:none !important;
+    transition:none !important;
+    box-shadow:none !important;
+    text-shadow:none !important;
+    filter:none !important;
+    clip-path:none !important;
+    opacity:1 !important;
+    transform:none !important;
+  }
+  html,body{background:#fff !important; color:#000 !important; font-size:11pt}
+  /* overflow:clip на секціях існує заради світлових плям. На папері він
+     не ховає зайве, а ОБРІЗАЄ текст, який мав би перейти на наступний
+     аркуш: цитата з притчі просто зникала посеред рядка. */
+  .section,.story,.parable,.hero,.compare,.book,.foot,main{
+    overflow:visible !important; isolation:auto !important;
+  }
+  .on-dark,.story,.parable,.foot{background:#fff !important; color:#000 !important}
+  .on-dark *,.story *,.parable *,.foot *{color:#000 !important}
+
+  /* Декор, рух і навігація на папері зайві */
+  .glow,.story__light,.parable__light,.thread,.loader,.callbar,.menu,
+  .hdr__menu,.hdr__nav,.hdr__act,.skip,video,figure,picture,img,
+  .arch,.scatter,.compare__pair,.hero__frame,.path,
+  .story__beat--path{display:none !important}
+  /* Розтушовані краї темних сцен — це БІЛІ градієнти поверх тексту.
+     На екрані вони лягають на власні поля секції, але на папері секція
+     розривається інакше, і смуга накривала останні рядки цитати
+     з притчі: текст був у файлі, а на аркуші — біла пляма. */
+  .story::before,.story::after,.parable::before,.parable::after,
+  .veil,.foot::before{display:none !important; content:none !important}
+
+  /* Сітка на друк не годиться: Chromium майже не вміє розривати
+     грід-елементи між аркушами, і break-inside:avoid у них не діє —
+     цитата з притчі різалася навпіл просто по лінії згину. Звичайний
+     потік розбивається правильно. Внутрішня сітка доглядів лишається:
+     вона коротка й ділиться на дві колонки, а не на сторінки. */
+  .grid{display:block !important}
+  .lane-left,.lane-right,.lane-center,.lane-inset,.lane-wide,.lane-full,
+  .lane-media-l,.lane-media-r,.lane-media-c{width:auto !important}
+
+  .hdr{position:static !important; border-bottom:1px solid #000}
+  .hdr__in{padding-block:0 6mm}
+
+  /* Ритм сторінки в міліметрах, а не у відсотках висоти екрана:
+     vh на папері дорівнює висоті аркуша і роздуває порожнечу. */
+  .section,.story,.parable,.hero,.compare,.book{
+    padding-block:8mm !important; min-height:0 !important;
+  }
+  .story__hold{min-height:0 !important; margin-top:6mm !important}
+  .story__beat--hold{position:static !important; padding-block:0 !important}
+  .story__beat + .story__beat{margin-top:5mm !important}
+  .pair__col--r{margin-top:0 !important}
+  .verse,.verse__turn,.parable__end,.care__groups,.quiz,.book__acts,
+  .book__info,.space__scatter,.care__foot,.compare__pair{margin-top:5mm !important}
+
+  /* Квіз розкритий увесь: на папері це просто перелік порад */
+  .quiz__item .quiz__body{height:auto !important; padding-bottom:3mm !important}
+
+  .care__groups{grid-template-columns:1fr 1fr !important; gap:8mm !important}
+  /* break-inside:avoid ставимо ТІЛЬКИ на короткі блоки. На довгих
+     Chromium не переносить їх, а обрізає по лінії згину — цитата з
+     притчі так втрачала останній рядок. */
+  .care__row,.quiz__item,.book__info > div,.book__acts,h2,h3,
+  .care__gh,.mini{break-inside:avoid}
+  h2,h3,.mini{break-after:avoid}
+  /* Перелік доглядів і цін — головне, заради чого сторінку друкують.
+     Хай починається з чистого аркуша. */
+  #care{break-before:page}
+
+  /* Заголовок глави більше не липкий, тож відбивку знизу треба задати
+     явно — інакше він сідає просто на перший абзац. */
+  .story__beat--hold{margin-bottom:6mm !important}
+  .book__info{display:block !important}
+  .book__info > div{display:flex; gap:6mm; padding-block:2mm; border-bottom:1px solid #ddd}
+  .book__info dt{min-width:28mm}
+
+  /* Адреси посилань не друкуємо: телефон, адреса й нік і так на аркуші,
+     а «(https://maps.google.com/?q=…)» перетворює контакти на кашу. */
+  a::after{content:"" !important}
+}

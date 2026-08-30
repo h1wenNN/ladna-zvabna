@@ -28,48 +28,108 @@
      ==================================================================== */
   var items = Array.prototype.slice.call(document.querySelectorAll('.quiz__item'));
 
-  /* Кожен пункт тримає свій таймер завершення. Без цього швидкі кліки
-     влаштовують гонку: таймер попереднього відкриття спрацьовує ПІСЛЯ
-     закриття і повертає height:auto закритому пункту — наступне
-     розкриття тоді не анімується. Знайдено тестом на 4 кліки поспіль. */
+  /* Стан веде transitionend, а не таймер. Таймер лишається тільки як
+     страховка: якщо переходу не сталося взагалі (нульова тривалість,
+     вкладка у фоні), подія не прийде і пункт завис би назавжди.
+
+     Дві помилки, знайдені тестом «клік по кожному пункту поспіль»:
+     1. Закритий пункт лишався заввишки 32px — це нижній padding тіла.
+        height:0 при box-sizing:border-box не може бути меншим за падінги,
+        тож п'ять закритих пунктів давали 128px мертвого місця, а сусідній
+        заголовок перекривався смужкою невидимого тексту. Тепер падінг
+        анімується разом із висотою.
+     2. Швидкі кліки лишали відкритим не той пункт, по якому клікнули:
+        таймери попередніх закриттів спрацьовували пізніше. Тепер кожен
+        пункт має явний стан і клік по тому, що вже відкривається,
+        ігнорується. */
   var timers = new WeakMap();
 
   function stopTimer(d) {
     var t = timers.get(d);
     if (t) { clearTimeout(t); timers.delete(d); }
   }
-  function later(d, fn) {
-    stopTimer(d);
-    if (reduced) { fn(); return; }
-    timers.set(d, setTimeout(function () { timers.delete(d); fn(); }, DUR + 40));
+  function bodyOf(d) { return d.querySelector('.quiz__body'); }
+
+  /* Справжня висота розкритого тіла разом із падінгом. Вимірюємо з
+     вимкненим переходом, інакше зчитаємо проміжний кадр анімації. */
+  function fullHeight(el) {
+    var h = el.style.height, pb = el.style.paddingBottom, tr = el.style.transition;
+    el.style.transition = 'none';
+    el.style.height = 'auto';
+    el.style.paddingBottom = '';
+    var v = el.offsetHeight;
+    el.style.height = h; el.style.paddingBottom = pb;
+    void el.offsetHeight;                 /* форсуємо застосування до повернення переходу */
+    el.style.transition = tr;
+    return v;
   }
 
-  function bodyOf(d) { return d.querySelector('.quiz__body'); }
+  /* Одна точка завершення на обидва напрями. */
+  function finish(d, fn) {
+    var el = bodyOf(d);
+    stopTimer(d);
+    if (reduced) { fn(); return; }
+    var done = function (e) {
+      if (e && e.target !== el) return;
+      if (e && e.propertyName !== 'height') return;
+      el.removeEventListener('transitionend', done);
+      stopTimer(d);
+      fn();
+    };
+    el.addEventListener('transitionend', done);
+    timers.set(d, setTimeout(function () {
+      el.removeEventListener('transitionend', done);
+      timers.delete(d);
+      fn();
+    }, DUR + 120));
+  }
 
   function openItem(d) {
     var el = bodyOf(d);
     stopTimer(d);
+    d.dataset.state = 'opening';
     d.open = true;
     el.style.height = '0px';
+    el.style.paddingBottom = '0px';
     el.style.opacity = '0';
+    var target = fullHeight(el);
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
-        el.style.height = el.scrollHeight + 'px';
+        el.style.height = target + 'px';
+        el.style.paddingBottom = '';
         el.style.opacity = '1';
       });
     });
-    later(d, function () { if (d.open) { el.style.height = 'auto'; } });
+    finish(d, function () {
+      if (d.dataset.state !== 'opening') return;
+      d.dataset.state = 'open';
+      el.style.height = 'auto';
+    });
   }
 
   function closeItem(d) {
     var el = bodyOf(d);
     stopTimer(d);
-    el.style.height = el.scrollHeight + 'px';
+    d.dataset.state = 'closing';
+    el.style.height = el.offsetHeight + 'px';
+    el.style.paddingBottom = '';
     requestAnimationFrame(function () {
-      el.style.height = '0px';
-      el.style.opacity = '0';
+      requestAnimationFrame(function () {
+        el.style.height = '0px';
+        el.style.paddingBottom = '0px';
+        el.style.opacity = '0';
+      });
     });
-    later(d, function () { if (!timers.get(d)) { d.open = false; } });
+    finish(d, function () {
+      if (d.dataset.state !== 'closing') return;
+      d.dataset.state = 'closed';
+      /* Добиваємо нуль явно: якщо спрацювала страховка-таймер, перехід
+         міг не дійти до кінця і лишалася смужка на кілька пікселів. */
+      el.style.height = '0px';
+      el.style.paddingBottom = '0px';
+      el.style.opacity = '0';
+      d.open = false;
+    });
   }
 
   items.forEach(function (d) {
@@ -83,14 +143,27 @@
     d.removeAttribute('name');
     el.style.overflow = 'hidden';
     if (!reduced) {
-      el.style.transition = 'height ' + DUR + 'ms var(--e-out), opacity ' + DUR + 'ms var(--e-out)';
+      el.style.transition = 'height ' + DUR + 'ms var(--e-out), padding-bottom ' + DUR +
+        'ms var(--e-out), opacity ' + DUR + 'ms var(--e-out)';
     }
-    if (!d.open) { el.style.height = '0px'; el.style.opacity = '0'; }
+    if (d.open) {
+      d.dataset.state = 'open';
+      el.style.height = 'auto';
+    } else {
+      d.dataset.state = 'closed';
+      el.style.height = '0px';
+      el.style.paddingBottom = '0px';
+      el.style.opacity = '0';
+    }
 
     summary.addEventListener('click', function (e) {
       e.preventDefault();                 /* click приходить і від Enter, і від Space */
-      if (d.open) { closeItem(d); return; }
-      items.forEach(function (o) { if (o !== d && o.open) { closeItem(o); } });
+      var st = d.dataset.state;
+      if (st === 'opening') return;       /* уже відкривається — повторний клік ігноруємо */
+      if (st === 'open') { closeItem(d); return; }
+      items.forEach(function (o) {
+        if (o !== d && (o.dataset.state === 'open' || o.dataset.state === 'opening')) { closeItem(o); }
+      });
       openItem(d);
     });
   });
@@ -199,30 +272,50 @@
     hdrIn.appendChild(btn);
 
     var lastFocus = null;
+    var hideT = 0;
 
+    /* Кнопка «Закрити» — це та сама кнопка в шапці, і вона МАЄ бути
+       в переліку: без неї фокус-трап не мав куди вийти, крім Esc.
+       Порядок у списку мусить збігатися з порядком у DOM: .hdr__in
+       (а в ньому кнопка) стоїть ПЕРЕД полотном меню. Інакше «останній»
+       елемент списку не збігається з останнім за Tab, замикання не
+       спрацьовує — і Tab із останнього пункту йшов у сторінку під меню. */
     function focusables() {
-      return Array.prototype.slice.call(
+      var list = Array.prototype.slice.call(
         menu.querySelectorAll('a[href], button:not([disabled])')
       ).filter(function (n) { return n.offsetParent !== null; });
+      list.unshift(btn);
+      return list;
     }
 
     function openMenu() {
+      clearTimeout(hideT);                  /* інакше відкладене приховування
+                                               з попереднього закриття гасило
+                                               щойно відкрите меню */
       lastFocus = document.activeElement;
       menu.hidden = false;
       requestAnimationFrame(function () { menu.classList.add('is-open'); });
       btn.setAttribute('aria-expanded', 'true');
       btn.querySelector('.hdr__menu-txt').textContent = 'Закрити';
+      /* Шапка піднімається НАД меню: інакше єдина кнопка закриття
+         лишалася під суцільним молочним полотном, і меню не було чим
+         закрити взагалі — ні пальцем, ні клавіатурою. */
+      document.documentElement.classList.add('menu-open');
       document.body.style.overflow = 'hidden';
+      /* Фокус ставимо на перший ПУНКТ, а не на кнопку закриття:
+         людина відкрила меню, щоб кудись перейти. */
       var f = focusables();
-      if (f.length) { f[0].focus(); }
+      if (f.length > 1) { f[1].focus(); } else if (f.length) { f[0].focus(); }
     }
 
     function closeMenu() {
+      clearTimeout(hideT);
       menu.classList.remove('is-open');
       btn.setAttribute('aria-expanded', 'false');
       btn.querySelector('.hdr__menu-txt').textContent = 'Меню';
+      document.documentElement.classList.remove('menu-open');
       document.body.style.overflow = '';
-      setTimeout(function () { menu.hidden = true; }, reduced ? 0 : 420);
+      hideT = setTimeout(function () { menu.hidden = true; }, reduced ? 0 : 420);
       if (lastFocus && lastFocus.focus) { lastFocus.focus(); }
     }
 

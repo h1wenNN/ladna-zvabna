@@ -120,12 +120,15 @@
 
 /* Плейсхолдер під майбутню зйомку.
    Має виглядати навмисним елементом, а не порожньою дірою. */
+/* Тло плейсхолдера світліше за пісок: на піску підпис давав 3,5:1.
+   Світла основа лишає фігуру помітною (обідок і два теплі відсвіти),
+   але текст на ній читається. */
 .ph{
   position:relative;
   background:
-    radial-gradient(120% 90% at 30% 20%, rgba(var(--rgb-copper),.16), transparent 62%),
-    radial-gradient(100% 80% at 78% 84%, rgba(var(--rgb-sage),.20), transparent 60%),
-    var(--sand);
+    radial-gradient(120% 90% at 30% 20%, rgba(var(--rgb-copper),.13), transparent 62%),
+    radial-gradient(100% 80% at 78% 84%, rgba(var(--rgb-sage),.15), transparent 60%),
+    var(--milk);
 }
 .ph::after{
   content:'';
@@ -134,12 +137,15 @@
   border:1px solid rgba(var(--rgb-copper),.30);
   pointer-events:none;
 }
+/* Підпис плейсхолдера. Був rgba(ink,.42) — 1.1:1 на світлому тлі, тобто
+   людина бачила порожню фігуру й не розуміла, що там має бути кадр.
+   Це єдине пояснення до порожнього місця, і воно мусить читатися. */
 .ph__note{
   position:absolute; left:0; right:0; bottom:1.4em;
   text-align:center;
   font-size:var(--fs-mini);
   letter-spacing:.16em; text-transform:uppercase;
-  color:rgba(var(--rgb-ink),.42);
+  color:var(--fg);
 }
 
 /* --------------------------------------------------------------------------

@@ -110,16 +110,73 @@
      3. ПРОЯВЛЕННЯ
      Стани описані в motion.css. Тут лише вмикач.
      ==================================================================== */
-  function turnOn(e, obs) {
-    if (!e.isIntersecting) return;
-    var el = e.target;
+  /* Усе, що ще не проявилося. Потрібен окремий список, бо самого
+     IntersectionObserver НЕ ВИСТАЧАЄ: він повідомляє лише про перетин
+     порогів. Якщо блок за один кадр стрибнув з-під нижнього краю екрана
+     вище за верхній — швидкий скрол, перехід за якорем, відновлення
+     позиції браузером, Ctrl+End — перетину не було, колбек не спрацював,
+     і блок лишався з opacity:0 НАЗАВЖДИ. Саме так на 768px зникали
+     обидві кнопки героя. */
+  var pending = [];
+
+  function show(el, obs, skip) {
+    if (el.classList.contains('is-in')) return;
+    if (skip) el.classList.add('is-skip', 'is-done');
     el.classList.add('is-in');
-    obs.unobserve(el);
+    obs = obs || el.__lzObs;
+    if (obs) obs.unobserve(el.__lzProbe || el);
+    var i = pending.indexOf(el);
+    if (i > -1) pending.splice(i, 1);
+    if (skip) return;
     /* Знімаємо will-change після появи — інакше шар лишається в пам'яті GPU */
     el.addEventListener('transitionend', function done() {
       el.classList.add('is-done');
       el.removeEventListener('transitionend', done);
     });
+  }
+
+  function turnOn(e, obs) {
+    if (!e.isIntersecting) return;
+    show(e.target, obs, false);
+  }
+
+  /* Підмітання — страховка на випадок, коли спостерігач не спрацював.
+     Два випадки:
+       · блок лишився ВИЩЕ за екран — його проминули, показуємо миттєво;
+       · блок зараз У КАДРІ, але досі не проявився — показуємо з анімацією.
+     Другий випадок і є справжньою страховкою: IntersectionObserver
+     повідомляє лише про перетин порогів, і за певного збігу (перший
+     кадр після завантаження, різкий стрибок, перемикання вкладки)
+     повідомлення не приходить зовсім.
+     Викликається після ЗУПИНКИ скролу, а не в кожному кадрі:
+     getBoundingClientRect по списку — це вимірювання розкладки. */
+  function sweep() {
+    if (!pending.length) return;
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    /* ЧИТАННЯ окремо від ЗАПИСУ. Якщо міряти й одразу вішати клас у тому
+       самому циклі, кожен наступний вимір змушує браузер перерахувати
+       розкладку заново — на сорока блоках це давало 280мс блокування
+       головного потоку замість нуля. */
+    var i, hitNow = [], hitPast = [];
+    for (i = pending.length - 1; i >= 0; i--) {
+      var el = pending[i];
+      if (!el.isConnected) { pending.splice(i, 1); continue; }
+      var r = (el.__lzProbe || el).getBoundingClientRect();
+      if (r.bottom < 0) hitPast.push(el);
+      else if (r.top < vh * 0.94 && r.bottom > 0) hitNow.push(el);
+    }
+    for (i = 0; i < hitPast.length; i++) show(hitPast[i], null, true);
+
+    /* Блок у кадрі показуємо не одразу, а лише якщо він висить видимим
+       довше за півсекунди: значить, спостерігач таки не спрацював.
+       Без цієї затримки підмітання випереджало б спостерігача, вмикало
+       по десятку появ разом — і блокувало потік розмиттями на 280мс. */
+    var now = Date.now();
+    for (i = 0; i < hitNow.length; i++) {
+      var e2 = hitNow[i];
+      if (!e2.__lzSeen) { e2.__lzSeen = now; continue; }
+      if (now - e2.__lzSeen > 500) show(e2, null, false);
+    }
   }
 
   /* Текст і блоки: чекаємо, поки в кадр увійде помітна частина. */
@@ -133,13 +190,44 @@
      20%, і навіть повністю видима арка дає ratio ≈0.13 — нижче за поріг 0.15.
      Тобто з одним спостерігачем арка не відкривалася НІКОЛИ.
      Знайдено на героєві: кадр показував лише нижню смужку. */
-  var ioClip = new IntersectionObserver(function (en) { en.forEach(function (e) { turnOn(e, ioClip); }); },
-    { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+  var ioClip = new IntersectionObserver(function (en) {
+    en.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      show(e.target.__lzClipTarget || e.target, ioClip, false);
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
 
   var wText = document.querySelectorAll('.reveal, .words');
-  for (var k = 0; k < wText.length; k++) { ioText.observe(wText[k]); }
+  for (var k = 0; k < wText.length; k++) {
+    wText[k].__lzObs = ioText; pending.push(wText[k]); ioText.observe(wText[k]);
+  }
+  /* Спостерігаємо не сам обрізаний елемент, а його БАТЬКА.
+     clip-path:inset(80%) лишає від арки нижню п'яту частину, і саме її
+     враховує IntersectionObserver. Для арки, вищої за пів екрана, ця смуга
+     заходить у видиму зону лише тоді, коли верх кадру вже проїхав угору —
+     тобто анімація або спізнювалася на цілий екран, або не спрацьовувала
+     взагалі. Батьківський <figure> не обрізаний і має справжні розміри. */
   var wClip = document.querySelectorAll('.arch-open, .draw');
-  for (var q = 0; q < wClip.length; q++) { ioClip.observe(wClip[q]); }
+  for (var q = 0; q < wClip.length; q++) {
+    var ce = wClip[q];
+    var probe = ce.parentElement || ce;
+    probe.__lzClipTarget = ce;
+    ce.__lzProbe = probe;
+    ce.__lzObs = ioClip;
+    pending.push(ce);
+    ioClip.observe(probe);
+  }
+
+  /* Підмітання після зупинки скролу + один раз після завантаження
+     (браузер міг відновити позицію ще до створення спостерігачів). */
+  var sweepT = 0;
+  function sweepSoon() { clearTimeout(sweepT); sweepT = setTimeout(sweep, 140); }
+  addEventListener('scroll', sweepSoon, { passive: true });
+  addEventListener('resize', sweepSoon);
+  addEventListener('orientationchange', sweepSoon);
+  addEventListener('load', sweep);
+  setTimeout(sweep, 600);
+  setTimeout(sweep, 1400);   /* другий прохід: перший лише позначає час */
 
   /* ====================================================================
      4. НАСКРІЗНА НИТКА ТА ПАРАЛАКС
