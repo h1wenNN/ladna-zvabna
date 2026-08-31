@@ -11,15 +11,44 @@
    ========================================================================== */
 const { launch } = require('./_browser');
 const URL = process.argv[2] || 'http://localhost:8899/index.html';
-const WIDTHS = process.env.W ? process.env.W.split(',').map(Number)
-  : [320, 360, 375, 414, 480, 600, 768, 834, 1024, 1180, 1280, 1366, 1440, 1600, 1920, 2560];
+/* Реальні пристрої, а не «кругла» ширина з фіксованою висотою: висота
+   вікна впливає на розкладку героя й секцій не менше за ширину, а
+   орієнтація — на те, яка з трьох розкладок узагалі вмикається. */
+const DEVICES = [
+  [320, 568,  'iPhone SE 1'],
+  [360, 640,  'Android малий'],
+  [375, 667,  'iPhone SE 2/8'],
+  [390, 844,  'iPhone 14'],
+  [412, 915,  'Pixel 7'],
+  [430, 932,  'iPhone 15 Pro Max'],
+  [480, 800,  'фаблет'],
+  [600, 960,  'малий планшет'],
+  [768, 1024, 'iPad портрет'],
+  [834, 1112, 'iPad Air портрет'],
+  [1024, 1366,'iPad Pro портрет'],
+  [740, 360,  'телефон горизонтально'],
+  [844, 390,  'iPhone 14 горизонтально'],
+  [1024, 768, 'iPad горизонтально'],
+  [1180, 820, 'iPad Pro горизонтально'],
+  [1280, 720, 'ноутбук 720'],
+  [1366, 768, 'ноутбук HD'],
+  [1440, 900, 'MacBook Air'],
+  [1536, 864, 'ноутбук 1.25x'],
+  [1680, 1050,'iMac 20'],
+  [1920, 1080,'FullHD'],
+  [2560, 1440,'2K'],
+  [3840, 2160,'4K'],
+];
+const WIDTHS = process.env.W
+  ? process.env.W.split(',').map(Number).map(w => [w, 900, w + 'px'])
+  : DEVICES;
 
 (async () => {
   const b = await launch();
   let total = 0;
 
-  for (const w of WIDTHS) {
-    const p = await b.newPage({ viewport: { width: w, height: 900 } });
+  for (const [w, vh, label] of WIDTHS) {
+    const p = await b.newPage({ viewport: { width: w, height: vh } });
     await p.goto(URL, { waitUntil: 'networkidle' });
     await p.evaluate(() => { try { sessionStorage.setItem('lz-entered', '1'); } catch (e) {} });
     await p.reload({ waitUntil: 'networkidle' });
@@ -30,7 +59,18 @@ const WIDTHS = process.env.W ? process.env.W.split(',').map(Number)
       }
       scrollTo(0, 0);
     });
-    await p.waitForTimeout(1400);
+    /* Чекаємо, поки ЗАКІНЧАТЬСЯ появи. На 4K кадр рендериться повільно,
+       і вимір на 1400мс ловив блок з opacity 0.03 — тобто «невидимий»,
+       хоча за півсекунди він нормально проявлявся. */
+    await p.evaluate(async () => {
+      const watched = () => [...document.querySelectorAll('.reveal, .words, .arch-open, .draw')]
+        .flatMap(e => e.getAnimations()).filter(a => a.playState === 'running');
+      for (let i = 0; i < 400 && watched().length; i++) {
+        await new Promise(r => requestAnimationFrame(r));
+      }
+      for (let i = 0; i < 6; i++) await new Promise(r => requestAnimationFrame(r));
+    });
+    await p.waitForTimeout(500);
 
     const res = await p.evaluate(() => {
       const DECOR = '.glow, .story__light, .parable__light, .thread, .lz-sprite, .ph';
@@ -174,7 +214,7 @@ const WIDTHS = process.env.W ? process.env.W.split(',').map(Number)
     const n = res.overlap.length + res.clip.length + res.outside.length + res.tiny.length + res.misc.length;
     total += n;
     if (n) {
-      console.log('\n══ ' + w + 'px — знайдено ' + n);
+      console.log('\n══ ' + w + '×' + vh + '  ' + label + ' — знайдено ' + n);
       if (res.overlap.length) {
         console.log('  НАКЛАДАННЯ:');
         res.overlap.slice(0, 12).forEach(o =>
@@ -187,7 +227,7 @@ const WIDTHS = process.env.W ? process.env.W.split(',').map(Number)
       if (res.tiny.length)    { console.log('  ДРІБНА ЦІЛЬ:'); u(res.tiny).slice(0,10).forEach(x=>console.log('    '+x)); }
       if (res.misc.length)    { console.log('  РІЗНЕ:');       u(res.misc).slice(0,8).forEach(x=>console.log('    '+x)); }
     } else {
-      console.log('══ ' + w + 'px — чисто ✓');
+      console.log('══ ' + String(w + '×' + vh).padEnd(11) + label.padEnd(24) + ' чисто ✓');
     }
     await p.close();
   }

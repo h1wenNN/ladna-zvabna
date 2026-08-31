@@ -23,9 +23,15 @@
   opacity:0;
   pointer-events:none;
 }
+/* Висота шапки ЗАФІКСОВАНА, а не виведена з вмісту. Дві причини:
+   1) --hdr-h використовують і герой (100svh мінус шапка), і відступ
+      для якорів — токен мусить бути правдою, а не приблизністю;
+   2) поки шрифт не завантажився, рядок навігації трохи інший на зріст,
+      шапка змінювала висоту на кілька пікселів — і вся сторінка під нею
+      з'їжджала. Це і був увесь CLS сайту. */
 .hdr__in{
   display:flex; align-items:center; gap:var(--sp-8);
-  padding-block:var(--sp-4);
+  height:var(--hdr-h);
 }
 .hdr__logo{display:block; flex:0 0 auto}
 .hdr__word{width:132px; color:var(--ink)}
@@ -61,16 +67,32 @@
 
 /* --------------------------------------------------------------------------
    5.1 ГЕРОЙ
+
+   Правило всієї секції: перший екран МУСИТЬ уміщатися в екран.
+   Тому майже кожен розмір тут залежить не лише від ширини вікна, а й від
+   його ВИСОТИ, і скрізь має нижню межу — щоб на низькому вікні текст не
+   зменшився до нечитабельного.
+
+   Розкладок три, і вибирає між ними ОРІЄНТАЦІЯ, а не сама ширина:
+     · широкий екран нормальної висоти — текст ліворуч, кадр праворуч;
+     · вертикальний екран — кадр згори, текст під ним;
+     · низьке горизонтальне вікно — компактно, без вимоги повного екрана.
+   Раніше поділ був лише за шириною, і телефон 320×568 діставав розкладку
+   для «телефона в горизонталі».
    -------------------------------------------------------------------------- */
 .hero{
   position:relative;
   min-height:calc(100svh - var(--hdr-h));
   display:flex; align-items:center;
-  padding-block:clamp(32px, 5vh, 72px);
+  padding-block:clamp(16px, 3.2vh, 64px);
   overflow:clip;
   isolation:isolate;
 }
-.hero__in{width:100%; position:relative; z-index:2}
+/* БЕЗ position:relative. Інакше кадр героя, який позиціонується
+   абсолютно, чіплявся б до .hero__in — а це .wrap із max-width:1440px.
+   На екрані 2560px кадр через це не доходив до краю й висів
+   прямокутником посеред порожнечі. Тепер його межа — сама секція. */
+.hero__in{width:100%}
 
 /* Кадр іде ДО ПРАВОГО КРАЮ екрана і на всю його висоту.
    Так джерело 720px лягає майже піксель у піксель на половині 1440 —
@@ -79,7 +101,10 @@
 .hero__frame{
   position:absolute;
   top:0; right:0; bottom:0;
-  width:min(46vw, 720px);
+  /* 46vw до 1440px тримає джерело 720px майже піксель у піксель.
+     Вище стеля 860px: розтягнути м'яке фото на 1,2 не страшно,
+     а лишити 720px на екрані 2560px — це вже марка, а не кадр. */
+  width:min(46vw, 860px);
   margin:0;
   z-index:1;
   border-radius:clamp(160px, 22vw, 340px) 0 0 0;
@@ -102,15 +127,25 @@
 }
 
 .hero__text{grid-column:1 / span 6; position:relative; z-index:2}
+.hero__text > .mini{margin-bottom:clamp(6px, 1.4vh, 16px)}
 .hero__title{
-  margin-block:var(--sp-6) var(--sp-8);
-  font-size:clamp(3rem, 7vw, 8rem);
+  margin-block:clamp(8px, 1.8vh, 24px) clamp(12px, 2.8vh, 32px);
+  /* Другий обмежувач — за висотою вікна: 7vw на ноутбуці 1280×720 дає
+     90px, три рядки такого заголовка з'їдають 243px, і кнопки вже не
+     вміщаються. */
+  font-size:min(clamp(3rem, 7vw, 8rem), 15vh);
   line-height:.9;
   letter-spacing:-.03em;
 }
 .hero__title em{font-style:italic; color:var(--accent); display:inline-block}
-.hero .lead{margin-bottom:var(--sp-10, 2.5rem); max-width:32ch}
-.hero__acts{display:flex; flex-wrap:wrap; gap:var(--sp-8); align-items:baseline}
+.hero .lead{
+  margin-bottom:clamp(14px, 3.2vh, 40px);
+  max-width:32ch;
+  /* нижня межа обов'язкова: без неї на вікні 360px заввишки лід
+     зменшувався до 9px */
+  font-size:clamp(15px, 2.9vh, 1.15rem);
+}
+.hero__acts{display:flex; flex-wrap:wrap; gap:clamp(18px, 4vw, 32px); align-items:baseline}
 
 /* Затемнення під підписом. Text-shadow сам по собі не гарантує 4.5:1
    на світлому кадрі — потрібне справжнє тло під літерами. */
@@ -122,7 +157,6 @@
   pointer-events:none;
   background:linear-gradient(0deg, rgba(38,32,25,.62) 0%, rgba(38,32,25,.28) 46%, rgba(38,32,25,0) 100%);
 }
-@media (max-width:1024px){ .hero__frame::before{display:none} }
 
 /* Підпис лягає в нижній кут кадру */
 .hero__cap{
@@ -136,28 +170,95 @@
 }
 .hero__cap-line{width:clamp(24px,3vw,44px); height:1px; background:var(--milk); flex:0 0 auto; opacity:.8}
 
-@media (max-width:1024px){
-  .hero{min-height:auto; padding-block:0 var(--sp-16); display:block}
-  /* На вузькому екрані кадр іде ПЕРШИМ. Порядок у розмітці лишається
-     логічним (спершу заголовок), переставляє тільки сітка. */
+/* --------------------------------------------------------------------------
+   ГЕРОЙ · ВЕРТИКАЛЬНИЙ ЕКРАН (телефон, планшет портретом)
+
+   Кадр іде ПЕРШИМ і забирає рівно те, що лишилося від тексту. Тому
+   .hero__in дістає ФІКСОВАНУ висоту, а не min-height: у розтяжного
+   контейнера кадр брав би свій максимум, а текст виштовхував би все
+   нижче за екран — саме так герой на 375×667 виходив 715px замість 590.
+   -------------------------------------------------------------------------- */
+@media (orientation:portrait) and (max-width:1024px){
+  .hero{
+    padding-block:0 clamp(12px, 2.4vh, 36px);
+    align-items:stretch;
+  }
+  .hero__in{
+    display:flex; flex-direction:column;
+    height:calc(100svh - var(--hdr-h) - clamp(12px, 2.4vh, 36px));
+  }
+  /* figure перестає бути коробкою з обрізанням: інакше підпис адреси,
+     який на вузькому екрані стає звичайним рядком під кадром, опинявся
+     за межами overflow:hidden і був НЕВИДИМИЙ. Обрізає тепер сама арка. */
   .hero__frame{
     order:-1;
-    grid-column:1 / -1;
+    flex:1 1 auto;
+    display:flex; flex-direction:column;
     position:relative; width:auto; inset:auto;
     margin-inline:calc(var(--pad-x) * -1);
-    height:min(44vh, 330px);
-    border-radius:0 0 clamp(80px,20vw,180px) 0;
+    min-height:0;
+    overflow:visible;
+    border-radius:0;
   }
-  .hero__frame::after{display:none}
-  .hero__text{grid-column:1 / -1; order:1; padding-top:var(--sp-8)}
-  .hero .lead{margin-bottom:var(--sp-8)}
+  .hero__frame .arch{
+    flex:1 1 auto;
+    min-height:clamp(110px, 16vh, 220px);
+    max-height:min(42vh, 320px);
+    border-radius:0 0 clamp(80px,20vw,180px) 0;
+    overflow:hidden;
+  }
+  .hero__frame::after,
+  .hero__frame::before{display:none}
+  .hero__text{
+    flex:0 0 auto;
+    padding-top:clamp(12px, 2.4vh, 28px);
+  }
   .hero__cap{
-    position:static; margin-top:var(--sp-4);
+    position:static; flex:0 0 auto;
+    margin-top:clamp(8px, 1.4vh, 16px);
+    margin-inline:var(--pad-x);
     color:var(--fg-dim); text-shadow:none;
   }
+  /* На вузькому екрані адреса переносилася на два рядки й забирала
+     висоту в самого кадру. Трохи щільніший трекінг лишає її в один. */
+  @media (max-width:420px){
+    .hero__cap{font-size:11px; letter-spacing:.09em; gap:var(--sp-2)}
+    .hero__cap-line{width:18px}
+  }
+  /* Дві дії в один рядок. На 320px вони переносилися одна під одну й
+     з'їдали 50px — рівно ті, яких бракувало кадрові, щоб бути кадром,
+     а не смужкою. */
+  @media (max-width:390px){
+    .hero__acts{gap:var(--sp-6)}
+    .hero__acts .act{font-size:1rem}
+    .hero__acts .act--quiet{font-size:.92rem}
+  }
   .hero__cap-line{background:var(--accent-line); opacity:1}
-  .hero__title{font-size:clamp(2.8rem, 10vw, 4.4rem)}
+  .hero__title{font-size:min(clamp(2.2rem, 9.4vw, 4.4rem), 11vh)}
   .hero__text > .mini{display:none}
+}
+
+/* --------------------------------------------------------------------------
+   ГЕРОЙ · НИЗЬКЕ ГОРИЗОНТАЛЬНЕ ВІКНО (телефон у горизонталі, вузький ноут)
+
+   Вимагати повний екран тут безглуздо: 360px висоти не вміщають ані
+   кадру, ані заголовка в три рядки. Герой стає компактним і лишається
+   в розкладці «текст ліворуч, кадр праворуч» — єдиній, що працює,
+   коли вікно значно ширше, ніж вище.
+   -------------------------------------------------------------------------- */
+@media (orientation:landscape) and (max-height:620px){
+  .hero{
+    min-height:0;
+    padding-block:clamp(12px, 3vh, 28px);
+  }
+  .hero__title{font-size:min(clamp(1.9rem, 5vw, 8rem), 16vh)}
+  .hero .lead{
+    font-size:clamp(14px, 2.6vh, 1rem);
+    margin-bottom:clamp(10px, 2.4vh, 22px);
+  }
+  .hero__text > .mini{display:none}
+  .hero__cap{bottom:clamp(8px, 2.6vh, 20px)}
+  .hero__frame{width:min(42vw, 560px)}
 }
 
 /* --------------------------------------------------------------------------
@@ -240,7 +341,7 @@
 /* Кадр завмирає. Нативний sticky: скрол лишається нативним,
    жодного перехоплення — скрол-джекінг заборонений (п. 4.4). */
 .story__hold{
-  min-height:64vh;
+  min-height:min(64vh, 620px);   /* стеля: на 4K це були 1382px під один заголовок */
   margin-top:clamp(42px, 7vh, 102px);
 }
 .story__beat--hold{
@@ -417,25 +518,28 @@
 .space__text h2 em{font-style:italic; color:var(--accent)}
 .space__scatter{margin-top:clamp(40px, 6vh, 88px)}
 
+/* Роздільник — це ::after ВСЕРЕДИНІ пункту, а не абсолютна крапка між
+   пунктами. Абсолютна крапка при переносі лишалася сама на новому рядку,
+   без слова, — і то на телефоні, і в будь-якій вузькій колонці на
+   планшеті. Тепер вона фізично належить своєму слову й переноситься
+   разом із ним. */
 .facts{
-  display:flex; flex-wrap:wrap; gap:var(--sp-6);
+  display:flex; flex-wrap:wrap;
+  gap:.4em 0;
   margin-top:var(--sp-8);
   font-size:var(--fs-mini);
   letter-spacing:.16em; text-transform:uppercase;
   color:var(--fg-dim);
 }
-.facts li{position:relative}
-.facts li + li::before{
+/* без nowrap: на 200% зумі «НАТУРАЛЬНІ МАТЕРІАЛИ» ширше за екран.
+   Роздільник усе одно не осиротіє — він у ::after самого пункту. */
+.facts li{min-width:0}
+.facts li::after{
   content:'·';
-  position:absolute; left:calc(var(--sp-6) / -2 - .2em);
+  margin-inline:.9em;
   color:var(--accent-line);
 }
-/* На вузькому екрані крапка-роздільник переносилась на новий рядок сама,
-   без слова. Стовпчик читається чисто. */
-@media (max-width:560px){
-  .facts{flex-direction:column; gap:var(--sp-2)}
-  .facts li + li::before{display:none}
-}
+.facts li:last-child::after{content:none}
 
 /* --------------------------------------------------------------------------
    5.7 КОНСУЛЬТАЦІЯ
@@ -450,7 +554,7 @@
 }
 .consult .lane-left{grid-column:1 / span 5; grid-row:1; align-self:center}
 .quiz{grid-column:7 / -1; grid-row:1; margin-top:0; max-width:none}
-@media (max-width:1024px){
+@media (max-width:900px){
   .consult .lane-left{grid-column:1 / -1; grid-row:auto}
   .quiz{grid-column:1 / -1; grid-row:auto; margin-top:var(--sp-8)}
 }
@@ -529,7 +633,7 @@
    щоб дві сусідні сцени не читалися однаково (MASTER_PROMPT п. 3.3). */
 .care__head{text-align:right; grid-column:6 / -1; grid-row:1}
 .care__head .measure{margin-left:auto}
-@media (max-width:1024px){ .care__head{text-align:left} .care__head .measure{margin-left:0} }
+@media (max-width:900px){ .care__head{text-align:left} .care__head .measure{margin-left:0} }
 /* Кадр стоїть поруч із заголовком, а не над списком: інакше порожня ліва
    колонка розтягує секцію на зайвий екран. */
 .care__aside{grid-column:1 / span 4; grid-row:1; align-self:end; margin-top:0}
@@ -549,11 +653,15 @@
   grid-template-columns:1fr 1fr;
   gap:clamp(36px, 4vw, 78px);
 }
-@media (max-width:1024px){
+@media (max-width:900px){
   .care__head{grid-column:1 / -1; grid-row:auto}
   .care__aside{grid-column:1 / -1; grid-row:auto; max-width:340px; align-self:start}
   .care__groups{grid-column:1 / -1; margin-top:var(--sp-8)}
 }
+/* min-width:0 обов'язковий: колонка 1fr за замовчуванням не звужується
+   менше за min-content свого вмісту, і при збільшеному шрифті група
+   виходила за межі сітки на 37px замість того, щоб перенести слово. */
+.care__group{min-width:0}
 .care__gh{
   display:flex; flex-wrap:wrap; align-items:baseline; gap:.7em;
   padding-bottom:var(--sp-4);
@@ -575,13 +683,16 @@
   border-bottom:1px solid var(--rule);
   transition:opacity var(--d-fast) var(--e-out);
 }
-.care__name{font-size:var(--fs-body); grid-column:1; grid-row:1}
+.care__name{font-size:var(--fs-body); grid-column:1; grid-row:1; overflow-wrap:anywhere; min-width:0}
+.care__row > *{min-width:0}
 /* Ціна стоїть у рядку самої процедури. Раніше це були дві окремі секції
    з тим самим переліком — читач двічі проходив ті самі дванадцять назв. */
 .care__cost{
   grid-column:2; grid-row:1;
+  min-width:0;
   font-weight:300;
   white-space:nowrap;
+  text-align:right;
   font-variant-numeric:tabular-nums;
 }
 .care__desc{
@@ -605,6 +716,17 @@
   max-width:56ch;
 }
 .care__foot span{display:block; margin-top:var(--sp-2); color:var(--fg)}
+
+/* Ціна переїжджає під назву на найвужчих екранах: на 320px із помітно
+   збільшеним системним шрифтом «1200 · 1800 грн» не лишає назві місця. */
+@media (max-width:340px){
+  .care__row{grid-template-columns:1fr}
+  .care__row > *{min-width:0}
+  /* ціна вже в окремому рядку — тут їй можна й перенестися */
+  .care__cost{grid-column:1; grid-row:2; text-align:left; margin-top:.15em; white-space:normal}
+  .care__desc{grid-row:3}
+}
+
 
 /* Світло падає тільки на одне. Лише для миші. */
 @media (hover:hover) and (pointer:fine){
@@ -798,13 +920,13 @@
   border-radius:4px;
 }
 .cmp__labels{
-  display:flex; justify-content:space-between; gap:var(--sp-6);
+  display:flex; justify-content:space-between; gap:var(--sp-4);
   margin-top:var(--sp-8);
   font-size:var(--fs-mini);
   letter-spacing:.1em; text-transform:uppercase;
   color:var(--fg-dim);
 }
-.cmp__labels span{max-width:46%}
+.cmp__labels span{max-width:48%; min-width:0; overflow-wrap:anywhere}
 .cmp__labels span:last-child{text-align:right}
 
 /* Плейсхолдери свідомо різного відтінку — щоб межа читалася

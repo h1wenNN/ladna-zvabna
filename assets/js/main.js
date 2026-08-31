@@ -163,7 +163,7 @@
       if (!el.isConnected) { pending.splice(i, 1); continue; }
       var r = (el.__lzProbe || el).getBoundingClientRect();
       if (r.bottom < 0) hitPast.push(el);
-      else if (r.top < vh * 0.94 && r.bottom > 0) hitNow.push(el);
+      else if (r.top < vh - 2 && r.bottom > 0) hitNow.push(el);
     }
     for (i = 0; i < hitPast.length; i++) show(hitPast[i], null, true);
 
@@ -220,6 +220,27 @@
 
   /* Підмітання після зупинки скролу + один раз після завантаження
      (браузер міг відновити позицію ще до створення спостерігачів). */
+  /* Перший екран проявляємо ОДРАЗУ після розкладки, не чекаючи ні
+     спостерігача, ні підмітання.
+
+     Причина конкретна. Стартовий стан появи зсуває блок на --shift (14px)
+     ВНИЗ, а спостерігач міряє вже зсунуту коробку. Блок, що стоїть біля
+     нижнього краю першого екрана, після зсуву опиняється за межами
+     кореня (у якого ще й -6% знизу) — перетину немає, поява не
+     вмикається, і блок лишається невидимим, поки людина не проскролить.
+     Саме так на 375×667 зникали обидві кнопки героя. */
+  function sweepFirstScreen() {
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var list = [], i;
+    for (i = pending.length - 1; i >= 0; i--) {
+      var el = pending[i];
+      var r = (el.__lzProbe || el).getBoundingClientRect();
+      if (r.top < vh - 2 && r.bottom > 0) list.push(el);
+    }
+    for (i = 0; i < list.length; i++) show(list[i], null, false);
+  }
+  requestAnimationFrame(function () { requestAnimationFrame(sweepFirstScreen); });
+
   var sweepT = 0;
   function sweepSoon() { clearTimeout(sweepT); sweepT = setTimeout(sweep, 140); }
   addEventListener('scroll', sweepSoon, { passive: true });

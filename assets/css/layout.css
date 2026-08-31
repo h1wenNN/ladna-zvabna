@@ -37,9 +37,22 @@
 .lane-media-r {grid-column:8 / span 5}
 .lane-media-c {grid-column:4 / span 6}
 
-@media (max-width:1024px){
+/* Смуги розпадаються на 900px, а не на 1024: планшет у горизонталі
+   (1024×768) має досить ширини для двох колонок, і стос там лише
+   розтягував сторінку. */
+@media (max-width:900px){
   .lane-left,.lane-right,.lane-center,.lane-inset,.lane-wide{grid-column:1 / -1}
-  .lane-media-l,.lane-media-r,.lane-media-c{grid-column:1 / -1}
+  /* Медіа розтягується на всю ширину, але НЕ на будь-яку ширину.
+     Квадратна арка на планшеті 1024px давала кадр 1024×1024 — секція
+     «Запис» виростала до 1556px замість 691. Обмеження зверху лишає
+     кадр кадром, а не полотном; justify-self, а не margin:auto —
+     у грід-елемента автополя перетворюють ширину на fit-content. */
+  .lane-media-l,.lane-media-r,.lane-media-c{
+    grid-column:1 / -1;
+    max-width:min(100%, 440px);
+  }
+  .lane-media-r{justify-self:end}
+  .lane-media-c{justify-self:center}
 }
 
 /* --------------------------------------------------------------------------
@@ -58,7 +71,9 @@
 }
 .section--tight  {padding-block:var(--sp-breath)}
 .section--tall   {padding-block:calc(var(--sp-section) * 1.35)}
-.section--pause  {padding-block:var(--sp-breath); min-height:42vh; display:grid; place-items:center}
+/* min-height зі стелею: на екрані 2160px «42vh» — це 907px порожнечі
+   під один рядок. Пауза має бути паузою, а не порожнім екраном. */
+.section--pause  {padding-block:var(--sp-breath); min-height:min(42vh, 380px); display:grid; place-items:center}
 .section--soft   {background:var(--bg-soft)}
 .section--coda   {padding-block:var(--sp-breath)}
 
@@ -173,7 +188,9 @@
 .scatter > :nth-child(3){grid-column:span 4; margin-top:calc(var(--sp-6) * -1)}
 
 
-@media (max-width:768px){
+/* Три кадри в ряд тримаються до 520px: на планшеті це компактна смуга
+   деталей, а не два ряди по пів екрана кожен. */
+@media (max-width:520px){
   .scatter{grid-template-columns:repeat(2,1fr)}
   .scatter > *{grid-column:span 1 !important; margin-top:0 !important}
   .scatter > :nth-child(3){grid-column:span 2 !important}

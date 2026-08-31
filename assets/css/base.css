@@ -158,6 +158,11 @@ body{
   font-weight:300;
   line-height:1.65;
   overflow-x:hidden;
+  /* Захист від довгого слова, яке ширше за колонку: на 320px із
+     збільшеним на 30% шрифтом «Аквадермагенез-гідрошліфовка» розсувала
+     секцію на 31px убік. break-word ріже слово ЛИШЕ тоді, коли інакше
+     воно не влазить, — на звичайний набір це не впливає. */
+  overflow-wrap:break-word;
 }
 img,picture,video,canvas,svg{display:block;max-width:100%}
 img,video{height:auto}
