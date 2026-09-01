@@ -459,38 +459,44 @@
 
   if (heroSec && canHover && stillOk) {
     var lights = heroSec.querySelectorAll('.glow');
-    var tx = 0, ty = 0, cx = 0, cy = 0, lit = false, heroIn = true;
+    var tx = 0, ty = 0, cx = 0, cy = 0, lit = false;
 
-    var heroIO = new IntersectionObserver(function (en) {
-      heroIn = en[0].isIntersecting;
-      if (heroIn && !lit) { lit = true; requestAnimationFrame(lerp); }
-    }, { threshold: 0 });
-    heroIO.observe(heroSec);
-
-    heroSec.addEventListener('pointermove', function (ev) {
-      if (ev.pointerType !== 'mouse') return;
-      var r = heroSec.getBoundingClientRect();
-      tx = ((ev.clientX - r.left) / r.width  - 0.5) * 44;
-      ty = ((ev.clientY - r.top)  / r.height - 0.5) * 44;
-      if (!lit) { lit = true; requestAnimationFrame(lerp); }
-    }, { passive: true });
-
-    heroSec.addEventListener('pointerleave', function () { tx = 0; ty = 0; }, { passive: true });
-
-    function lerp() {
-      cx += (tx - cx) * 0.045;
-      cy += (ty - cy) * 0.045;
+    function put() {
       for (var li = 0; li < lights.length; li++) {
         var k = li ? -0.55 : 1;   /* друга пляма йде НАЗУСТРІЧ - глибина */
         lights[li].style.translate =
           (cx * k).toFixed(1) + 'px ' + (cy * k).toFixed(1) + 'px';
       }
-      /* Зупиняємо цикл, коли рух згас і герой пішов з екрана */
-      if (!heroIn && Math.abs(tx - cx) < 0.2 && Math.abs(ty - cy) < 0.2) {
-        lit = false; return;
+    }
+
+    /* Цикл живе рівно стільки, скільки триває рух, і сам себе зупиняє,
+       коли пляма догнала курсор. Постійний rAF на весь час, поки герой
+       у кадрі, коштував 40-60мс блокування головного потоку - за нуль
+       видимої користі. */
+    function lerp() {
+      cx += (tx - cx) * 0.045;
+      cy += (ty - cy) * 0.045;
+      if (Math.abs(tx - cx) < 0.15 && Math.abs(ty - cy) < 0.15) {
+        cx = tx; cy = ty; put(); lit = false; return;
       }
+      put();
       requestAnimationFrame(lerp);
     }
+    function wake() { if (!lit) { lit = true; requestAnimationFrame(lerp); } }
+
+    /* Слухаємо сам герой: подія приходить лише тоді, коли курсор над ним,
+       тобто коли він і так на екрані. Окремий спостерігач тут зайвий. */
+    heroSec.addEventListener('pointermove', function (ev) {
+      if (ev.pointerType !== 'mouse') return;
+      var r = heroSec.getBoundingClientRect();
+      tx = ((ev.clientX - r.left) / r.width  - 0.5) * 44;
+      ty = ((ev.clientY - r.top)  / r.height - 0.5) * 44;
+      wake();
+    }, { passive: true });
+
+    heroSec.addEventListener('pointerleave', function () {
+      tx = 0; ty = 0; wake();
+    }, { passive: true });
   }
 
   /* ====================================================================
