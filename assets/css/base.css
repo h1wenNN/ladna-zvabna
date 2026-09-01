@@ -281,8 +281,8 @@ strong,b{font-weight:500}
   transition:transform var(--d-fast) var(--e-out);
 }
 .link:hover{color:var(--accent)}
-.link--grow{--u:0}
-.link--grow:hover{--u:1}
+.link--grow{--u:0;}
+.link--grow:hover{--u:1;}
 
 /* Головна дія секції */
 .act{
@@ -384,6 +384,14 @@ strong,b{font-weight:500}
 .lz-ico{display:block; width:100%; height:auto; fill:currentColor}
 .lz-ico--word{aspect-ratio:540 / 232}
 .lz-ico--divider{aspect-ratio:550 / 100}
+/* Листок і колос — лінійні, не заливні: у них немає замкнутих форм із
+   товщиною, тому за замовчуванням fill малював би чорну ляпку. */
+.lz-ico--leaf, .lz-ico--ear{
+  height:100%;
+  fill:none; stroke:currentColor; stroke-width:1;
+  stroke-linejoin:round; stroke-linecap:round;
+  vector-effect:non-scaling-stroke;
+}
 
 .mark--figure{
   -webkit-mask-image:url('../svg/figure.svg'); mask-image:url('../svg/figure.svg');

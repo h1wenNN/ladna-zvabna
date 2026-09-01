@@ -207,7 +207,7 @@
      заходить у видиму зону лише тоді, коли верх кадру вже проїхав угору —
      тобто анімація або спізнювалася на цілий екран, або не спрацьовувала
      взагалі. Батьківський <figure> не обрізаний і має справжні розміри. */
-  var wClip = document.querySelectorAll('.arch-open, .draw');
+  var wClip = document.querySelectorAll('.arch-open, .draw, .draw-ring, .seal');
   for (var q = 0; q < wClip.length; q++) {
     var ce = wClip[q];
     var probe = ce.parentElement || ce;
@@ -255,7 +255,23 @@
      Один rAF-цикл на обидва. Читаємо scrollY один раз за кадр —
      жодних синхронних вимірювань усередині обробника скролу.
      ==================================================================== */
-  var thread   = document.querySelector('.thread');
+  /* Колосок: стебло тягнеться (--thread), листки й колос розкриваються,
+     щойно ріст дійшов до їхньої позначки. Позначку кожен несе сам
+     у стилі --at, у відсотках; колос стоїть майже в самому кінці. */
+  var stalk    = document.querySelector('.stalk');
+  var thread   = stalk ? stalk.querySelector('.stalk__stem') : null;
+  var sprouts  = [];
+  if (stalk) {
+    var sList = stalk.querySelectorAll('.stalk__leaf');
+    for (var si = 0; si < sList.length; si++) {
+      sprouts.push({ el: sList[si],
+                     at: (parseFloat(sList[si].style.getPropertyValue('--at')) || 0) / 100,
+                     done: false });
+    }
+    var earEl = stalk.querySelector('.stalk__ear');
+    if (earEl) sprouts.push({ el: earEl, at: 0.995, done: false });
+  }
+  var wmark    = document.querySelector('.meaning__mark');
   var parallax = Array.prototype.slice.call(document.querySelectorAll('[data-par]'));
   var story    = document.querySelector('.story');
   var pathLine = document.querySelector('.story__beat--path');
@@ -292,6 +308,9 @@
     if (story)    { var sr = story.getBoundingClientRect(); srBottom = sr.bottom; srHeight = sr.height; }
     if (pathLine) { prTop = pathLine.getBoundingClientRect().top; }
 
+    var wmTop = 0, wmH = 0;
+    if (wmark) { var wr = wmark.getBoundingClientRect(); wmTop = wr.top; wmH = wr.height; }
+
     var parGeo = [];
     for (var i = 0; i < parallax.length; i++) {
       var r = parallax[i].getBoundingClientRect();
@@ -301,8 +320,25 @@
     /* ---------- ФАЗА 2: ЗАПИС ---------- */
     if (thread) {
       var max = docH - vh;
-      thread.style.setProperty('--thread',
-        (max > 0 ? Math.min(1, Math.max(0, y / max)) : 1).toFixed(4));
+      var grown = max > 0 ? Math.min(1, Math.max(0, y / max)) : 1;
+      thread.style.setProperty('--thread', grown.toFixed(4));
+      /* Пагін розкривається один раз і назавжди: якщо він то з'являвся,
+         то зникав при скролі вгору-вниз, колосок читався б як індикатор
+         прогресу, а не як рослина. Рослина назад не згортається. */
+      for (var sk = 0; sk < sprouts.length; sk++) {
+        var sp2 = sprouts[sk];
+        if (!sp2.done && grown >= sp2.at - 0.004) {
+          sp2.done = true;
+          sp2.el.classList.add('is-out');
+        }
+      }
+    }
+
+    /* Водяний знак пливе повільніше за сторінку — окремою властивістю
+       translate, бо мініфікатор ріже одиницю у var(--par, 0px). */
+    if (wmark && wmTop + wmH > -200 && wmTop < vh + 200) {
+      wmark.style.setProperty('--par',
+        (-(wmTop + wmH / 2 - vh / 2) * 0.06).toFixed(1) + 'px');
     }
 
     /* Сцена «Друге народження»: 0 — щойно торкнулася низу екрана,
@@ -340,7 +376,7 @@
     if (!ticking) { ticking = true; requestAnimationFrame(frame); }
   }
 
-  if (thread || parallax.length || story || pathLine) {
+  if (thread || wmark || parallax.length || story || pathLine) {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     frame();
@@ -404,6 +440,56 @@
         try { sessionStorage.setItem('lz-entered', '1'); } catch (err) { /* нічого */ }
         setTimeout(function () { loader.style.display = 'none'; }, 1000);
       }, 1750);
+    }
+  }
+
+  /* ====================================================================
+     7b. СВІТЛО, ЩО ЙДЕ ЗА КУРСОРОМ
+     Пляма в героєві повільно тягнеться за мишею — на 22 пікселі, не
+     більше. Це не «інтерактив», а відчуття, що світло в кадрі живе.
+     Рухаємо ОКРЕМОЮ властивістю translate: transform уже зайнятий
+     нескінченним дрейфом, і перезапис зупинив би анімацію.
+     Тільки миша, тільки коли герой у кадрі, тільки якщо рух дозволено.
+     ==================================================================== */
+  var heroSec = document.querySelector('.hero');
+  var canHover = window.matchMedia &&
+                 window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var stillOk  = !(window.matchMedia &&
+                   window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  if (heroSec && canHover && stillOk) {
+    var lights = heroSec.querySelectorAll('.glow');
+    var tx = 0, ty = 0, cx = 0, cy = 0, lit = false, heroIn = true;
+
+    var heroIO = new IntersectionObserver(function (en) {
+      heroIn = en[0].isIntersecting;
+      if (heroIn && !lit) { lit = true; requestAnimationFrame(lerp); }
+    }, { threshold: 0 });
+    heroIO.observe(heroSec);
+
+    heroSec.addEventListener('pointermove', function (ev) {
+      if (ev.pointerType !== 'mouse') return;
+      var r = heroSec.getBoundingClientRect();
+      tx = ((ev.clientX - r.left) / r.width  - 0.5) * 44;
+      ty = ((ev.clientY - r.top)  / r.height - 0.5) * 44;
+      if (!lit) { lit = true; requestAnimationFrame(lerp); }
+    }, { passive: true });
+
+    heroSec.addEventListener('pointerleave', function () { tx = 0; ty = 0; }, { passive: true });
+
+    function lerp() {
+      cx += (tx - cx) * 0.045;
+      cy += (ty - cy) * 0.045;
+      for (var li = 0; li < lights.length; li++) {
+        var k = li ? -0.55 : 1;   /* друга пляма йде НАЗУСТРІЧ - глибина */
+        lights[li].style.translate =
+          (cx * k).toFixed(1) + 'px ' + (cy * k).toFixed(1) + 'px';
+      }
+      /* Зупиняємо цикл, коли рух згас і герой пішов з екрана */
+      if (!heroIn && Math.abs(tx - cx) < 0.2 && Math.abs(ty - cy) < 0.2) {
+        lit = false; return;
+      }
+      requestAnimationFrame(lerp);
     }
   }
 

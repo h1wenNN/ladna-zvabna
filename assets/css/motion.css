@@ -62,14 +62,14 @@
 .reveal--still     {transform:scale(1.015)}   /* без зсуву взагалі */
 
 /* Сходинки затримок для груп. Крок 110мс. */
-.stagger > *:nth-child(1){--delay:0ms}
-.stagger > *:nth-child(2){--delay:110ms}
-.stagger > *:nth-child(3){--delay:220ms}
-.stagger > *:nth-child(4){--delay:330ms}
-.stagger > *:nth-child(5){--delay:440ms}
-.stagger > *:nth-child(6){--delay:550ms}
-.stagger > *:nth-child(7){--delay:660ms}
-.stagger > *:nth-child(8){--delay:770ms}
+.stagger > *:nth-child(1){--delay:0ms;}
+.stagger > *:nth-child(2){--delay:110ms;}
+.stagger > *:nth-child(3){--delay:220ms;}
+.stagger > *:nth-child(4){--delay:330ms;}
+.stagger > *:nth-child(5){--delay:440ms;}
+.stagger > *:nth-child(6){--delay:550ms;}
+.stagger > *:nth-child(7){--delay:660ms;}
+.stagger > *:nth-child(8){--delay:770ms;}
 
 /* --------------------------------------------------------------------------
    3. ТЕКСТ, ЩО ДИХАЄ
@@ -173,6 +173,81 @@
 .draw.is-in{clip-path:inset(0 0 0 0)}
 
 /* --------------------------------------------------------------------------
+   7b. ПЕЧАТКА, ЩО СТАВИТЬСЯ
+   Кільце — справжнє коло з обведенням, тому тут dasharray доречний
+   (на відміну від трасованого логотипа вище). Довжина кола 2*pi*98.5 = 619.
+   Далі фігура й слово проступають із затримкою: спершу коло, потім те,
+   що всередині. Так печатка читається як печатка, а не як картинка.
+   -------------------------------------------------------------------------- */
+.draw-ring circle{
+  stroke-dasharray:619;
+  stroke-dashoffset:619;
+  transform:rotate(-90deg);
+  transform-origin:50% 50%;
+  transition:stroke-dashoffset 2000ms var(--e-out);
+}
+.draw-ring.is-in circle{stroke-dashoffset:0}
+
+.seal__figure, .seal__text{
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity 900ms var(--e-out), transform 900ms var(--e-out);
+}
+.seal.is-in .seal__figure{opacity:.85; transform:none; transition-delay:420ms}
+.seal.is-in .seal__text  {opacity:1;   transform:none; transition-delay:640ms}
+
+/* --------------------------------------------------------------------------
+   7c. КАСКАДИ
+   Списки з’являються не всі разом, а рядок за рядком. Крок навмисне
+   малий (70мс): помітний як рух, непомітний як очікування.
+   -------------------------------------------------------------------------- */
+.care__row.reveal, .facts li.reveal, .quiz__item.reveal{transition-delay:var(--d, 0ms)}
+.care__row:nth-child(2) {--d:70ms;}
+.care__row:nth-child(3) {--d:140ms;}
+.care__row:nth-child(4) {--d:210ms;}
+.care__row:nth-child(5) {--d:280ms;}
+.care__row:nth-child(6) {--d:350ms;}
+.facts li:nth-child(2)  {--d:90ms;}
+.facts li:nth-child(3)  {--d:180ms;}
+.facts li:nth-child(4)  {--d:270ms;}
+.quiz__item:nth-child(2){--d:80ms;}
+.quiz__item:nth-child(3){--d:160ms;}
+.quiz__item:nth-child(4){--d:240ms;}
+.quiz__item:nth-child(5){--d:320ms;}
+
+/* --------------------------------------------------------------------------
+   7d. КАДР, ЩО ДИХАЄ ПІД КУРСОРОМ
+   Не «зум по ховеру», а майже непомітне наближення на 2,5% за 1,4 с.
+   Рамка арки лишається на місці — рухається тільки зображення в ній.
+   -------------------------------------------------------------------------- */
+@media (hover:hover) and (pointer:fine){
+  .arch img{transition:transform 1400ms var(--e-out), filter 1400ms var(--e-out)}
+  .arch:hover img{transform:scale(1.025)}
+  .act::after{
+    content:'';
+    position:absolute; left:0; right:0; bottom:-1px; height:1px;
+    background:var(--copper);
+    transform:scaleX(0); transform-origin:left;
+    transition:transform 640ms var(--e-out);
+  }
+  .act{position:relative; overflow:visible}
+  .act:hover::after{transform:scaleX(1)}
+}
+
+/* --------------------------------------------------------------------------
+   7e. КОЛОС ДИХАЄ
+   Коли колосок доріс до кінця сторінки, він не завмирає намертво:
+   ледь помітне дихання на 12 секунд циклу. Амплітуда 1,5% — на межі
+   сприйняття, саме тому воно й не набридає.
+   -------------------------------------------------------------------------- */
+@keyframes lz-breathe{
+  0%,100%{transform:translateX(-50%) scaleY(1)}
+  50%    {transform:translateX(-50%) scaleY(1.015)}
+}
+.stalk__ear.is-out{animation:lz-breathe 12s var(--e-breath) 1400ms infinite}
+
+
+/* --------------------------------------------------------------------------
    8. ПРЕЛОАДЕР
    До 1.8 с, один раз за сесію. Не «злітає вгору» — розчиняється світлом.
    Ніяких відсотків, ніякої смужки прогресу.
@@ -199,6 +274,12 @@
   }
   .reveal,.words .w{opacity:1 !important; filter:none !important; transform:none !important}
   .arch-open,.draw{clip-path:none !important}
+  .draw-ring circle{stroke-dashoffset:0 !important}
+  .seal__figure{opacity:.85 !important; transform:none !important}
+  .seal__text{opacity:1 !important; transform:none !important}
+  .stalk__leaf{opacity:.9 !important; transform:translateY(-50%) scaleX(var(--side)) rotate(-7deg) !important}
+  .stalk__ear{opacity:1 !important; transform:translateX(-50%) !important; animation:none !important}
+  .arch:hover img{transform:none !important}
   .glow{animation:none !important}
   .slow-zoom{animation:none !important}
   .loader{display:none !important}
@@ -210,6 +291,11 @@ html:not(.js) .reveal,
 html:not(.js) .words .w{opacity:1; filter:none; transform:none}
 html:not(.js) .arch-open,
 html:not(.js) .draw{clip-path:none}
+html:not(.js) .draw-ring circle{stroke-dashoffset:0}
+html:not(.js) .seal__figure{opacity:.85; transform:none}
+html:not(.js) .seal__text{opacity:1; transform:none}
+html:not(.js) .stalk__leaf{opacity:.9; transform:translateY(-50%) scaleX(var(--side)) rotate(-7deg)}
+html:not(.js) .stalk__ear{opacity:1; transform:translateX(-50%)}
 html:not(.js) .loader{display:none}
 
 /* --------------------------------------------------------------------------
@@ -241,7 +327,7 @@ html:not(.js) .loader{display:none}
   .on-dark *,.story *,.parable *,.foot *{color:#000 !important}
 
   /* Декор, рух і навігація на папері зайві */
-  .glow,.story__light,.parable__light,.thread,.loader,.callbar,.menu,
+  .glow,.story__light,.parable__light,.stalk,.loader,.callbar,.menu,
   .hdr__menu,.hdr__nav,.hdr__act,.skip,video,figure,picture,img,
   .arch,.scatter,.compare__pair,.hero__frame,.path,
   .story__beat--path{display:none !important}

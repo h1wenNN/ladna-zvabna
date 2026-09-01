@@ -56,7 +56,7 @@
   .hdr__nav{display:none}          /* Етап 5 дасть мобільне меню */
   .hdr__in{justify-content:space-between; gap:var(--sp-4)}
   .hdr__word{width:104px}
-  :root{--hdr-h:77px}
+  :root{--hdr-h:77px;}
 }
 
 /* --------------------------------------------------------------------------
@@ -412,6 +412,24 @@
 /* --------------------------------------------------------------------------
    5.4 ЛАДНА / ЗВАБНА
    -------------------------------------------------------------------------- */
+/* Водяний знак секції: та сама фігура з логотипа, ледь помітна, з легким
+   паралаксом. Паралакс окремою властивістю translate, а не в transform:
+   мініфікатор ріже одиницю у var(--par, 0px) і calc ламається. */
+.meaning__mark{
+  position:absolute;
+  right:calc(var(--pad-x) * .3);
+  top:50%;
+  width:clamp(190px, 26vw, 430px);
+  transform:translateY(-50%);
+  translate:0 var(--par, 0px);
+  color:var(--copper);
+  opacity:.085;
+  pointer-events:none;
+  z-index:0;
+}
+.meaning .wrap{position:relative; z-index:1}
+@media (max-width:640px){.meaning__mark{width:min(56vw,260px); opacity:.06}}
+
 .pair{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -826,7 +844,40 @@
   gap:var(--sp-12);
   align-items:end;
 }
-.foot__word{width:170px; color:var(--fg); margin-bottom:var(--sp-4)}
+/* --------------------------------------------------------------------------
+   ПЕЧАТКА В ПІДВАЛІ
+   Логотип зібраний із векторів, які вже є в документі: кільце малюється
+   лінією, всередині - фігура, слово й гілка-колос. Жодного растру.
+   Текстова колонка живе у правій половині кола; підпис винесено ПІД
+   печатку - у колі він упирався в дугу й ламався на три рядки.
+   -------------------------------------------------------------------------- */
+.seal{
+  position:relative;
+  width:clamp(184px, 25vw, 236px);
+  aspect-ratio:1;
+  margin-bottom:var(--sp-5);
+}
+.seal__ring{
+  position:absolute; inset:0; width:100%; height:100%;
+  fill:none; stroke:var(--accent-line); stroke-width:1;
+  vector-effect:non-scaling-stroke;
+}
+.seal__figure{
+  position:absolute; left:7%; top:16%;
+  height:68%; width:auto;
+  aspect-ratio:227 / 507;
+  color:var(--accent);
+  opacity:.85;
+}
+.seal__text{
+  position:absolute; left:44%; right:9%; top:50%;
+  transform:translateY(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:.45em;
+}
+.seal__word{width:100%; color:var(--fg)}
+.seal__rule{width:76%; color:var(--accent-line); opacity:.9}
+.foot__tag{color:var(--fg-dim)}
+
 .foot__contacts{
   display:flex; flex-direction:column; gap:var(--sp-2);
   font-style:normal;

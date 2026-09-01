@@ -197,34 +197,75 @@
 }
 
 /* --------------------------------------------------------------------------
-   6. НАСКРІЗНА НИТКА
-   Мідна лінія, що проходить крізь увесь сайт і росте зі скролом.
+   6. КОЛОСОК, ЩО РОСТЕ
+   Ізюминка сторінки. Мідна лінія при скролі витягується згори вниз, по
+   дорозі випускає листки, а внизу розкривається колосом із логотипа.
+   Салон вивезли з Херсона й наново виростили в Броварах - сторінка
+   розповідає це ще раз, мовчки, поки людина читає.
    Висоту задає JS через --thread (0…1). Без JS лишається повною.
    -------------------------------------------------------------------------- */
-.thread{
+.stalk{
   position:absolute;
   left:calc(var(--pad-x) * .42);
   top:0; bottom:0;
   width:1px;
-  background:var(--rule);
   pointer-events:none;
   z-index:1;
 }
-.thread::before{
+.stalk__stem{position:absolute; left:0; top:0; width:1px; height:100%; background:var(--rule)}
+.stalk__stem::before{
   content:'';
   position:absolute; left:0; top:0; width:100%;
-  height:calc(var(--thread,1) * 100%);
+  height:calc(var(--thread, 1) * 100%);
   background:linear-gradient(180deg,
-    rgba(var(--rgb-copper),0) 0%,
-    rgba(var(--rgb-copper),.55) 8%,
-    rgba(var(--rgb-copper),.55) 92%,
-    rgba(var(--rgb-copper),0) 100%);
+    rgba(var(--rgb-copper),0)   0%,
+    rgba(var(--rgb-copper),.55) 7%,
+    rgba(var(--rgb-copper),.55) 93%,
+    rgba(var(--rgb-copper),.10) 100%);
 }
-@media (max-width:768px){.thread{display:none}}
+/* Листок росте з лінії: scaleX від нуля до одиниці, парні - у другий бік. */
+.stalk__leaf{
+  --side:1;
+  position:absolute; top:var(--at); left:0;
+  width:26px; height:13px;
+  transform-origin:0 50%;
+  transform:translateY(-50%) scaleX(calc(var(--side) * .04)) rotate(-7deg);
+  opacity:0;
+  transition:transform 1000ms var(--e-out), opacity 800ms var(--e-out);
+  color:var(--accent-line);
+}
+.stalk__leaf:nth-child(even){--side:-1;}
+.stalk__leaf.is-out{opacity:.9; transform:translateY(-50%) scaleX(var(--side)) rotate(-7deg)}
+
+.stalk__ear{
+  position:absolute; left:50%; bottom:-6px;
+  width:34px; height:76px;
+  transform:translateX(-50%) scaleY(.06);
+  transform-origin:50% 100%;
+  opacity:0;
+  transition:transform 1200ms var(--e-out), opacity 900ms var(--e-out);
+  color:var(--accent-line);
+}
+.stalk__ear.is-out{opacity:1; transform:translateX(-50%) scaleY(1)}
+
+/* Відступ від краю на вузьких екранах рахується не «на око», а від
+   найширшого, що росте з лінії. Листок віддзеркалений виступає вліво
+   на свою ширину, колос - на пів своєї. Менший відступ означав, що
+   вони вилазять за вікно і дають горизонтальний скрол. */
+@media (max-width:900px){
+  .stalk{left:22px}            /* 18px листок + 4px запасу */
+  .stalk__leaf{width:18px; height:9px}
+  .stalk__ear{width:24px; height:54px}
+}
+@media (max-width:520px){
+  .stalk{left:14px}            /* листків уже немає: 12px пів колоса + 2px */
+  .stalk__leaf{display:none}
+}
 
 /* --------------------------------------------------------------------------
    7. СЛУЖБОВЕ
    -------------------------------------------------------------------------- */
+main{position:relative}  /* система координат для колоска */
 .flow-row{display:flex; flex-wrap:wrap; gap:var(--sp-6); align-items:center}
 .flow-col{display:flex; flex-direction:column; gap:var(--sp-4)}
 .pull-up{margin-top:calc(var(--sp-16) * -1)}
