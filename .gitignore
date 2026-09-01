@@ -4,3 +4,5 @@ node_modules/
 *.log
 _scratch/
 _to_delete/
+__pycache__/
+*.pyc

@@ -862,20 +862,22 @@
   fill:none; stroke:var(--accent-line); stroke-width:1;
   vector-effect:non-scaling-stroke;
 }
+/* Пропорції взяті з оригіналу логотипа: фігура тримає майже всю висоту
+   кола, слово стоїть у правій половині, гілка - щільно під ним. */
 .seal__figure{
-  position:absolute; left:7%; top:16%;
-  height:68%; width:auto;
+  position:absolute; left:4%; top:8%;
+  height:86%; width:auto;
   aspect-ratio:227 / 507;
   color:var(--accent);
-  opacity:.85;
+  opacity:.88;
 }
 .seal__text{
-  position:absolute; left:44%; right:9%; top:50%;
+  position:absolute; left:42%; right:7%; top:49%;
   transform:translateY(-50%);
-  display:flex; flex-direction:column; align-items:center; gap:.45em;
+  display:flex; flex-direction:column; align-items:center; gap:.28em;
 }
 .seal__word{width:100%; color:var(--fg)}
-.seal__rule{width:76%; color:var(--accent-line); opacity:.9}
+.seal__rule{width:96%; color:var(--accent-line); opacity:.9}
 .foot__tag{color:var(--fg-dim)}
 
 .foot__contacts{
