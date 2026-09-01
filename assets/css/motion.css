@@ -259,6 +259,9 @@
   transition:opacity 900ms var(--e-out), filter 900ms var(--e-out), visibility 0s 900ms;
 }
 .loader.is-gone{opacity:0; filter:blur(14px); visibility:hidden}
+/* Знак у прелоадері має ВСТИГНУТИ домалюватися до нижньої межі показу
+   (1150мс у main.js). Загальні 1800мс тут лишили б його на половині. */
+.loader .draw{transition-duration:1050ms}
 
 /* --------------------------------------------------------------------------
    9. ДОСТУПНІСТЬ

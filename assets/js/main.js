@@ -18,6 +18,13 @@
   /* Скрипт живий — знімаємо запобіжник, поставлений у <head>. */
   if (window.__lzFallback) { clearTimeout(window.__lzFallback); window.__lzFallback = null; }
 
+  /* Запобіжник уже спрацював (клас js знято) — значить, скрипт приїхав
+     пізніше за 3 секунди й сторінка вже показана статично. Заводити тут
+     появи й заслінку не можна: заслінка невидима через html:not(.js),
+     а body лишився б заблокованим на секунду без жодної видимої причини.
+     Знайдено на емуляції 50 КБ/с. */
+  if (!doc.classList.contains('js')) { showEverything(); return; }
+
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var coarse  = window.matchMedia('(pointer: coarse)').matches;
 
@@ -31,8 +38,13 @@
   }
 
   function showEverything() {
-    var n = document.querySelectorAll('.reveal, .words, .arch-open, .draw');
+    var n = document.querySelectorAll('.reveal, .words, .arch-open, .draw, .draw-ring, .seal');
     for (var i = 0; i < n.length; i++) { n[i].classList.add('is-in'); }
+    /* Колосок теж дорослий: без скролу він не виросте сам */
+    var g = document.querySelectorAll('.stalk__leaf, .stalk__ear');
+    for (var k = 0; k < g.length; k++) { g[k].classList.add('is-out'); }
+    var st = document.querySelector('.stalk__stem');
+    if (st) { st.style.setProperty('--thread', '1'); }
     var l = document.getElementById('loader');
     if (l) { l.style.display = 'none'; }
   }
@@ -433,13 +445,44 @@
         setTimeout(function () { if (word) { word.style.opacity = '.9'; } }, 500);
       });
 
-      setTimeout(function () {
+      /* Шар іде, щойно готове те, заради чого його тримали: гарнітура
+         й кадр героя. Раніше він стояв рівно 1750мс завжди - і на
+         швидкому з'єднанні людина 800мс дивилася на готову сторінку
+         крізь заслінку. Нижня межа (1150мс) лишає час домалювати знак,
+         верхня (1750мс) страхує на повільній мережі. */
+      var LOAD_MIN = 1150, LOAD_MAX = 1750, t0 = Date.now(), gone = false;
+
+      function leave() {
+        if (gone) { return; }
+        gone = true;
+        clearTimeout(capT);
         loader.classList.add('is-gone');
         body.style.overflow = '';
         if (lenis) { lenis.start(); }
         try { sessionStorage.setItem('lz-entered', '1'); } catch (err) { /* нічого */ }
         setTimeout(function () { loader.style.display = 'none'; }, 1000);
-      }, 1750);
+      }
+      var capT = setTimeout(leave, LOAD_MAX);
+
+      var waiting = 1;
+      function tick() {
+        if (--waiting > 0) { return; }
+        setTimeout(leave, Math.max(0, LOAD_MIN - (Date.now() - t0)));
+      }
+      if (document.fonts && document.fonts.ready) {
+        waiting++;
+        document.fonts.ready.then(tick, tick);
+      }
+      var heroImg = document.querySelector('.hero__frame img');
+      if (heroImg) {
+        waiting++;
+        if (heroImg.complete) { tick(); }
+        else {
+          heroImg.addEventListener('load', tick, { once: true });
+          heroImg.addEventListener('error', tick, { once: true });
+        }
+      }
+      tick();
     }
   }
 
