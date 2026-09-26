@@ -238,6 +238,15 @@
   .hero__text > .mini{display:none}
 }
 
+/* На короткому телефоні не стискаємо обличчя до вузької смужки заради
+   примусового вміщення всього героя в один екран. */
+@media (orientation:portrait) and (max-width:420px) and (max-height:680px){
+  .hero__in{height:auto; min-height:calc(100svh - var(--hdr-h) - 12px)}
+  .hero__frame{flex:none}
+  .hero__frame .arch{flex:none; height:clamp(200px,35vh,245px); min-height:0; max-height:none}
+  .hero__text{padding-bottom:var(--sp-6)}
+}
+
 /* --------------------------------------------------------------------------
    ГЕРОЙ · НИЗЬКЕ ГОРИЗОНТАЛЬНЕ ВІКНО (телефон у горизонталі, вузький ноут)
 
@@ -408,6 +417,13 @@
 }
 .story__final em{font-style:italic; color:var(--accent)}
 .story__date{margin-top:var(--sp-8)}
+.story__coda{align-items:center}
+.story__coda-copy{grid-column:2 / span 7}
+.story__coda-photo{grid-column:10 / span 3; width:100%; max-width:280px; justify-self:end}
+@media (max-width:900px){
+  .story__coda-copy,.story__coda-photo{grid-column:1 / -1}
+  .story__coda-photo{width:min(68vw,280px); justify-self:end; margin-top:var(--sp-8)}
+}
 
 /* --------------------------------------------------------------------------
    5.4 ЛАДНА / ЗВАБНА
@@ -534,7 +550,10 @@
 .space .lane-media-l{align-self:center}
 .space__text h2{margin-block:var(--sp-4) var(--sp-6)}
 .space__text h2 em{font-style:italic; color:var(--accent)}
-.space__scatter{margin-top:clamp(40px, 6vh, 88px)}
+.space__welcome{width:min(100%,360px); margin-top:clamp(30px,5vh,56px)}
+@media (max-width:900px){
+  .space__photo{justify-self:start}
+}
 
 /* Роздільник — це ::after ВСЕРЕДИНІ пункту, а не абсолютна крапка між
    пунктами. Абсолютна крапка при переносі лишалася сама на новому рядку,
@@ -644,7 +663,31 @@
 }
 
 /* --------------------------------------------------------------------------
-   5.8 ПРОЦЕДУРИ
+   5.8 РИТУАЛ — кадри процесу й відпочинку
+   -------------------------------------------------------------------------- */
+.ritual{background:var(--milk)}
+.ritual__head{max-width:790px; margin-left:8%}
+.ritual__head h2{margin-block:var(--sp-4) var(--sp-6); font-size:clamp(2.6rem,5.5vw,5.8rem); line-height:1}
+.ritual__head h2 em{font-style:italic; color:var(--accent)}
+.ritual__gallery{
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  gap:clamp(28px,6vw,104px);
+  align-items:start;
+  width:min(100%,1020px);
+  margin:clamp(44px,7vh,86px) auto 0;
+}
+.ritual__body{width:100%; max-width:540px}
+.ritual__portrait{width:100%; max-width:340px; margin-top:clamp(80px,13vw,185px)}
+@media (max-width:650px){
+  .ritual__head{margin-left:0}
+  .ritual__gallery{grid-template-columns:1fr; gap:var(--sp-8); margin-top:var(--sp-12)}
+  .ritual__body{max-width:440px}
+  .ritual__portrait{max-width:min(74%,320px); justify-self:end; margin-top:0}
+}
+
+/* --------------------------------------------------------------------------
+   5.9 ПРОЦЕДУРИ
    -------------------------------------------------------------------------- */
 .care h2{margin-block:var(--sp-4) var(--sp-6)}
 /* Заголовок доглядів стоїть праворуч — розкладка дзеркалить попередню секцію,
@@ -763,6 +806,7 @@
 .compare h2{margin-block:var(--sp-4) var(--sp-6)}
 .compare__head{text-align:center}
 .compare__head .measure{margin-inline:auto}
+.compare__act{margin-top:var(--sp-8)}
 .compare__pair{
   margin-top:clamp(30px, 4vh, 58px);
   display:grid;

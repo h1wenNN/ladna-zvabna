@@ -62,10 +62,17 @@
 
 | Місце | Джерело | Опублікований файл і вибір кадру |
 |---|---|---|
-| Перший екран | `IMG_7526.MOV` · 9 с | `assets/img/interior/hero-ritual*` — сцена підготовки до догляду, окремі кадрування для широкого екрана й телефона. |
-| «Простір», головний кадр | `IMG_7577.MP4` · 1,4–4,6 с | `assets/video/interior-tour.*` — зона очікування без рекламних написів. Коротка петля, постер для мобільного екрана. |
-| «Простір», три деталі | `IMG_7913.MP4` · 23,5 с; `IMG_7609.MOV` · 7 с; `IMG_7546.MOV` · 16 с | `reception`, `brand-wall`, `welcome-tea` у `assets/img/interior/` — крісло, фізичний настінний знак і напій із печивом. |
+| Перший екран | Згенерований редакційний кадр | `assets/img/editorial/hero-care*` — доросла жінка під час м’якого масажу обличчя, окремий горизонтальний кроп для телефона. Це ілюстрація послуги, не фото салону чи клієнтки. |
+| Завершення історії | `IMG_7605.MOV` · 1,7 с | `assets/img/ritual/mural-artist.*` — художниця вручну розписує знак у новому салоні. Не подається як історичний кадр із Херсона. |
+| «Простір» | `IMG_7609.MOV` · 7 с; `IMG_7546.MOV` · 16 с | `assets/img/interior/brand-wall.*` — готовий фізичний знак; `welcome-tea.*` — напій для гості. |
+| «Турбота — у дотику» | `IMG_7528.MOV` · 41 с; згенерований редакційний портрет | `assets/img/ritual/body-care.*` — справжня робота руками зі спиною; `assets/img/editorial/quiet-portrait.*` — ілюстративний настрій злагоди із собою. Не приписуємо кадру тіла конкретну апаратну процедуру. |
 | «Догляди й ціни» | `IMG_7543.MOV` · 30–33,2 с | `assets/video/facial-care.*` — короткий фрагмент фактичної процедури для обличчя. Згоду на публікацію обличчя підтверджено. Назву конкретного апарата не стверджуємо. |
 | «Запис» | `IMG_7920.HEIC` | `assets/img/interior/entrance.*` — реальний вхід і вивіска, корисні для пошуку салону. |
 
-Нові фото мають JPG і WebP, відео — MP4/H.264 та WebM/VP9. Відео без звукової доріжки; кожен короткий ролик має окремий постер і не завантажується на вузьких екранах. Початкові файли залишаються в `../latest_mat/`, а в папці сайту розміщено лише оптимізовані версії. Порівняння «до/після» залишається без фото до отримання справжньої пари для однієї процедури.
+Крісло `reception.*`, тур інтер’єром `interior-tour.*` і попередній кадр першого екрана `hero-ritual*` залишені в історії активів, але більше не використовуються на сторінці. Порожні візуальні плейсхолдери «до/після» прибрані: розділ лишився текстовим до отримання справжньої пари фото однієї людини. Усі нові фото мають JPG і WebP; ролик процедури має MP4/H.264, WebM/VP9 та постер і не завантажується на вузьких екранах. Початкові файли зйомки залишаються в `../latest_mat/`.
+
+### Редакційний кадр першого екрана
+
+Створено вбудованим ImageGen у режимі **photorealistic-natural**. Збережене джерело: `_dev/img-src/hero-care-source.png`. Вебверсії отримані скриптом `_dev/tools/export_editorial_2026.py`, без додавання тексту чи логотипа в зображення. Використаний опис: **“One vertical premium editorial beauty photograph of an adult woman around 40 receiving a gentle non-medical facial massage. Her serene face is visible in three-quarter view, eyes relaxed, natural skin texture; only the professional’s clean hands touch jaw and temples. Modest cream linen covers the shoulders. Warm window light, milk and sand tones, subtle olive. No tools, machines, injections, product packs, logos, lettering, glossy retouching or stock smile.”**
+
+Другий редакційний кадр збережено як `_dev/img-src/quiet-portrait-source.png`, вебверсії — `assets/img/editorial/quiet-portrait.*`. Опис для генерації: **“Natural editorial portrait of a calm adult woman around 40, looking gently toward camera and touching her cheek, with real skin texture, loose dark hair, modest cream linen clothing, soft window light and warm sand and olive surroundings. Quiet confidence, no products, salon branding, lettering or glossy retouching.”** Він не подається як фото клієнтки чи результат процедури.
