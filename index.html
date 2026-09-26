@@ -44,14 +44,14 @@
 })();
 </script>
 
-<!-- Окреме кадрування для вузького екрана зберігає обличчя/силует у кадрі. -->
+<!-- Окреме кадрування для вузького екрана зберігає обличчя та руки в кадрі. -->
 <link rel="preload" as="image" type="image/webp" fetchpriority="high"
       media="(orientation: portrait) and (max-width: 1024px)"
-      href="assets/img/interior/hero-ritual-mobile.webp">
+      href="assets/img/editorial/hero-care-mobile.webp">
 <link rel="preload" as="image" type="image/webp" fetchpriority="high"
       media="(orientation: landscape), (min-width: 1025px)"
-      href="assets/img/interior/hero-ritual.webp"
-      imagesrcset="assets/img/interior/hero-ritual-520.webp 520w, assets/img/interior/hero-ritual.webp 900w"
+      href="assets/img/editorial/hero-care.webp"
+      imagesrcset="assets/img/editorial/hero-care-520.webp 520w, assets/img/editorial/hero-care.webp 900w"
       imagesizes="46vw">
 <link rel="preload" href="assets/fonts/cormorant-infant-300.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/onest-300.woff2" as="font" type="font/woff2" crossorigin>
@@ -160,26 +160,26 @@
       </div>
     </div>
 
-    <!-- Реальна сцена перед доглядом: кадр з наданого клієнткою відео.
-         Для телефона — окремий горизонтальний кроп, щоб голова лишалась у кадрі. -->
+    <!-- Ілюстративний редакційний кадр догляду за обличчям.
+         Для телефона — окремий кроп, який тримає обличчя й руки в кадрі. -->
     <figure class="hero__frame">
       <div class="arch arch--framed arch-open">
         <picture>
           <source media="(orientation: portrait) and (max-width: 1024px)"
-                  srcset="assets/img/interior/hero-ritual-mobile.webp" type="image/webp">
+                  srcset="assets/img/editorial/hero-care-mobile.webp" type="image/webp">
           <source media="(orientation: portrait) and (max-width: 1024px)"
-                  srcset="assets/img/interior/hero-ritual-mobile.jpg">
+                  srcset="assets/img/editorial/hero-care-mobile.jpg">
           <source type="image/webp"
-                  srcset="assets/img/interior/hero-ritual-520.webp 520w, assets/img/interior/hero-ritual.webp 900w"
+                  srcset="assets/img/editorial/hero-care-520.webp 520w, assets/img/editorial/hero-care.webp 900w"
                   sizes="46vw">
-          <img src="assets/img/interior/hero-ritual.jpg"
-               alt="Відвідувачка в халаті готується до догляду в салоні"
+          <img src="assets/img/editorial/hero-care.jpg"
+               alt="Ілюстративний кадр: жінка розслабляється під час масажу обличчя"
                width="900" height="1100" fetchpriority="high" decoding="async">
         </picture>
       </div>
       <figcaption class="hero__cap">
         <span class="hero__cap-line" aria-hidden="true"></span>
-        Бровари, вул.&nbsp;Симоненка,&nbsp;30А
+        час для себе
       </figcaption>
     </figure>
 
@@ -265,14 +265,23 @@
 
 <section class="section section--coda story__out" data-beat="7">
   <div class="glow" style="--gx:52%;--gy:30%;--ga:.14" aria-hidden="true"></div>
-  <div class="wrap grid">
-    <div class="lane-inset">
+  <div class="wrap grid story__coda">
+    <div class="story__coda-copy">
       <p class="story__final">
         У&nbsp;Броварах з’явилася не&nbsp;копія минулого,<br>
         а&nbsp;його <em>живе продовження</em>.
       </p>
       <p class="mini story__date">лютий 2026</p>
     </div>
+    <figure class="story__coda-photo media">
+      <div class="arch arch--framed">
+        <picture>
+          <source srcset="assets/img/ritual/mural-artist.webp" type="image/webp">
+          <img src="assets/img/ritual/mural-artist.jpg" alt="Художниця вручну розписує знак «Ладна-Звабна» на стіні нового салону" width="720" height="900" loading="lazy" decoding="async">
+        </picture>
+      </div>
+      <figcaption>Новий знак з’являється на стіні салону.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -351,15 +360,15 @@
 <section class="section space" id="space" aria-labelledby="space-h">
   <div class="wrap grid">
 
-    <div class="lane-media-l">
+    <figure class="lane-media-l space__photo media">
       <div class="arch arch--tall arch--framed arch-open">
-        <video muted playsinline loop preload="none"
-               width="480" height="720"
-               poster="assets/video/interior-tour-poster.jpg"
-               data-video="assets/video/interior-tour" data-slow="0.7"
-               aria-label="Зона очікування салону: крісло, рослини й тепле світло"></video>
+        <picture>
+          <source srcset="assets/img/interior/brand-wall.webp" type="image/webp">
+          <img src="assets/img/interior/brand-wall.jpg" alt="Розписаний вручну знак і жіноча ілюстрація на стіні салону" width="540" height="720" loading="lazy" decoding="async">
+        </picture>
       </div>
-    </div>
+      <figcaption>Наш простір у Броварах — зі знаком, створеним вручну.</figcaption>
+    </figure>
 
     <div class="lane-right space__text">
       <p class="mini">простір</p>
@@ -374,35 +383,15 @@
         <li>натуральні матеріали</li>
         <li>тиша</li>
       </ul>
-    </div>
-
-    <div class="lane-full space__scatter">
-      <div class="scatter">
-        <figure class="media">
-          <div class="arch arch--soft arch--framed">
-            <picture>
-            <source srcset="assets/img/interior/reception.webp" type="image/webp">
-            <img src="assets/img/interior/reception.jpg" alt="Крісло й комод у зоні очікування салону" width="640" height="640" loading="lazy" decoding="async">
-          </picture>
-          </div>
-        </figure>
-        <figure class="media">
-          <div class="arch arch--framed">
-            <picture>
-            <source srcset="assets/img/interior/brand-wall.webp" type="image/webp">
-            <img src="assets/img/interior/brand-wall.jpg" alt="Розписаний вручну знак «Ладна-Звабна» на стіні салону" width="540" height="720" loading="lazy" decoding="async">
-          </picture>
-          </div>
-        </figure>
-        <figure class="media">
-          <div class="arch arch--wide arch--framed">
-            <picture>
+      <figure class="space__welcome media">
+        <div class="arch arch--wide arch--framed">
+          <picture>
             <source srcset="assets/img/interior/welcome-tea.webp" type="image/webp">
             <img src="assets/img/interior/welcome-tea.jpg" alt="Чашка теплого напою з печивом для гості салону" width="800" height="500" loading="lazy" decoding="async">
           </picture>
-          </div>
-        </figure>
-      </div>
+        </div>
+        <figcaption>Невелика пауза перед доглядом.</figcaption>
+      </figure>
     </div>
 
   </div>
@@ -492,7 +481,40 @@
 </section>
 
 <!-- ==================================================================
-     5.8 ПРОЦЕДУРИ
+     5.8 РИТУАЛ — СЦЕНИ З РЕАЛЬНОГО САЛОНУ
+     ================================================================== -->
+<section class="section ritual" id="ritual" aria-labelledby="ritual-h">
+  <div class="wrap">
+    <div class="ritual__head">
+      <p class="mini">у процесі</p>
+      <h2 id="ritual-h">Турбота — <em>у дотику</em></h2>
+      <p class="measure">Уважна робота майстрині, спокійний темп і&nbsp;час побути з&nbsp;собою. Саме такі моменти живуть у нашому салоні.</p>
+    </div>
+    <div class="ritual__gallery">
+      <figure class="ritual__body media">
+        <div class="arch arch--framed">
+          <picture>
+            <source srcset="assets/img/ritual/body-care.webp" type="image/webp">
+            <img src="assets/img/ritual/body-care.jpg" alt="Майстриня руками виконує догляд за спиною клієнтки" width="800" height="1000" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <figcaption>Ручний догляд за тілом у салоні.</figcaption>
+      </figure>
+      <figure class="ritual__portrait media">
+        <div class="arch arch--framed">
+          <picture>
+            <source srcset="assets/img/editorial/quiet-portrait.webp" type="image/webp">
+            <img src="assets/img/editorial/quiet-portrait.jpg" alt="Ілюстративний портрет спокійної жінки у світлому одязі" width="720" height="900" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <figcaption>Побути у злагоді із собою · ілюстративний кадр.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     5.9 ПРОЦЕДУРИ
      ================================================================== -->
 <section class="section care" id="care" aria-labelledby="care-h">
   <div class="wrap grid">
@@ -598,46 +620,21 @@
   </div>
 </section>
 
-<!-- ==================================================================
-     5.9 ДО / ПІСЛЯ
-     Клієнтка попросила залишити. Подача навмисно без тиску:
-     не «до і після», а спостереження за станом шкіри.
-     Фото поки ілюстративні — дисклеймер обов'язковий.
-     ================================================================== -->
+<!-- Поки немає справжньої пари фото однієї людини, говоримо про догляд
+     без візуального порівняння й не показуємо порожніх плейсхолдерів. -->
 <section class="section section--soft compare" id="compare" aria-labelledby="compare-h">
   <div class="wrap grid">
     <div class="lane-center compare__head">
-      <p class="mini">за час курсу</p>
+      <p class="mini">увага до себе</p>
       <h2 id="compare-h">Шкіра, що відпочила</h2>
-      <p class="measure">Це не&nbsp;про&nbsp;те, щоб стати іншою. Це про&nbsp;те,
-        як виглядає шкіра, коли про&nbsp;неї послідовно дбають.</p>
+      <p class="measure">Догляд починається з&nbsp;уваги до&nbsp;ваших потреб. Разом підберемо комфортний ритм процедур і&nbsp;спостерігатимемо за&nbsp;змінами.</p>
+      <a class="act act--quiet compare__act" href="#consult">Підібрати догляд <span class="arrow" aria-hidden="true">↑</span></a>
     </div>
-
-    <!-- Без JS це два кадри поруч — чесно й читабельно.
-         JS складає їх у накладену пару з повзунком (див. ui.js). -->
-    <div class="lane-inset compare__pair" data-compare>
-      <figure class="compare__side" data-side="before">
-        <!-- SHOT: реальне фото на початку курсу, 1:1, рівне світло, той самий ракурс -->
-        <div class="arch arch--soft ph ph--cool"><span class="ph__note">фото після зйомки</span></div>
-        <figcaption>на початку курсу</figcaption>
-      </figure>
-      <figure class="compare__side" data-side="after">
-        <!-- SHOT: те саме обличчя за кілька сеансів, 1:1, ТЕ САМЕ світло і ракурс -->
-        <div class="arch arch--soft ph ph--warm"><span class="ph__note">фото після зйомки</span></div>
-        <figcaption>за кілька сеансів</figcaption>
-      </figure>
-    </div>
-
-    <p class="lane-center compare__note">
-      Зображення ілюструють стан шкіри й&nbsp;наведені для прикладу.
-      Результат індивідуальний і&nbsp;залежить від&nbsp;багатьох речей&nbsp;—
-      сну, води, віку, здоров’я та&nbsp;регулярності догляду.
-    </p>
   </div>
 </section>
 
 <!-- ==================================================================
-     5.11 ЗАПИС
+     5.10 ЗАПИС
      Тільки Direct і телефон. Ніякої форми, ніякого бекенду.
      ================================================================== -->
 <section class="section book" id="book" aria-labelledby="book-h">
