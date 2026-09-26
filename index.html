@@ -44,12 +44,15 @@
 })();
 </script>
 
-<!-- Постер героя — це LCP-елемент. Без preload браузер знаходить його
-     аж після парсингу CSS і розбору <video>. -->
+<!-- Окреме кадрування для вузького екрана зберігає обличчя/силует у кадрі. -->
 <link rel="preload" as="image" type="image/webp" fetchpriority="high"
-      href="assets/img/interior/hero.webp"
-      imagesrcset="assets/img/interior/hero-520.webp 520w, assets/img/interior/hero.webp 720w"
-      imagesizes="(max-width: 1024px) 100vw, 46vw">
+      media="(orientation: portrait) and (max-width: 1024px)"
+      href="assets/img/interior/hero-ritual-mobile.webp">
+<link rel="preload" as="image" type="image/webp" fetchpriority="high"
+      media="(orientation: landscape), (min-width: 1025px)"
+      href="assets/img/interior/hero-ritual.webp"
+      imagesrcset="assets/img/interior/hero-ritual-520.webp 520w, assets/img/interior/hero-ritual.webp 900w"
+      imagesizes="46vw">
 <link rel="preload" href="assets/fonts/cormorant-infant-300.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/onest-300.woff2" as="font" type="font/woff2" crossorigin>
 <!-- Зібраний CSS: чотири джерела в assets/css/ склеєні й стиснуті скриптом
@@ -157,21 +160,21 @@
       </div>
     </div>
 
-    <!-- Кадр показуємо в арці, а не тлом на весь екран.
-         Причина проста: джерело 720px, і розтягнуте на всю ширину воно
-         перетворюється на розмиту пляму. В арці воно йде майже піксель
-         у піксель — різко, з деталлю, з фактурою срібла й дерева.
-         Форма арки заразом дає екрану те, чого браку��о повноекранному
-         фону: контур і контраст. -->
+    <!-- Реальна сцена перед доглядом: кадр з наданого клієнткою відео.
+         Для телефона — окремий горизонтальний кроп, щоб голова лишалась у кадрі. -->
     <figure class="hero__frame">
       <div class="arch arch--framed arch-open">
         <picture>
+          <source media="(orientation: portrait) and (max-width: 1024px)"
+                  srcset="assets/img/interior/hero-ritual-mobile.webp" type="image/webp">
+          <source media="(orientation: portrait) and (max-width: 1024px)"
+                  srcset="assets/img/interior/hero-ritual-mobile.jpg">
           <source type="image/webp"
-                  srcset="assets/img/interior/hero-520.webp 520w, assets/img/interior/hero.webp 720w"
-                  sizes="(max-width: 1024px) 100vw, 46vw">
-          <img src="assets/img/interior/hero.jpg"
-               alt="Кава й запалена свічка на срібній таці, різьблений столик у салоні"
-               width="720" height="748" fetchpriority="high" decoding="async">
+                  srcset="assets/img/interior/hero-ritual-520.webp 520w, assets/img/interior/hero-ritual.webp 900w"
+                  sizes="46vw">
+          <img src="assets/img/interior/hero-ritual.jpg"
+               alt="Відвідувачка в халаті готується до догляду в салоні"
+               width="900" height="1100" fetchpriority="high" decoding="async">
         </picture>
       </div>
       <figcaption class="hero__cap">
@@ -349,12 +352,12 @@
   <div class="wrap grid">
 
     <div class="lane-media-l">
-      <div class="arch arch--wide arch--framed arch-open">
+      <div class="arch arch--tall arch--framed arch-open">
         <video muted playsinline loop preload="none"
-               width="720" height="450"
-               poster="assets/video/banquette-poster.jpg"
-               data-video="assets/video/banquette" data-slow="0.65"
-               aria-label="Позолочена канапа зі стьобаним текстилем"></video>
+               width="480" height="720"
+               poster="assets/video/interior-tour-poster.jpg"
+               data-video="assets/video/interior-tour" data-slow="0.7"
+               aria-label="Зона очікування салону: крісло, рослини й тепле світло"></video>
       </div>
     </div>
 
@@ -378,24 +381,24 @@
         <figure class="media">
           <div class="arch arch--soft arch--framed">
             <picture>
-            <source srcset="assets/img/details/d-terrazzo.webp" type="image/webp">
-            <img src="assets/img/details/d-terrazzo.jpg" alt="Квіткова оббивка крісла й підлога з тераццо" width="560" height="560" loading="lazy" decoding="async">
+            <source srcset="assets/img/interior/reception.webp" type="image/webp">
+            <img src="assets/img/interior/reception.jpg" alt="Крісло й комод у зоні очікування салону" width="640" height="640" loading="lazy" decoding="async">
           </picture>
           </div>
         </figure>
         <figure class="media">
           <div class="arch arch--framed">
             <picture>
-            <source srcset="assets/img/details/d-portrait.webp" type="image/webp">
-            <img src="assets/img/details/d-portrait.jpg" alt="Картина в позолоченій рамі на стіні салону" width="540" height="720" loading="lazy" decoding="async">
+            <source srcset="assets/img/interior/brand-wall.webp" type="image/webp">
+            <img src="assets/img/interior/brand-wall.jpg" alt="Розписаний вручну знак «Ладна-Звабна» на стіні салону" width="540" height="720" loading="lazy" decoding="async">
           </picture>
           </div>
         </figure>
         <figure class="media">
           <div class="arch arch--wide arch--framed">
             <picture>
-            <source srcset="assets/img/details/d-carved.webp" type="image/webp">
-            <img src="assets/img/details/d-carved.jpg" alt="Різьблений орнамент на білому комоді" width="640" height="400" loading="lazy" decoding="async">
+            <source srcset="assets/img/interior/welcome-tea.webp" type="image/webp">
+            <img src="assets/img/interior/welcome-tea.jpg" alt="Чашка теплого напою з печивом для гості салону" width="800" height="500" loading="lazy" decoding="async">
           </picture>
           </div>
         </figure>
@@ -502,12 +505,13 @@
 
     <figure class="care__aside">
       <div class="arch arch--soft arch--framed arch-open">
-        <picture>
-          <source srcset="assets/img/details/d-shelf.webp" type="image/webp">
-          <img src="assets/img/details/d-shelf.jpg" alt="Комод із флаконами, склом і зеленню" width="640" height="640" loading="lazy" decoding="async">
-        </picture>
+        <video muted playsinline loop preload="none"
+               width="640" height="640"
+               poster="assets/video/facial-care-poster.jpg"
+               data-video="assets/video/facial-care" data-slow="0.75"
+               aria-label="Апаратний догляд за обличчям у салоні"></video>
       </div>
-      <figcaption>засоби, з якими працюємо</figcaption>
+      <figcaption>догляд за обличчям у салоні</figcaption>
     </figure>
 
     <div class="care__groups" id="price">
@@ -671,13 +675,12 @@
 
     <div class="lane-media-r">
       <div class="arch arch--soft arch--framed arch-open">
-        <!-- SHOT: фасад або вітальня салону.
-             Поки — живий кадр зі свічками: він запрошує, а вікно з рослиною ні. -->
-        <video muted playsinline loop preload="none"
-               width="720" height="600"
-               poster="assets/video/ritual-poster.jpg"
-               data-video="assets/video/ritual" data-slow="0.6"
-               aria-label="Свічки на срібній таці в теплому світлі"></video>
+        <picture>
+          <source srcset="assets/img/interior/entrance.webp" type="image/webp">
+          <img src="assets/img/interior/entrance.jpg"
+               alt="Вхід до салону «Ладна-Звабна» у Броварах із круглою вивіскою"
+               width="900" height="900" loading="lazy" decoding="async">
+        </picture>
       </div>
     </div>
 
