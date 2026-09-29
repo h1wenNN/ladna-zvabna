@@ -14,6 +14,11 @@
 
   var doc  = document.documentElement;
   var body = document.body;
+  var entryAnchorScheduled = false, entryAnchorCanceled = false;
+  function cancelEntryAnchor() { entryAnchorCanceled = true; }
+  ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(function (event) {
+    document.addEventListener(event, cancelEntryAnchor, { once: true, passive: true });
+  });
 
   /* Скрипт живий — знімаємо запобіжник, поставлений у <head>. */
   if (window.__lzFallback) { clearTimeout(window.__lzFallback); window.__lzFallback = null; }
@@ -47,6 +52,32 @@
     if (st) { st.style.setProperty('--thread', '1'); }
     var l = document.getElementById('loader');
     if (l) { l.style.display = 'none'; }
+    alignEntryAnchor();
+  }
+
+  /* Після появи шрифтів повторно вирівнюємо адресу з якорем:
+     висота тексту могла змінитися після першого стрибка браузера. */
+  function alignEntryAnchor() {
+    if (entryAnchorScheduled || entryAnchorCanceled) return;
+    entryAnchorScheduled = true;
+    var hash = window.location.hash;
+    if (!hash || hash.length < 2) return;
+    var target;
+    try { target = document.getElementById(decodeURIComponent(hash.slice(1))); }
+    catch (err) { return; }
+    if (!target) return;
+    var ready = document.fonts ? document.fonts.ready : Promise.resolve();
+    ready.then(function () {
+      requestAnimationFrame(function () {
+        if (entryAnchorCanceled || window.location.hash !== hash) return;
+        if (lenis) {
+          /* Lenis уже враховує scroll-margin-top із CSS. */
+          lenis.scrollTo(target, { immediate: true, force: true });
+        } else {
+          target.scrollIntoView({ block: 'start' });
+        }
+      });
+    });
   }
 
   /* ====================================================================
@@ -429,6 +460,7 @@
 
     if (seen) {
       loader.style.display = 'none';
+      alignEntryAnchor();
     } else {
       if (lenis) { lenis.stop(); }
       body.style.overflow = 'hidden';
@@ -459,6 +491,7 @@
         loader.classList.add('is-gone');
         body.style.overflow = '';
         if (lenis) { lenis.start(); }
+        alignEntryAnchor();
         try { sessionStorage.setItem('lz-entered', '1'); } catch (err) { /* нічого */ }
         setTimeout(function () { loader.style.display = 'none'; }, 1000);
       }
@@ -485,6 +518,7 @@
       tick();
     }
   }
+  if (!loader) alignEntryAnchor();
 
   /* ====================================================================
      7b. СВІТЛО, ЩО ЙДЕ ЗА КУРСОРОМ

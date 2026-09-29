@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="uk" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Галерея салону «Ладна-Звабна» — простір і догляд у Броварах</title>
+<meta name="description" content="Зазирніть у салон «Ладна-Звабна» в Броварах: фотографії простору, моменти догляду за обличчям і тілом, гостинні деталі та вхід до салону.">
+
+<!-- ⚠ ДОМЕН — ПЛЕЙСХОЛДЕР. Замінити в трьох місцях цього файлу, у sitemap.xml
+     і в robots.txt, коли домен буде відомий (питання №6 у PROGRESS.md). -->
+<link rel="canonical" href="https://ladna-zvabna.com.ua/gallery.html">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uk_UA">
+<meta property="og:site_name" content="Ладна-Звабна">
+<meta property="og:title" content="Галерея — Ладна-Звабна">
+<meta property="og:description" content="Наш простір, моменти догляду та деталі, які створюють затишок.">
+<meta property="og:url" content="https://ladna-zvabna.com.ua/gallery.html">
+<meta property="og:image" content="https://ladna-zvabna.com.ua/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Знак «Ладна-Звабна» і фраза «Краса, що починається зі злагоди із собою»">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#F7F5F0">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/img/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/img/icons/icon-180.png">
+<link rel="manifest" href="site.webmanifest">
+
+<script>
+/* Клас .js вимикає статичний fallback у motion.css і віддає керування появою скрипту.
+   Ставимо його ДО першої відмальовки, щоб не було спалаху вмісту.
+
+   Запобіжник: якщо main.js не завантажиться, не виконається або впаде —
+   через 3 секунди клас знімається і сторінка повертається до статичної,
+   повністю читабельної версії. Без цього збій одного файлу лишив би
+   людину перед порожнім екраном. */
+(function(){
+  var d = document.documentElement;
+  d.className = 'js';
+  window.__lzFallback = setTimeout(function(){ d.className = ''; }, 3000);
+})();
+</script>
+
+
+<link rel="preload" href="assets/fonts/cormorant-infant-300.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/onest-300.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Зібраний CSS: чотири джерела в assets/css/ склеєні й стиснуті скриптом
+     build.sh. Правити треба ДЖЕРЕЛА, потім запустити `bash build.sh`.
+     Один файл замість чотирьох — на 520 мс менше блокування рендеру. -->
+<link rel="stylesheet" href="assets/css/site.min.css">
+<link rel="stylesheet" href="assets/css/gallery.min.css">
+</head>
+
+<body class="gallery-page">
+
+<!-- Знаки логотипа лежать у документі один раз і вживаються через <use>.
+     Не в CSS як data:URI (роздувало критичний файл і гальмувало появу тексту)
+     і не окремим файлом (зовнішній SVG як маска не працює при відкритті
+     сторінки подвійним кліком). -->
+<svg class="lz-sprite" aria-hidden="true" focusable="false"><symbol id="lz-word" viewBox="0 0 540 232"><title>Галерея салону «Ладна-Звабна» — простір і догляд у Броварах</title><path d="M144.5 14.2c-.2.7-3.3 9.4-6.9 19.3-9 25.3-19.6 53.5-21.3 56.8-.9 1.8-2.5 3-4.4 3.4-6.2 1.2-3.6 2.3 5.7 2.3 9.7 0 10.4-.3 6.2-2.5-3.1-1.5-2.8-4.3 2.3-18.7l4.2-11.8h27.3l4.8 13.4c5 14 5.4 16.8 2.1 17.4-6.2 1.2-2.7 2.2 7.3 2.2 6.8 0 11.2-.4 11.2-1s-1.1-1-2.5-1c-3.4 0-4.3-1.8-11.4-21-21.9-60-23.1-62.9-24.6-58.8m5.8 28.6c3.1 8.6 5.7 16 5.7 16.4 0 1.1-24 1.4-24 .3C132 58 143.4 27 144 27c.3 0 3.1 7.1 6.3 15.8m100-28.6c-.6.7-1.4 2.4-1.8 3.8-1.8 6-23 63.1-25.6 68.7l-2.8 6.3H211v9.7c0 6.7.3 9.3 1 8.3.5-.8 1-2.3 1-3.2 0-3.2 3.2-8.6 5.9-10 3.4-1.7 57.7-2.5 63.3-.8 4.7 1.3 7.5 4.9 8.4 10.6 1 7.1 2.4 4 2.4-5.7V93h-5c-6.1 0-4 4.2-21.4-42.4-13.9-37-14.6-38.6-16.3-36.4m10.7 43c6 16.9 11.1 31.7 11.2 33l.3 2.3-22.8.3c-19.9.2-22.8 0-23.3-1.3-.4-.9.9-6 2.9-11.3 5.1-13.9 16.4-44.9 18.3-50 .9-2.4 1.8-4.2 2-4s5.3 14.2 11.4 31m197.6-40.7c-.9 2.1-1.6 3.9-1.6 4.2 0 1-23.4 64.2-25.2 68.1-1.6 3.2-2.8 4.4-5 4.9-6.2 1.2-3.5 2.3 5.8 2.3 8.8 0 11.8-1.1 5.9-2.2-3.8-.6-2.1-8.8 6-29.1.7-1.6 2.1-1.7 14.2-1.5l13.5.3 4.9 13.4c5.3 14.1 5.6 16.4 2.4 16.9-6.3 1.2-2.6 2.2 7.6 2.1 10.8-.1 11.2-.1 8.1-1.5-4.1-1.8-3.8-1-20.2-45-7.2-19.2-13.5-35.3-14-35.8s-1.5.7-2.4 2.9m6.3 27.2 5.8 15.8-5.8.3c-3.2.2-8.7.2-12.3 0l-6.4-.3 5.4-15c3-8.3 5.7-15.6 5.9-16.4.8-2.2 1.3-1.2 7.4 15.6M34.1 45.8C16.9 93.5 16.6 94 11.3 94 10 94 9 94.4 9 95s4 1 10.1 1c6.4 0 9.8-.4 9.4-1-.3-.6-1.4-1-2.4-1-5.9 0-5.5-1.8 11.3-48 7.1-19.6 7.5-20.4 8.6-17.5 10.5 27.2 22 60.3 21.8 62.4-.2 1.8-1 2.7-2.5 2.9-1.3.2-2.3.8-2.3 1.3s4.9.9 11.1.9c7.1 0 10.8-.4 10.4-1-.3-.6-1.3-1-2.2-1-3.4 0-5.2-3.9-19.3-41.4C52.8 25.5 48.1 14 47 14s-4.8 9.2-12.9 31.8m291.7-30.3 3.2 1.4v37c0 20.3-.3 37.6-.6 38.5s-1.7 1.6-3 1.6-2.4.4-2.4 1 4.1 1 10.2 1c10.1 0 10.9-.3 6.6-2.4-2.3-1.1-2.3-1.5-2.6-20.4L337 54h44v18.8c0 19.4-.4 21.2-4.1 21.2-1 0-2.1.4-2.4 1-.4.6 3.2 1 9.9 1 6.4 0 10.6-.4 10.6-1s-.8-1-1.8-1c-4.1 0-4.2-.9-4.2-39.7V16.9l3.3-1.4c3-1.3 2.6-1.4-7.8-1.5h-11l3.5 1.8 3.5 1.7.3 16.7.2 16.8h-44V18l3.3-2 3.2-2H333c-9.9.1-10.3.2-7.2 1.5m181.9 42.1c-1.7 1.8 1.4 2.4 11.9 2.4 9.5 0 11.4-.3 11.4-1.5 0-1.6-21.8-2.4-23.3-.9M20.5 145.9c-2.7 1-5.6 1.6-6.2 1.4-1.9-.7-2.4 1.7-2.1 9.3l.3 6.9 2.8-5.8c8.6-17.4 29.7-13.2 29.7 5.9 0 9.7-6.7 16.4-16.2 16.4-3.6 0-4.8.4-4.8 1.5s1.2 1.5 5.2 1.5c10.6 0 18.6 6.9 19.6 16.9 2.1 22.6-25.4 30.8-35.3 10.6-1.5-3.1-2.9-5.4-3.1-5.3-.1.2.1 3.6.4 7.6l.7 7.4 5.5 2c9.1 3.4 21 3.1 27.9-.7 16.1-8.9 15.9-30.1-.4-38.1l-5.6-2.7 2.8-1.4c14.7-7.6 14.6-26.7-.2-33.4-5.2-2.4-14.5-2.4-21 0m174.1-1c-.3.5-3.5 8.9-7 18.7-20.5 57-21.1 58.4-25.1 58.4-1.4 0-2.5.4-2.5 1s3.5 1 8.5 1c7.7 0 11.7-1.4 6.3-2.2-3.4-.5-2.8-6 1.9-18.8l3.9-10.5 13-.3 13.1-.3 4.7 13c5 13.7 5.3 16.4 2.1 16.9-6.2 1.2-2.7 2.2 7.4 2.2 7.2 0 11-.4 10.6-1-.3-.6-1.4-1-2.4-1-3.2 0-4.6-3.1-18.7-40.7-13.2-35.5-14.5-38.5-15.8-36.4m-.5 43.9c-6.2.1-11.5.1-11.8-.1-.2-.3 2.2-7.5 5.3-16.1l5.7-15.6 6.1 15.7 6.1 15.8zM463 164.2c-19.4 53.6-21.2 57.8-25.1 57.8-1 0-2.1.4-2.4 1-.4.6 2.7 1 8.4 1 5.4 0 9.1-.4 9.1-1s-.8-1-1.9-1c-4.9 0-4.6-3.2 2.1-21.8l3-8.2h26.4l4.8 13.2c5 13.9 5.1 15.3 1.1 16.8-4.3 1.6-2.8 2 8 2 6.3 0 10.5-.4 10.5-1s-.9-1-2-1c-3.2 0-4.7-3.3-18.9-40.9-7.5-20.1-14.1-36.6-14.7-36.8s-4.3 8.5-8.4 19.9m12.4 8.6c3.1 8.1 5.6 15.1 5.6 15.5s-5.3.7-11.9.7h-11.8l5.6-15.5c3-8.5 5.8-15.5 6.2-15.5.3 0 3.1 6.7 6.3 14.8M86.6 146.4c1.7.8 3.4 2.1 3.8 3.1.3.9.6 17.1.6 35.9 0 36.2-.1 36.6-4.7 36.6-1.3 0-2.3.5-2.3 1.1 0 .7 5.7 1 18.3.7 17.8-.3 18.3-.4 22.9-3.1 16.5-9.7 15.1-32.5-2.4-38.3l-4.9-1.6 2.8-1.5c15.1-7.8 13.5-28.8-2.5-33.3-6.1-1.6-35.5-1.3-31.6.4m29.7 3.3c4.7 2.7 8 9.6 7.3 15.5-1.1 10.6-6 14.8-17.3 14.8h-7.1l-.7-6.3c-.3-3.4-.5-10.5-.3-15.7.3-9.1.4-9.4 2.8-10.2 3.8-1.1 11.8-.1 15.3 1.9m3.5 35.6c10.2 5.4 12 21.6 3.3 30.7-5.4 5.6-19 7.8-23.8 3.8-1.4-1.2-1.9-34.8-.5-36.2 1.3-1.4 17.5-.1 21 1.7M260 146.8l3.5 1.7v35.9c0 38.5.3 36.1-5 38.3-3.2 1.3 28.2 1.6 34.2.3 11-2.4 17.2-10.1 17.3-21.4 0-15-8.9-21.5-29.2-21.6H272v-32h11.3c13.5 0 16.8 1.4 18.8 8 .7 2.2 1.6 4 2.2 4 .5 0 .6-.7.3-1.6s-.6-4.2-.6-7.5V145h-23.7c-23.3 0-23.7 0-20.3 1.8m32.3 37.6c14 5.8 13.2 31.4-1.1 35.7-2.1.5-7.1.9-11.2.7l-7.5-.3-.3-18.8-.2-18.7h8.5c5 0 9.9.6 11.8 1.4m49.7-38.3c1.3.6 2.8 1.5 3.2 2.2s.8 17 .8 36.3c0 36.4-.1 37.4-4.2 37.4-1 0-1.8.4-1.8 1s4 1 10.1 1c6.4 0 9.8-.4 9.4-1-.3-.6-1.4-1-2.5-1-2.7 0-3-1.8-3-20.6V184h42v17.8c0 18.4-.4 20.2-4.2 20.2-1 0-1.8.4-1.8 1s4 1 10 1 10-.4 10-1-.8-1-1.8-1c-4.1 0-4.2-1-4.2-37.5 0-19.2.4-35.5.8-36.1s2.1-1.6 3.7-2.2c2.5-.9 1.1-1-8-1.1-10.3 0-10.8.1-7.7 1.4l3.2 1.4V181h-42v-33l3.3-1.4c3-1.4 2.6-1.4-7.3-1.5-7.9 0-9.9.3-8 1"/></symbol><symbol id="lz-divider" viewBox="0 0 550 100"><title>Галерея салону «Ладна-Звабна» — простір і догляд у Броварах</title><path d="M58.4 53.1c-2.1 2.2-5.9 5.2-8.4 6.6-8.6 5-14 11.9-14 18 0 3.5-12.2 15.8-19.6 19.7l-4.9 2.6 4-.4c2.2-.2 8.2-2 13.3-4C48.2 88 61.5 86.9 68 92.4c5.9 4.9 8.9 5.9 19 6.1 5.2.1 11.1.6 13 .9 3.4.7-.7-1.9-14.5-9.2-2.3-1.2-6.5-1.6-17.8-1.8-8.2-.1-15.1-.4-15.4-.7-1.5-1.6 31-9.1 46.8-10.8 18.7-2 36.9 2 44.1 9.7 5.5 5.9 8.2 7.2 17.7 8.9 4.3.7 9.5 2.1 11.6 2.9 6.1 2.6 6.1 1.8-.1-2.5-3.3-2.2-7.8-5.5-10.2-7.4-4.3-3.5-8.6-5.1-17.7-6.5-2.7-.5-8.8-2-13.4-3.4s-9.7-2.7-11.5-2.7c-10.8-.4 7.7-1.8 24.4-1.8 35.8-.1 54.8 4.4 81.1 19.5 6.2 3.5 11.8 6.3 12.3 6.1 3-1-29.3-17.5-41.5-21.2l-8.4-2.5 6 .6c9.3.9 74.4 14.1 83.9 17 1.3.4 1.6.2 1.1-.6-.7-1.2 7.6-1 15.5.5 1.9.4 4.6.2 6-.4 2.4-1.1 2.3-1.1-.6-.6-3.6.7-8.4-.3-8.4-1.6 0-.5.7-.9 1.6-.9.8 0 1.3-.4.9-1-1.1-1.8 4.5-4.2 11.2-4.8 5.1-.4 6.4-.2 5.8.8-.5.9-.1 1 1.6.6 2.1-.6 1.9-.3-1.1 2.4-1.9 1.6-3.2 3-2.9 3 1.1 0 7.2-5 8.6-7.1 1.6-2.1 1.5-2.1-3.1-1.8-2.5.2-4.7.1-4.8-.3-.6-1.7-13.1 2.4-18.1 5.8l-5.2 3.6-9-.5c-5.5-.3-17.6-2.5-31-5.5-32.6-7.5-46.8-10-64.2-11.7-28.5-2.7-66.1-1.5-92.8 2.9-4.9.9-9.4 1.6-9.9 1.6-3.2 0 12.3-9 16.3-9.5 8.1-1.1 10.9-2.5 17.6-8.5 3.5-3.3 7.6-6.7 9-7.6s2.5-2 2.5-2.5-1.1-.2-2.4.6c-1.4.9-6.8 2.7-12.1 4-10.4 2.6-15.1 5.4-18.2 10.6-3.6 6.2-16.5 13.5-31.3 17.8-11.3 3.3-28.1 9.1-36.4 12.6-1.1.5 1.5-2.5 5.8-6.6s9.6-8.2 11.9-9.2c7.6-3.3 10.3-6.1 13.7-14.3 1.8-4.3 4.3-9.5 5.7-11.6 3.5-5.3 2.5-5.6-2.3-.7m51.1 3.9c-.3.5.2 1 1.2 1 1.4 0 .9.9-1.9 3.5-3.5 3.3-7.8 4.9-6.2 2.4.4-.8 0-.9-1.5-.4-2.2.7-3-.9-.8-1.9.6-.3.1-.3-1.2 0-3.4.9-1.8-1.2 2.7-3.6 3.9-2 8.7-2.7 7.7-1m-61.9 7.5c-.4 1.2-.1 1.2 2.1-.2 2.6-1.7 2.6-1.7 1.4.5-1.4 2.6-.4 2.9 1.6.4 1-1.3 1-.7-.2 2.3-2 5-3.6 6.7-7 7.1-2.3.2-2.6-.1-2.2-1.8.5-1.9.5-1.9-1.5-.1l-2.1 1.8 1.8-3.5c2.5-5 7.7-10.5 6.1-6.5m109.7 21.9c3.5 1.5 8.7 6.5 5.5 5.3-2-.7-3.5.9-1.6 1.6.7.3.2.6-1.2.6-2.9.1-10.4-3.1-11.5-4.9-.6-.9-.1-.9 1.6.1 2.2 1.1 2.3 1.1 1-.4-1.2-1.5-1.1-1.7 1-1.7 1.9 0 2.1-.2.9-1-2.3-1.5.5-1.2 4.3.4m-71.2 5.2 3.1 1.5-2.3 2c-2.4 2-6.5 2.5-8.9.9-1.2-.8-1.2-1-.1-1s1.1-.3.1-1.5-.9-1.5.6-1.5c1.6 0 1.7-.2.4-1-2.6-1.7 3.7-1.2 7.1.6m421.1-25.5c-6.7 1.1-14.6 4.8-19.9 9.4-2.3 1.9-4.6 3.5-5.2 3.5s-2.8 1.1-4.9 2.4c-4.6 2.9-13.7 5.6-18.9 5.6-4.5 0-18.3 3.1-18.3 4.1 0 1.2 16 6.9 19.3 6.9 4.6-.1 13-2.5 13.5-3.8.2-.7-.1-1.2-.6-1.2-.6 0-1.9-.3-2.9-.7-1-.3-1.5-.2-1 .2.9 1.1-5.9 3.5-9.8 3.4-1.6 0-4.3-.6-6-1.4-2.9-1.3-3-1.3-.5-1.4 1.9-.1 2.1-.4 1.1-1-.8-.5-1.1-1.6-.8-2.5 1-2.5 9.6-2.1 16.9.9 6.8 2.8 14.5 3.3 20.9 1.3 4.7-1.4 4.9-2.2.7-4.4-3-1.6-3.2-1.6-1.9-.1 1.2 1.5 1.1 1.7-.8 1.7-1.1 0-2.1.4-2.1.9 0 1.6-7 2.3-10.6 1.1-3.3-1.1-3.4-1.3-1.7-2.6s1.7-1.3 0-1.4c-3.7 0-.4-2 3.6-2.1 2.3-.1 3.4-.3 2.5-.6-4.8-1.2-.3-3.9 8.2-4.8 5.9-.6 10.4-2.5 6.2-2.5-1.6 0-2.1-.4-1.5-1.3.4-.6.8-1.6.8-2.1 0-2.1 8.9-5.6 13.7-5.5l4.8.2-2.2 2.5c-3.8 4-9.3 7-17.2 9.4l-7.5 2.2 5.4 2.8c4.2 2.1 6.9 2.8 11.3 2.8 5.7 0 15.2-2.5 15.2-3.9s-2.5-3.1-4.4-3c-1.2 0-1.5.3-.8.6 1.9.8 1.4 2.3-.9 2.3-1.1 0-1.8.4-1.5.9.8 1.2-7.8 2.4-11.4 1.6-3.3-.7-4.1-2.5-1.2-2.6 1.4 0 1.4-.2-.3-.9-1.8-.8-1.8-.9-.2-.9 1-.1 1.6-.5 1.2-1-.7-1.3 2.7-2.3 5.1-1.5 1.5.5 1.6.4.4-.5-1.2-.8-1.1-1.1.5-1.7 2.5-.9 11.5-9.8 11.5-11.3 0-1.2-.3-1.2-7.8 0m-23.5 3.4c-10.9 3.1-13.2 4.3-19.9 10.4-4.9 4.6-5.1 5-2.8 5 3.6.1 12.3-2.7 9-2.9h-2.5l2.5-2.1 2.5-2-2.5.6c-4.8 1.2 3-4.4 8.4-6 6-1.8 6.9-1.9 6-.3-.4.7.2.5 1.3-.5 3.6-3.1 3.8-1.8.2 2-2.1 2.3-2.4 3-.9 1.8 3.2-2.5 9-8.5 8.1-8.4-.3 0-4.5 1.1-9.4 2.4m34.6-.7c-2.2.9-5.8 3.1-8 4.9l-3.8 3.1 3 1.2c10.3 4 16.8 3.3 22.5-2.5l4.2-4.3-3-1.6c-1.7-.9-4.6-1.5-6.4-1.5l-3.3.1 3.8.8c5.8 1.1 6.3 2.3 2.5 5.4-1.8 1.4-3.8 3.1-4.5 3.6-2.1 1.7-14.3.1-14.3-1.9 0-.9 9.6-7.1 10.9-7.1.6 0 1.1-.5 1.1-1 0-.6-.1-1-.2-.9-.2 0-2.2.8-4.5 1.7m-51 2.7c-1.8.7-5.4 1.7-8 2.1-6.5.9-14.2 4.4-18.9 8.6-7.2 6.2-7.9 6.3-2.4.3 3-3.3 6.9-6.8 8.7-7.8 4.3-2.3 4.2-3-.1-1.2-1.9.8-7.5 2.3-12.5 3.4-10.3 2.3-11.6 2.8-18.9 8.3-7.4 5.5-7.4 4.3-.1-2.7 3.3-3.2 5.2-5.4 4.2-5.1-1 .4-4.9 1.4-8.8 2.2-10.8 2.2-13.5 3.3-20.6 8-10.8 7.1-10.9 7.7-.9 7.1 4.8-.2 10-1.2 12-2.1 1.9-.9 2.6-1.4 1.5-1-1.1.3-3.8.8-6 1.1l-4 .6 3-3.4 3-3.3-2.7 1.7c-4 2.5-2.5-.3 1.7-3.2 2.5-1.6 5.2-2.4 8.9-2.6 3-.1 5.9-.6 6.5-.9 2.4-1.5.9 1.2-2.4 4.4-1.9 1.8-3.2 3.7-2.9 4.1.9 1.5-4.3 4-10.5 5.1-6.4 1.2-7.4 2.1-4.2 3.8 2.6 1.3 12.2 1.4 10.1 0-1.3-.9-1.3-1 0-1s1.3-.1 0-1.1c-1.1-.8-.8-.9 1.5-.4 2.7.6 2.8.5 1.1-.8s-1.5-1.4 2.5-2.5c2.4-.6 6.4-1.4 8.9-1.7s5.2-1 6-1.5c1-.6.2-.7-2.5-.3l-4 .6 2.5-2.8c2.2-2.5 2.3-2.7.5-2.2-1.5.5-1.2.1.9-1.7 4.2-3.5 15.9-6.5 14.1-3.6-1 1.6 1.1 1.2 2.5-.5 1.9-2.2 3.2-1.8 1.8.6-4 6.4-20 15-27 14.3l-4.3-.3 4.2.9c2.4.5 6.4 1.8 8.9 2.9 5.7 2.6 10.4 2.9 6.4.5-2.5-1.5-2.5-1.5 1-.9l3.5.6-2.9-1.7-2.8-1.6 2.2-1.5c1.5-1.1 3.6-1.4 6.7-1 2.8.3 4 .1 3.2-.4s-3.2-.9-5.4-.9c-3.5-.1-3.8-.2-2.2-1.4.9-.7 2.7-1.1 4-.9 3 .6 18-2.3 22.2-4.3 1.8-.8 4.3-2.7 5.6-4.2l2.4-2.6-3.8 2.7c-2 1.6-5.3 3.5-7.2 4.3-3.5 1.4-10.9 2-8.9.6.6-.4 1-1.5.8-2.4-.1-1 1-2.6 2.4-3.7 4.3-3 15.2-5.5 13.7-3.1-.3.5-.1 1 .4 1 .6 0 1.1-.6 1.1-1.3 0-.9.2-.9.8 0 .5.8 1.9 0 4.4-2.3 4.1-3.7 4-4-.9-1.9M393 80.2c-1.4.5-6.5 1.6-11.4 2.4-9.3 1.6-11.7 2.5-20.4 8-2.9 1.9-5.5 3.4-5.8 3.4-.6 0 8.6-8.5 11.5-10.6 1.1-.9.3-1.1-3.9-.8-12.9 1-21.5 3.9-31.4 10.8-3.7 2.5-2 3.4 7.4 3.6 5.8.2 6.1.3 2.7 1-7.4 1.4-4.8 2 7.5 1.7 12.7-.2 14.5-1.7 2.5-2l-5.8-.2 4.1-1.7c3.6-1.5 4.4-1.6 5.6-.4 1.6 1.7 13.1 1.3 14.8-.4.8-.8.3-.9-1.9-.4-2.8.7-2.9.6-1.5-1.2.8-1 2.3-2.7 3.5-3.7 2-1.8 2-1.8-.3-.7-3.2 1.6-3.8.6-.9-1.3 4.5-2.9 15.6-5 14.1-2.6-.3.6.9.3 2.7-.6 3-1.4 2.8-1-2.2 3.7-3.7 3.5-7.6 6.1-11.8 7.7-8.1 3.2-8.5 4.1-1.4 4.1 4.3 0 5.4-.3 4.3-1.1-1.7-1.1 8.5-.7 13 .5l2.5.7-2.5-1.5c-1.4-.9-4.9-1.5-7.9-1.6h-5.4l3.9-2.9c2.1-1.5 6.2-5 8.9-7.7 2.8-2.6 6.1-5.4 7.5-6 3-1.5 1.5-1.7-2-.2m-35.6 6c-.5.8-.2.9.9.5 4.7-1.9 4.9-1.7 1.2 1.6-3.9 3.5-12.8 7.7-16.3 7.7-1.3-.1-1.1-.4.8-1.5 3-1.7.9-2-2.3-.4-2 1.1-2 1 .3-1.6 2.1-2.3 2.2-2.7.6-2.1-1.6.5-1.7.4-.6-.9 2.4-2.9 17.1-6.1 15.4-3.3M333 83.1c-7.5.7-9.8 1.4-19.2 6.2-10 5.2-10.5 5.5-7.6 6.1 5.4 1.1 9.2.6 11.8-1.4l2.5-2.1-3 .6c-2.5.5-2.7.4-1.2-.5.9-.6 1.5-1.6 1.2-2.1-1-1.5 7.5-4.9 12.3-4.9 2.9 0 4.1.4 3.6 1.1-.3.6.8.3 2.5-.5 3.6-1.9 4.2-.6.9 1.8-1.8 1.3-1.9 1.5-.3.7 2.3-1 7.3-6.2 5.9-6-.5.1-4.7.5-9.4 1m-4.5 9.8c-.3.5-3.1 1.5-6.2 2.2-4.9 1.1-5.4 1.4-3.3 2 4.2 1.2-8.8 1-16-.2-3.6-.6-9.4-1.2-13-1.4-3.6-.1-7.4-.6-8.5-.9-1.1-.4-.3.2 1.9 1.3 2.1 1.1 4.3 2.4 5 2.9 2.1 1.6 5.5 1.2 4.9-.5-.5-1.3-.3-1.4 1.7-.3 1.5.8 2 .8 1.6.1-.9-1.5 2-1.4 4.7.1 2.4 1.3 32.5 1.9 30.4.6-.7-.4-2.3-.8-3.7-.8-2.9 0-6.7-2-3.9-2 1.6 0 7.2-3.9 5.7-4-.4 0-.9.4-1.3.9m117.1 3.6c1.8 1.4 1.7 1.4-1.3 1.5-1.7 0-3.5.5-3.8 1-.4.6 1.3 1 4.4 1 5.7 0 6.9-1.9 2.6-3.8-3.5-1.6-4.3-1.5-1.9.3"/></symbol><symbol id="lz-leaf" viewBox="0 0 26 13"><path d="M0 6.5C6 .8 16 .2 26 6.5 16 12.8 6 12.2 0 6.5Z"/><path d="M1.5 6.5H23"/></symbol><symbol id="lz-ear" viewBox="0 0 34 76"><path d="M17 76V13"/><path d="M17 46 c6 -2 9 -7 10 -14 c-7 1 -10 6 -10 14 z"/><path d="M17 46 c-6 -2 -9 -7 -10 -14 c7 1 10 6 10 14 z"/><path d="M17 38 c6 -2 9 -7 10 -14 c-7 1 -10 6 -10 14 z"/><path d="M17 38 c-6 -2 -9 -7 -10 -14 c7 1 10 6 10 14 z"/><path d="M17 30 c6 -2 9 -7 10 -14 c-7 1 -10 6 -10 14 z"/><path d="M17 30 c-6 -2 -9 -7 -10 -14 c7 1 10 6 10 14 z"/><path d="M17 22 c6 -2 9 -7 10 -14 c-7 1 -10 6 -10 14 z"/><path d="M17 22 c-6 -2 -9 -7 -10 -14 c7 1 10 6 10 14 z"/><path d="M17 14 c6 -2 9 -7 10 -14 c-7 1 -10 6 -10 14 z"/><path d="M17 14 c-6 -2 -9 -7 -10 -14 c7 1 10 6 10 14 z"/><path d="M17 14c5-5 6-10 0-14-6 4-5 9 0 14z"/></symbol></svg>
+
+<!-- ===== ЗЕРНО ===== -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ===== 5.0 ПРЕЛОАДЕР =====
+     Без JS не показується взагалі (html:not(.js) .loader{display:none}).
+     Логіку — малювання лінії, sessionStorage, розчинення — додає Етап 3. -->
+
+
+<a class="skip" href="#main">Перейти до змісту</a>
+
+<!-- ===== ШАПКА ===== -->
+<header class="hdr">
+  <div class="hdr__in wrap">
+    <a class="hdr__logo" href="index.html" aria-label="Ладна-Звабна, на початок">
+      <svg class="lz-ico lz-ico--word hdr__word" aria-hidden="true"><use href="#lz-word"/></svg>
+    </a>
+    <nav class="hdr__nav" aria-label="Основна навігація">
+      <a href="index.html#story">Історія</a>
+      <a href="index.html#space">Простір</a>
+      <a href="gallery.html" aria-current="page">Галерея</a>
+      <a href="index.html#care">Догляди й&nbsp;ціни</a>
+    </nav>
+    <a class="hdr__act" href="https://instagram.com/ladna_zvabna" rel="noopener">Написати</a>
+
+    <!-- Кнопку створює JS: без нього меню не потрібне, бо посилання
+         й так є у футері, а сторінка гортається як звичайна. -->
+  </div>
+
+  <div class="menu" id="menu" hidden>
+    <nav class="menu__nav" aria-label="Розділи сайту">
+      <a href="index.html#story">Історія</a>
+      <a href="index.html#meaning">Ладна-Звабна</a>
+      <a href="index.html#space">Простір</a>
+      <a href="gallery.html" aria-current="page">Галерея</a>
+      <a href="index.html#consult">Консультація</a>
+      <a href="index.html#care">Догляди й&nbsp;ціни</a>
+      <a href="index.html#book">Запис</a>
+    </nav>
+    <div class="menu__foot">
+      <a class="link link--grow" href="tel:+380756860912">+380&nbsp;75&nbsp;686&nbsp;09&nbsp;12</a>
+      <a class="link link--grow" href="https://instagram.com/ladna_zvabna" rel="noopener">@ladna_zvabna</a>
+      <span>Бровари, вул.&nbsp;Симоненка,&nbsp;30А</span>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="gallery-main">
+  <div class="wrap gallery-wrap">
+    <header class="gallery-head">
+      <div class="gallery-head__top">
+        <p class="mini">галерея · Ладна-Звабна</p>
+        <a class="link link--grow gallery-head__back" href="index.html"><span aria-hidden="true">←</span> На головну</a>
+      </div>
+      <h1>Побачити <em>ближче.</em></h1>
+      <p class="gallery-head__intro">Наш салон у Броварах: простір для відпочинку, моменти догляду й деталі, які створюють затишок.</p>
+      <nav class="gallery-jump" aria-label="Розділи галереї">
+        <a class="link link--grow" href="#gallery-space"><span aria-hidden="true">01</span> Простір</a>
+        <a class="link link--grow" href="#gallery-care"><span aria-hidden="true">02</span> Догляд</a>
+        <a class="link link--grow" href="#gallery-details"><span aria-hidden="true">03</span> Гостинні деталі</a>
+        <a class="link link--grow" href="#gallery-entrance"><span aria-hidden="true">04</span> Як нас знайти</a>
+      </nav>
+    </header>
+
+    <section class="gallery-section gallery-section--space" id="gallery-space" aria-labelledby="gallery-space-h">
+      <div class="gallery-section__head">
+        <div class="gallery-section__title"><span class="gallery-section__number" aria-hidden="true">01</span><h2 id="gallery-space-h">Простір</h2></div>
+        <p>Місце для спокійного початку візиту.</p>
+      </div>
+      <div class="gallery-grid gallery-grid--pair">
+        <figure class="gallery-card">
+          <a class="gallery-card__image" href="assets/img/gallery/reception-room.jpg" data-gallery-open data-caption="Зона очікування салону" data-alt="Світлий комод із картиною й рослинами в зоні очікування салону" aria-label="Відкрити фото: Зона очікування салону">
+            <picture>
+              <source srcset="assets/img/gallery/reception-room.webp" type="image/webp">
+              <img src="assets/img/gallery/reception-room.jpg" alt="Світлий комод із картиною й рослинами в зоні очікування салону" width="464" height="618" loading="eager" decoding="async">
+            </picture>
+            <span class="gallery-card__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10V5h5M14 5h5v5M19 14v5h-5M10 19H5v-5"/></svg></span>
+          </a>
+          <figcaption>Зона очікування салону</figcaption>
+        </figure>
+        <figure class="gallery-card">
+          <a class="gallery-card__image" href="assets/img/gallery/window-greenery.jpg" data-gallery-open data-caption="Живі рослини біля вікна" data-alt="Живі рослини та денне світло в зоні очікування" aria-label="Відкрити фото: Живі рослини біля вікна">
+            <picture>
+              <source srcset="assets/img/gallery/window-greenery.webp" type="image/webp">
+              <img src="assets/img/gallery/window-greenery.jpg" alt="Живі рослини та денне світло в зоні очікування" width="464" height="618" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-card__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10V5h5M14 5h5v5M19 14v5h-5M10 19H5v-5"/></svg></span>
+          </a>
+          <figcaption>Живі рослини біля вікна</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="gallery-section gallery-section--care" id="gallery-care" aria-labelledby="gallery-care-h">
+      <div class="gallery-section__head">
+        <div class="gallery-section__title"><span class="gallery-section__number" aria-hidden="true">02</span><h2 id="gallery-care-h">Догляд</h2></div>
+        <p>Робота майстра, професійні засоби й увага до кожного дотику.</p>
+      </div>
+      <div class="gallery-grid">
+        <figure class="gallery-card">
+          <a class="gallery-card__image" href="assets/img/gallery/face-care.jpg" data-gallery-open data-caption="Догляд за обличчям" data-alt="Майстриня проводить апаратний догляд за обличчям клієнтки" aria-label="Відкрити фото: Догляд за обличчям">
+            <picture>
+              <source srcset="assets/img/gallery/face-care.webp" type="image/webp">
+              <img src="assets/img/gallery/face-care.jpg" alt="Майстриня проводить апаратний догляд за обличчям клієнтки" width="720" height="960" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-card__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10V5h5M14 5h5v5M19 14v5h-5M10 19H5v-5"/></svg></span>
+          </a>
+          <figcaption>Догляд за обличчям</figcaption>
+        </figure>
+        <figure class="gallery-card">
+          <a class="gallery-card__image" href="assets/img/gallery/body-care.jpg" data-gallery-open data-caption="Ручний догляд тіла" data-alt="Руки майстрині під час ручного догляду спини клієнтки" aria-label="Відкрити фото: Ручний догляд тіла">
+            <picture>
+              <source srcset="assets/img/gallery/body-care.webp" type="image/webp">
+              <img src="assets/img/gallery/body-care.jpg" alt="Руки майстрині під час ручного догляду спини клієнтки" width="720" height="960" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-card__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10V5h5M14 5h5v5M19 14v5h-5M10 19H5v-5"/></svg></span>
+          </a>
+          <figcaption>Ручний догляд тіла</figcaption>
+        </figure>
+        <figure class="gallery-card">
+          <a class="gallery-card__image" href="assets/img/gallery/professional-cosmetics.jpg" data-gallery-open data-caption="Професійні засоби для догляду" data-alt="Професійна косметика на робочій полиці салону" aria-label="Відкрити фото: Професійні засоби для догляду">
+            <picture>
+              <source srcset="assets/img/gallery/professional-cosmetics.webp" type="image/webp">
+              <img src="assets/img/gallery/professional-cosmetics.jpg" alt="Професійна косметика на робочій полиці салону" width="600" height="800" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-card__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10V5h5M14 5h5v5M19 14v5h-5M10 19H5v-5"/></svg></span>
+          </a>
+          <figcaption>Професійні засоби для догляду</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="gallery-section gallery-section--details" id="gallery-details" aria-labelledby="gallery-details-h">
+      <div class="gallery-section__head">
+        <div class="gallery-section__title"><span class="gallery-section__number" aria-hidden="true">03</span><h2 id="gallery-details-h">Гостинні деталі</h2></div>
+        <p>Напій, м’яке світло й маленькі речі, з яких складається затишок.</p>
+      </div>
+      <div class="gallery-grid">
+        <figure class="gallery-card gallery-card--square">
+          <a class="gallery-card__image" href="assets/img/gallery/coffee-candle.jpg" data-gallery-open data-caption="Кава й тепле світло свічки" data-alt="Кавова чашка та запалена свічка на сріблястій таці" aria-label="Відкрити фото: Кава й тепле світло свічки">
+            <picture>
+              <source srcset="assets/img/gallery/coffee-candle.webp" type="image/webp">
+              <img src="assets/img/gallery/coffee-candle.jpg" alt="Кавова чашка та запалена свічка на сріблястій таці" width="720" height="720" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-card__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10V5h5M14 5h5v5M19 14v5h-5M10 19H5v-5"/></svg></span>
+          </a>
+          <figcaption>Кава й тепле світло свічки</figcaption>
+        </figure>
+        <figure class="gallery-card gallery-card--square">
+          <a class="gallery-card__image" href="assets/img/gallery/welcome-drink.jpg" data-gallery-open data-caption="Теплий напій для гості" data-alt="Чашка теплого напою з печивом на тлі живих рослин" aria-label="Відкрити фото: Теплий напій для гості">
+            <picture>
+              <source srcset="assets/img/gallery/welcome-drink.webp" type="image/webp">
+              <img src="assets/img/gallery/welcome-drink.jpg" alt="Чашка теплого напою з печивом на тлі живих рослин" width="720" height="960" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-card__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10V5h5M14 5h5v5M19 14v5h-5M10 19H5v-5"/></svg></span>
+          </a>
+          <figcaption>Теплий напій для гості</figcaption>
+        </figure>
+        <figure class="gallery-card gallery-card--square">
+          <a class="gallery-card__image" href="assets/img/gallery/glassware.jpg" data-gallery-open data-caption="Вода та скляний посуд для гостей" data-alt="Скляний глечик і склянки на таці в салоні" aria-label="Відкрити фото: Вода та скляний посуд для гостей">
+            <picture>
+              <source srcset="assets/img/gallery/glassware.webp" type="image/webp">
+              <img src="assets/img/gallery/glassware.jpg" alt="Скляний глечик і склянки на таці в салоні" width="720" height="960" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-card__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10V5h5M14 5h5v5M19 14v5h-5M10 19H5v-5"/></svg></span>
+          </a>
+          <figcaption>Вода та скляний посуд для гостей</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="gallery-section gallery-section--entrance" id="gallery-entrance" aria-labelledby="gallery-entrance-h">
+      <div class="gallery-section__head">
+        <div class="gallery-section__title"><span class="gallery-section__number" aria-hidden="true">04</span><h2 id="gallery-entrance-h">Як нас знайти</h2></div>
+        <p>Бровари, вулиця Симоненка, 30А. Наш вхід і вивіска.</p>
+      </div>
+      <div class="gallery-grid gallery-grid--pair">
+        <figure class="gallery-card">
+          <a class="gallery-card__image" href="assets/img/gallery/entrance-gallery.jpg" data-gallery-open data-caption="Вхід на вулиці Симоненка, 30А" data-alt="Фасад, вхід і кругла вивіска салону на вулиці Симоненка" aria-label="Відкрити фото: Вхід на вулиці Симоненка, 30А">
+            <picture>
+              <source srcset="assets/img/gallery/entrance-gallery.webp" type="image/webp">
+              <img src="assets/img/gallery/entrance-gallery.jpg" alt="Фасад, вхід і кругла вивіска салону на вулиці Симоненка" width="900" height="1200" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-card__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10V5h5M14 5h5v5M19 14v5h-5M10 19H5v-5"/></svg></span>
+          </a>
+          <figcaption>Вхід на вулиці Симоненка, 30А</figcaption>
+        </figure>
+        <figure class="gallery-card">
+          <a class="gallery-card__image" href="assets/img/gallery/street-sign.jpg" data-gallery-open data-caption="Вивіска «Ладна-Звабна»" data-alt="Кругла вивіска Ладна-Звабна біля входу до салону" aria-label="Відкрити фото: Вивіска «Ладна-Звабна»">
+            <picture>
+              <source srcset="assets/img/gallery/street-sign.webp" type="image/webp">
+              <img src="assets/img/gallery/street-sign.jpg" alt="Кругла вивіска Ладна-Звабна біля входу до салону" width="900" height="1200" loading="lazy" decoding="async">
+            </picture>
+            <span class="gallery-card__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 10V5h5M14 5h5v5M19 14v5h-5M10 19H5v-5"/></svg></span>
+          </a>
+          <figcaption>Вивіска «Ладна-Звабна»</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="gallery-invite" aria-labelledby="gallery-invite-h">
+      <div>
+        <p class="mini">час для себе</p>
+        <h2 id="gallery-invite-h">Будемо раді<br>бачити вас тут.</h2>
+        <p>Напишіть нам — допоможемо обрати догляд і час візиту.</p>
+      </div>
+      <a class="act" href="https://instagram.com/ladna_zvabna" rel="noopener">Записатися на догляд <span aria-hidden="true">↗</span></a>
+    </section>
+  </div>
+</main>
+
+<dialog class="gallery-viewer" id="gallery-viewer" aria-labelledby="gallery-viewer-caption">
+  <div class="gallery-viewer__inner">
+    <div class="gallery-viewer__toolbar">
+      <span>Ладна-Звабна · галерея</span>
+      <button type="button" data-gallery-close autofocus aria-label="Закрити перегляд фото">Закрити <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="gallery-viewer__photo"><img id="gallery-viewer-img" alt="" decoding="async"></div>
+    <div class="gallery-viewer__bottom">
+      <p class="gallery-viewer__caption" id="gallery-viewer-caption" aria-live="polite">Перегляд фото салону</p>
+      <div class="gallery-viewer__controls">
+        <button type="button" data-gallery-prev aria-label="Попереднє фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg></button>
+        <span class="gallery-viewer__count" id="gallery-viewer-count" aria-live="polite"></span>
+        <button type="button" data-gallery-next aria-label="Наступне фото"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5 7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<footer class="foot on-dark">
+  <div class="wrap">
+    <svg class="lz-ico lz-ico--divider foot__rule" aria-hidden="true"><use href="#lz-divider"/></svg>
+
+    <div class="foot__grid">
+      <div class="foot__brand">
+        <div class="seal" role="img" aria-label="Ладна-Звабна — естетика обличчя та тіла, салон краси">
+          <svg class="seal__ring draw-ring" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="98.5"/></svg>
+          <span class="mark mark--figure seal__figure" aria-hidden="true"></span>
+          <span class="seal__text" aria-hidden="true">
+            <svg class="lz-ico lz-ico--word seal__word"><use href="#lz-word"/></svg>
+            <svg class="lz-ico lz-ico--divider seal__rule"><use href="#lz-divider"/></svg>
+          </span>
+        </div>
+        <p class="mini foot__tag">естетика обличчя та&nbsp;тіла</p>
+      </div>
+
+      <address class="foot__contacts">
+        <a class="link link--grow" href="tel:+380756860912">+380&nbsp;75&nbsp;686&nbsp;09&nbsp;12</a>
+        <a class="link link--grow" href="https://instagram.com/ladna_zvabna" rel="noopener">@ladna_zvabna</a>
+        <span>Бровари, вул.&nbsp;Симоненка,&nbsp;30А</span>
+      </address>
+
+      <p class="foot__copy">© 2026 «Ладна-Звабна»</p>
+    </div>
+    <nav class="foot__nav" aria-label="Сторінки сайту">
+      <a class="link link--grow" href="index.html">Головна</a>
+      <a class="link link--grow" href="gallery.html" aria-current="page">Галерея</a>
+      <a class="link link--grow" href="index.html#book">Запис</a>
+    </nav>
+  </div>
+</footer>
+<script src="assets/js/site.min.js" defer></script>
+<script src="assets/js/gallery.min.js" defer></script>
+</body>
+</html>

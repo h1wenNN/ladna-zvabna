@@ -43,6 +43,7 @@
 }
 .hdr__nav a{padding-block:.4em; transition:color var(--d-fast) var(--e-out)}
 .hdr__nav a:hover{color:var(--accent)}
+.hdr__nav a[aria-current="page"]{color:var(--accent);border-bottom:1px solid var(--accent-line)}
 .hdr__act{
   font-size:var(--fs-small);
   color:var(--accent);
@@ -550,7 +551,9 @@
 .space .lane-media-l{align-self:center}
 .space__text h2{margin-block:var(--sp-4) var(--sp-6)}
 .space__text h2 em{font-style:italic; color:var(--accent)}
-.space__welcome{width:min(100%,360px); margin-top:clamp(30px,5vh,56px)}
+.space__welcome{width:min(100%,300px); margin-top:clamp(24px,4vh,36px)}
+.space__gallery{display:inline-block;margin-top:var(--sp-6);font-size:var(--fs-small)}
+.space__photo{max-width:440px}
 @media (max-width:900px){
   .space__photo{justify-self:start}
 }
@@ -931,6 +934,7 @@
   color:var(--fg-dim);
 }
 .foot__copy{font-size:var(--fs-small); color:var(--fg-dim)}
+.foot__nav{display:flex;flex-wrap:wrap;gap:var(--sp-6);margin-top:var(--sp-8);padding-top:var(--sp-6);border-top:1px solid var(--rule);font-size:var(--fs-small);color:var(--fg-dim)}
 
 @media (max-width:768px){
   .foot__grid{grid-template-columns:1fr; gap:var(--sp-8); align-items:start}
@@ -1070,7 +1074,8 @@
   overflow-y:auto;
   overscroll-behavior:contain;
 }
-.menu.is-open{opacity:1}
+.menu{pointer-events:none}
+.menu.is-open{opacity:1;pointer-events:auto}
 /* Поки меню відкрите, ряд шапки лежить ПОВЕРХ полотна меню і не їде геть:
    у ньому єдина кнопка закриття.
    Підняти z-index самої .hdr не можна: полотно .menu лежить УСЕРЕДИНІ неї,
@@ -1142,3 +1147,7 @@ html.menu-open .hdr__in{position:relative; z-index:90}
 /* Поки меню відкрите, панель ховається: вона однаково під полотном,
    але її поява під час переходу смикає розкладку. */
 html.menu-open .callbar{transform:translateY(101%)}
+@media(min-width:769px) and (max-width:1024px){
+  .hdr__in{gap:var(--sp-4)}
+  .hdr__nav{gap:var(--sp-4)}
+}
