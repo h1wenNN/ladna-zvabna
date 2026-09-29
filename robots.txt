@@ -1,7 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /styleguide.html
+Disallow: /styleguide
+Disallow: /_dev/
 Disallow: /_to_delete/
 
-# ⚠ Замінити домен, коли він буде відомий
-Sitemap: https://ladna-zvabna.com.ua/sitemap.xml
+Sitemap: https://ladna-zvabna.pages.dev/sitemap.xml

@@ -552,6 +552,7 @@
 .space__text h2{margin-block:var(--sp-4) var(--sp-6)}
 .space__text h2 em{font-style:italic; color:var(--accent)}
 .space__welcome{width:min(100%,300px); margin-top:clamp(24px,4vh,36px)}
+.space__sign{aspect-ratio:4/3;border-radius:var(--arch-foot)}
 .space__gallery{display:inline-block;margin-top:var(--sp-6);font-size:var(--fs-small)}
 .space__photo{max-width:440px}
 @media (max-width:900px){
