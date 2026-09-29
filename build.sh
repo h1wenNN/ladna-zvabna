@@ -20,6 +20,11 @@ cat "$R/assets/css/base.css" "$R/assets/css/layout.css" \
 npx --yes terser "$R/assets/js/main.js" "$R/assets/js/ui.js" "$R/assets/js/media.js" \
   --compress --mangle --toplevel -o "$R/assets/js/site.min.js"
 
+npx --yes clean-css-cli "$R/assets/css/gallery.css" -O2 --format keep-breaks:off \
+  -o "$R/assets/css/gallery.min.css"
+npx --yes terser "$R/assets/js/gallery.js" --compress --mangle --toplevel \
+  -o "$R/assets/js/gallery.min.js"
+
 printf "site.min.css  %6d B  (gzip %5d B)\n" \
   "$(stat -c%s "$R/assets/css/site.min.css")" \
   "$(gzip -c9 "$R/assets/css/site.min.css" | wc -c)"

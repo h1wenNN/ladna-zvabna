@@ -293,6 +293,7 @@
                                                з попереднього закриття гасило
                                                щойно відкрите меню */
       lastFocus = document.activeElement;
+      menu.inert = false;
       menu.hidden = false;
       requestAnimationFrame(function () { menu.classList.add('is-open'); });
       btn.setAttribute('aria-expanded', 'true');
@@ -310,6 +311,7 @@
 
     function closeMenu() {
       clearTimeout(hideT);
+      menu.inert = true;
       menu.classList.remove('is-open');
       btn.setAttribute('aria-expanded', 'false');
       btn.querySelector('.hdr__menu-txt').textContent = 'Меню';
@@ -320,7 +322,7 @@
     }
 
     btn.addEventListener('click', function () {
-      if (menu.hidden) { openMenu(); } else { closeMenu(); }
+      if (btn.getAttribute('aria-expanded') === 'true') { closeMenu(); } else { openMenu(); }
     });
 
     menu.addEventListener('click', function (e) {
@@ -329,7 +331,7 @@
 
     /* Фокус-трап і Esc */
     document.addEventListener('keydown', function (e) {
-      if (menu.hidden) return;
+      if (menu.hidden || menu.inert) return;
       if (e.key === 'Escape') { e.preventDefault(); closeMenu(); return; }
       if (e.key !== 'Tab') return;
       var f = focusables();
